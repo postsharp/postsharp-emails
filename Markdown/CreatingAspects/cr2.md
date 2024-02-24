@@ -1,4 +1,4 @@
-# Creating Aspects: Adding Input Parameters
+# Creating Aspects: Adding Aspect Parameters
 
 There will be occasions when it would be useful to be able to specify certain parameters to determine how an aspect will behave. This simple example will show an aspect that could be used to add some basic exception handling to a method.
 
