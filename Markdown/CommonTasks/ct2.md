@@ -1,4 +1,4 @@
-# Common Tasks: Meeting Requirements
+# Common Tasks: Verifying required parameters and fields
 
 It's not uncommon for developers to have to ensure that certain key properties or return values actually have a value. Although the code required to perform the checks needed to ensure that a value is present are not difficult to write they do have the effect of of making your code look cluttered.
 

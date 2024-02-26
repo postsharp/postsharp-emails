@@ -67,7 +67,7 @@ using Metalama.Framework.Aspects;
     }
 ```
 
-Having decided what to target what needs to be done next. In this very basic od introductions to creating custom aspects let's work on targeting a method. A not uncommon requirement is to restrict access to methods to certain users. Below is a very basic implementation of that.
+Having decided what to target what needs to be done next. In this very basic of introductions to creating custom aspects let's work on targeting a method. A not uncommon requirement is to restrict access to methods to certain users. The code below is a very basic implementation of that.
 
 ```c#
 using Metalama.Framework.Aspects;

@@ -26,6 +26,10 @@ In the short clip below you can see an example of a class that implements an int
 
 <br>
 
+![](images/us1.jpg)
+
+<br>
+
 Syntax highlighting of specific Metalama keywords is also provided by this tool which is particularly useful when creating your own custom aspects.
 
 <br>
