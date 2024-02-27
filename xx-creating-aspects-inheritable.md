@@ -136,7 +136,3 @@ namespace CommonTasks.NotifyPropertyChanged
 > <b>Note: When using the `[Inheritable]` aspect, careful consideration must be given to what might happen in the derived classes if the aspect you wish to apply has already been applied.</b>
 
 Your codebase remains clean and uncluttered, but its intention is clear. At compile time, everything needed to implement INotifyPropertyChanged, in this instance, is applied correctly.
-
-If you'd like to learn more about Metalama, visit our [website](https://www.postsharp.net/metalama).
-
-Join us on [Slack](https://www.postsharp.net/slack) to keep up with the latest news and get answers to any technical questions you might have.

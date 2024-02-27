@@ -217,7 +217,6 @@ Success, Connected
 
 The Metalama Documentation provides a wealth of information on [creating custom aspects](https://doc.postsharp.net/metalama/conceptual/aspects).
 
-<br>
 
 If you're interested in learning more about Metalama, visit our [website](https://www.postsharp.net/metalama).
 

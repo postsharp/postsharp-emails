@@ -133,7 +133,6 @@ This is a simple example of creating an aspect that affects methods. However, it
 
 The Metalama Documentation has a lot of information on [creating custom aspects](https://doc.postsharp.net/metalama/conceptual/aspects).
 
-<br>
 
 If you'd like to learn more about Metalama in general, visit our [website](https://www.postsharp.net/metalama).
 

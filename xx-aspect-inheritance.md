@@ -54,16 +54,14 @@ namespace UsingMetalama.Inheritance
 
 At this point, you might be wondering if the attributes we added to the interface have been carried forward. They indeed have, and a screenshot from the IDE itself proves the point.
 
-![](images/us1.jpg)
+![](images/aspect-inheritance.jpg)
 
 Notice how each of the properties inherited from the interface shows that there is an aspect associated with it, and when the code itself is compiled, this will be the end result.
 
-<br>
 
 > <b>The Code lens feature is added by the Metalama Tools for Visual Studio Extension and is, by definition, only available when using Visual Studio.</b>
 
- <br>
-
+ 
 ```c#
 using Metalama.Patterns.Contracts;
 
@@ -153,9 +151,3 @@ namespace UsingMetalama.Inheritance
 ```
 
 Metalama has enabled the attributes that enforced specific contracts on your code to be inherited. The Customer class, and indeed any other class that implements the IContact interface, will remain compact, clean, and easy to read. However, at compile time, the functionality that you require will be added. Not only does this save you from writing lots of what is essentially boilerplate code, but you can rest assured that it's being done for you consistently.
-
-<br>
-
-If you'd like to know more about Metalama in general, then visit our [website](https://www.postsharp.net/metalama).
-
-Why not join us on [Slack](https://www.postsharp.net/slack) where you can keep up with what's new and get answers to any technical questions that you might have.

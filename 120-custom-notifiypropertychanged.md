@@ -8,11 +8,7 @@ However, there's a notable drawback to using this interface. It requires a great
 
 Dot Net already has an INotifyPropertyChanged Interface, so why not just use that? The drawback to this approach is illustrated below.
 
-<br>
-
-![](images/ct1.gif)
-
-<br>
+![](images/notifypropertychanged1.gif)
 
 The standard Visual Studio intellisense for this barely does anything. There's still a need to adjust the properties so that they actually raise the event, and the event itself needs to be handled.
 
@@ -61,19 +57,15 @@ namespace CommonTasks.NotifyPropertyChanged
 }
 ```
 
-<br>
 
 If you read through the code, you'll see that it implements the INotifyPropertyChanged interface. After doing that, it loops through the properties, amending their setters where required to raise the property changed event, and finally, it correctly implements the INotifyPropertyChanged interface. With the aspect added to your project, the INotifyPropertyChanged implementation is greatly simplified.
 
-<br>
 
-![](images/ct2.gif)
+![](images/notifypropertychanged2.gif)
 
-<br>
 
 In what was admittedly a small and contrived sample class, Metalama successfully implemented the INotifyPropertyChanged interface, saving us from adding 50 additional lines of code. Over the entirety of a larger, real-world example, the savings in writing repetitive boilerplate code will be considerable.
 
-<br>
 
 If you'd like to know more about Metalama in general, visit our [website](https://www.postsharp.net/metalama).
 
