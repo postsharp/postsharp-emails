@@ -94,7 +94,7 @@ using System.Security.Principal;
     }
 ```
 
-In the example above, we want to add a check to whichever method(s) we want to restrict to the user 'Mr Bojangles'. A check is made to ascertain who the current user is and if that user is indeed Mr Bojangles, the method is run. That's the purpose of the special return statement `return meta.Proceed();`. If the condition isn't met, an exception is thrown.
+In the example above, we want to add a check to whichever method(s) we want to be restricted to the user 'Mr Bojangles'. A check is made to ascertain who the current user is and, if that user is indeed Mr Bojangles, the method is run. That's the purpose of the special return statement `return meta.Proceed();`. If the condition isn't met, an exception is thrown.
 
 In use, the custom aspect would be applied as an attribute on a method:
 
@@ -129,7 +129,7 @@ using System.Security.Principal;
    }
 ```
 
-This is a simple example of creating an aspect that affects methods. However, it does illustrate that creating aspects for your own custom use shouldn't be seen as a daunting task.
+This admittedly simple example still serves to illustrate that creating custom aspects shouldn't be seen as a daunting task.
 
 The Metalama Documentation has a lot of information on [creating custom aspects](https://doc.postsharp.net/metalama/conceptual/aspects).
 

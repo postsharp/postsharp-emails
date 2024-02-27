@@ -8,7 +8,7 @@ Primarily, it provides the ability to see how Metalama will affect your code.
 ![](images/vsx2.gif)
 
 
-The right-click context menu in the editor window offers the option to 'Show Metalama Diff'. This action opens a separate editor window, showing you the code that Metalama will add and exactly where it will be inserted.
+The right-click context menu in the editor window offers the option to 'Show Metalama Diff'. This action opens a separate editor window, showing exactly where and what code Metalama will insert at compile time.
 
 For new users of Metalama, this feature is extremely useful as it shows exactly how your code will be altered at compile time. It also assures you that the functionality you require to be added to your code by Metalama is indeed being added.
 

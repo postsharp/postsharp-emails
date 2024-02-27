@@ -17,7 +17,7 @@ bool ValidateString(string input)
 
 If the requirement is that the string be no less than 10 characters in length and no more than 16, then this simple validation will at least provide an answer to the basic question: 'Does this string fall within the defined character length?' However, it doesn't really handle failure. Over time, developers will learn how to approach this properly, but they will still find themselves having to take differing approaches depending on whether they are validating parameter inputs, properties, or results.
 
-Using Metalama, tasks like this can be solved easily. It has a patterns library that provides a number of pre-made contracts for a wide range of scenarios, including the example under discussion.
+Using Metalama, tasks like this can be solved easily. It has a package `Metalama.Patterns.Contracts` that provides a number of pre-made contracts for a wide range of scenarios, including the example under discussion.
 
 You could write code as follows (using a simple console application as an example) employing no more than a simple attribute;
 
