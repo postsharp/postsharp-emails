@@ -52,7 +52,7 @@ namespace UsingMetalama.Inheritance
 }
 ```
 
-At this point, you might be wondering if the attributes we added to the interface have been carried forward. They indeed have, and a screenshot from the IDE itself proves the point.
+At this point, you might be wondering if the attributes we added to the interface have been carried forward. They have indeed, and a screenshot from the IDE itself proves the point.
 
 ![](images/us1.jpg)
 

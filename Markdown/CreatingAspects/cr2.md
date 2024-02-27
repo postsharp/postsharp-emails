@@ -37,7 +37,7 @@ public class LogAttribute : Attribute, IAspect<IMethod>, IAspect<IFieldOrPropert
 }
 ```
 
-Here, we're adding specific methods to build the aspects that will be applied to methods or properties, respectively. Each method takes a builder object as a parameter, which is used to add the actual advice to them.
+Here, we're adding specific methods to build the aspects that will be applied to methods or properties. Each method takes a builder object as a parameter, which is used to add the actual advice to them.
 
 Once these methods have been fleshed out, they should look like this:
 
