@@ -1,8 +1,6 @@
-# Using Metalama: Inheritance (via [Inheritable])
+# Automatically adding aspects to derived types: aspect inheritance
 
-We've previously discussed inheriting aspects via an interface. Another way to 'inherit' aspects is by adding the `[Inheritable]` aspect to them. For instance, if we add an aspect decorated with the inheritable aspect to a base class, the classes derived from that base class would inherit that aspect.
-
-We've examined how Metalama can simplify the implementation of INotifyPropertyChanged, compared to relying solely on the help provided by IntelliSense. To achieve this, a specific Metalama aspect was created. You might have missed it when we first discussed it, but this aspect was decorated with the `[Inheritable]` aspect.
+In the previous email, we've examined how Metalama can simplify the implementation of `INotifyPropertyChanged`, compared to relying solely on the help provided by IntelliSense. To achieve this, a specific Metalama aspect was created. You might have missed it when we first discussed it, but this aspect was decorated with the `[Inheritable]` aspect.
 
 ```c#
   [Inheritable]
@@ -20,7 +18,7 @@ This means it's possible to create a very simple base class:
 namespace CommonTasks.NotifyPropertyChanged
 {
     [NotifyPropertyChanged]
-    public  abstract partial class NotifyChangedBase
+    public abstract partial class NotifyChangedBase
     {
     }
 }
@@ -121,7 +119,7 @@ using System.ComponentModel;
 namespace CommonTasks.NotifyPropertyChanged
 {
     [NotifyPropertyChanged]
-    public  abstract partial class NotifyChangedBase: INotifyPropertyChanged
+    public abstract partial class NotifyChangedBase: INotifyPropertyChanged
     {
         protected void OnPropertyChanged(string name)
         {
@@ -133,6 +131,6 @@ namespace CommonTasks.NotifyPropertyChanged
 }
 ```
 
-> <b>Note: When using the `[Inheritable]` aspect, careful consideration must be given to what might happen in the derived classes if the aspect you wish to apply has already been applied.</b>
+> Note: When using the `[Inheritable]` aspect, careful consideration must be given to what might happen in the derived classes if the aspect you wish to apply has already been applied. Specifically, you must pay attention to the `OverrideStrategy` parameters and properties (also named `WhenExists`)
 
 Your codebase remains clean and uncluttered, but its intention is clear. At compile time, everything needed to implement INotifyPropertyChanged, in this instance, is applied correctly.

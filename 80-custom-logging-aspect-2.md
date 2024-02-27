@@ -1,3 +1,3 @@
 # Custom Logging Aspect 2
 
-TODO
+TODO: logging aspect that prints parameter values

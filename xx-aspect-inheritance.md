@@ -76,7 +76,7 @@ namespace UsingMetalama.Inheritance
         private string? _email;
 
         public string? Email
-{
+        {
             get
             {
                 return this._email;
@@ -101,7 +101,7 @@ namespace UsingMetalama.Inheritance
         private bool? _isActive;
 
         public bool? IsActive
-{
+        {
             get
             {
                 return this._isActive;
@@ -124,7 +124,7 @@ namespace UsingMetalama.Inheritance
         private string? _phoneNumber;
 
         public string? PhoneNumber
-{
+        {
             get
             {
                 return this._phoneNumber;

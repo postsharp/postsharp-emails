@@ -4,7 +4,7 @@ In my previous email, I showed how Metalama can generate the boilerplate code fo
 
 Respecting naming conventions keeps code clean and understandable, whether you're working in a team or flying solo. It's like keeping a tidy room; it helps everyone, including your future self, to quickly find what they need without getting lost. 
 
-You probably know that your IDE can already enforce the most basic naming conventions like casing or prefixes. Nowadays, this is done through `.editorconfig`. However, except for special classes like collections or dictionaries, there is no standard tool to verify the name itself.
+You probably know that your IDE can already enforce the most basic naming conventions like casing or prefixes. Nowadays, the code style can be configured through `.editorconfig`. However, except for special classes like collections or dictionaries, there is no standard tool to verify the name itself.
 
 Properly named types and methods can often convey their essence and purpose just from their name. A common rule is that types must have a suffix that say what they are.
 

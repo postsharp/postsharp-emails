@@ -1,3 +1,3 @@
 # Custom Logging Aspect
 
-TODO
+TODO: a basic logging aspect

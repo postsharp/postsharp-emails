@@ -132,8 +132,3 @@ using System.Security.Principal;
 This admittedly simple example still serves to illustrate that creating custom aspects shouldn't be seen as a daunting task.
 
 The Metalama Documentation has a lot of information on [creating custom aspects](https://doc.postsharp.net/metalama/conceptual/aspects).
-
-
-If you'd like to learn more about Metalama in general, visit our [website](https://www.postsharp.net/metalama).
-
-Why not join us on [Slack](https://www.postsharp.net/slack) where you can keep up with what's new and get answers to any technical questions that you might have.

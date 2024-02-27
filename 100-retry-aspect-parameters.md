@@ -1,6 +1,6 @@
-# Creating Custom Aspects: Adding Input Parameters
+# Auto-Retry Aspect, With Aspect Parameters
 
-There may be times when you want to specify certain parameters to dictate how an aspect behaves. This simple example will demonstrate an aspect that can add basic exception handling to a method.
+Today we'll learn how to make your aspect parametric and will apply this technique to a new aspect type: auto-retry.
 
 It's not unusual for a method to fail, not because of any inherent issues with the method's code, but due to unpredictable external circumstances. A good example of this is when connecting to an external data source or API. Instead of letting the method fail and immediately throw an exception that needs handling, it might be more appropriate to retry the operation.
 
@@ -9,6 +9,8 @@ With this in mind, let's outline some basic functionalities this aspect should h
 - If an error occurs outside the direct control of the method, the aspect should attempt to retry the operation.
 - It should be possible to specify the number of attempts the aspect should make.
 - Ideally, there should be a delay between each attempt to allow the external fault to correct itself (e.g., an intermittent internet connection), and this delay should be configurable.
+
+We want our _retry_ aspect to accept two parameters: the maximal number of atempts, and the delay between attempts.
 
 > <b>NB: Because aspects add code at compile time, you can only set input parameters ahead of compilation. End users of an application will not be able to set these.</b>
 
@@ -87,7 +89,8 @@ Now we can flesh out the functionality of the aspect:
              try
              {
                  return meta.Proceed();
-             } catch(Exception e) when (i < this.Attempts)
+             } 
+             catch(Exception e) when (i < this.Attempts)
              {
                  var delay = this.MillisecondsOfDelay * Math.Pow(2, i + 1);
                  Console.WriteLine($"{e.Message} Waiting {delay} ms.");
@@ -108,7 +111,6 @@ Now we can flesh out the functionality of the aspect:
      /// </summary>
      public int MillisecondsOfDelay { get; set;}
 
-
  }
 ```
 
@@ -124,22 +126,9 @@ private static string suffix;
  static bool ConnectToApi(string key)
  {
      attempts++;
-     switch(attempts)
-     {
-         case 1:
-             suffix = "st";
-             break;
-         case 2:
-             suffix = "nd";
-             break;
-         case 3:
-             suffix = "rd";
-             break;
-         case 4:
-             suffix = "th";
-             break;
-     }
-     Console.WriteLine($"Connecting for the {attempts}{suffix} time.");
+  
+     Console.WriteLine($"Connecting... attempt #{attempts}.");
+
      if(attempts <= 4)
      {
          throw new InvalidOperationException();
@@ -164,28 +153,17 @@ Is converted at compile time to:
             try
             {
                 attempts++;
-        switch(attempts)
-        {
-            case 1:
-                suffix = "st";
-                break;
-            case 2:
-                suffix = "nd";
-                break;
-            case 3:
-                suffix = "rd";
-                break;
-            case 4:
-                suffix = "th";
-                break;
-        }
-        Console.WriteLine($"Connecting for the {attempts}{suffix} time.");
-        if(attempts <= 4)
-        {
-            throw new InvalidOperationException();
-        }
-        Console.WriteLine("Success, Connected");
-        return true;
+        
+                Console.WriteLine($"Connecting... attempt #{attempts}.");
+
+                if(attempts <= 4)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                Console.WriteLine("Success, Connected");
+
+                return true;
 
             }
             catch (Exception e) when (i < 5)
@@ -203,21 +181,16 @@ Notice how the aspect has hard-coded the attribute's parameter inputs into the f
 This is a relatively contrived example, but it serves to illustrate that custom aspects you create can perform very complex tasks. Here's the result when run:
 
 ```
-Connecting for the 1st time.
+Connecting... attempt #1.
 Operation is not valid due to the current state of the object. Waiting 200 ms.
-Connecting for the 2nd time.
+Connecting... attempt #2.
 Operation is not valid due to the current state of the object. Waiting 400 ms.
-Connecting for the 3rd time.
+Connecting... attempt #3.
 Operation is not valid due to the current state of the object. Waiting 800 ms.
-Connecting for the 4th time.
+Connecting... attempt #4.
 Operation is not valid due to the current state of the object. Waiting 1600 ms.
-Connecting for the 5th time.
+Connecting... attempt #5.
 Success, Connected
 ```
 
 The Metalama Documentation provides a wealth of information on [creating custom aspects](https://doc.postsharp.net/metalama/conceptual/aspects).
-
-
-If you're interested in learning more about Metalama, visit our [website](https://www.postsharp.net/metalama).
-
-Join us on [Slack](https://www.postsharp.net/slack) to stay updated on what's new and get answers to any technical questions you might have.

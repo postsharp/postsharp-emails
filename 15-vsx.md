@@ -1,6 +1,6 @@
-# Using Metalama: The Metalama Tools for Visual Studio Extension
+# Did You Install Visual Tools for Metalama
 
-If you use Visual Studio 2022 (any edition), make sure to install the [Metalama Tools Extension](https://marketplace.visualstudio.com/items?itemName=PostSharpTechnologies.Metalama). While it's not a prerequisite for using Metalama, it undoubtedly makes the process easier thanks to the features it brings to the IDE.
+If you use Visual Studio 2022 (any edition), make sure to install the [Visual Tools for Metalama and PostSharp](https://marketplace.visualstudio.com/items?itemName=PostSharpTechnologies.PostSharp). While it's not a prerequisite for using Metalama, it undoubtedly makes the process easier thanks to the features it brings to the IDE.
 
 Primarily, it provides the ability to see how Metalama will affect your code.
 
