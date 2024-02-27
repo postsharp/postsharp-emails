@@ -1,8 +1,8 @@
-# Common Tasks: Verifying required parameters and fields
+# Common Tasks: Verifying Required Parameters and Fields
 
-It's not uncommon for developers to have to ensure that certain key properties or return values actually have a value. Although the code required to perform the checks needed to ensure that a value is present are not difficult to write they do have the effect of of making your code look cluttered.
+Developers often need to ensure that certain key properties or return values have a value. Although the code required to perform these checks isn't complex, it can clutter your code.
 
-A typical string property might end up looking like this.
+Consider a typical string property that might look like this:
 
 ```c#
 public class ApplicationUser
@@ -27,7 +27,7 @@ public class ApplicationUser
 }
 ```
 
-Metalama can make this task much simpler. Using exactly the same string property as an example you would just require the following.
+Metalama can simplify this task. Using the same string property as an example, you would only need the following:
 
 ```c#
 using Metalama.Patterns.Contracts;
@@ -43,9 +43,9 @@ namespace CommonTasks.Required
 }
 ```
 
-Not only is the code cleaner but it is immediately apparent to anyone reading it that the UserName property is actively required in the overall working of the application. That is something that cannot be inferred as quickly by looking at the first example.
+Not only is the code cleaner, but it's also immediately apparent that the UserName property is required for the application's operation. This isn't as quickly inferred from the first example.
 
-At compile time Metalama will add all the code that is necessary to ensure that the UserName property must be present.
+At compile time, Metalama will add all the necessary code to ensure that the UserName property must be present.
 
 ```c#
 using Metalama.Patterns.Contracts;
@@ -62,8 +62,6 @@ namespace CommonTasks.Required
             get
             {
                 return this._userName;
-
-
             }
             set
             {
@@ -79,24 +77,21 @@ namespace CommonTasks.Required
                     }
                 }
                 this._userName = value;
-
-
             }
         }
     }
 }
-
 ```
 
-Metalama has actually reinforced the check on our behalf ensuring that there is a clear distinction between a null value being passed to the property and a simple space making it easier to diagnose errors.
+Metalama reinforces the check, ensuring a clear distinction between a null value being passed to the property and a simple space, making it easier to diagnose errors.
 
-Metalama has a wide range of pre-built contracts that you can use in situations like this where it is necessary to ensure that fields, properties, parameters or return values meet certain conditions. In every case all you need to do is add the relevant attribute to you code in the correct place and Metalama will add the necessary additional code at compile time. Examples include phone, email and credit card number checks to name but three.
+Metalama has a wide range of pre-built contracts that you can use in situations where it's necessary to ensure that fields, properties, parameters, or return values meet certain conditions. In every case, all you need to do is add the relevant attribute to your code in the correct place, and Metalama will add the necessary additional code at compile time. Examples include phone, email, and credit card number checks.
 
-Doing this manually is time consuming and it can be prone to error. Metalama removes the chore of writing repetitive code, makes your intention clearer to anyone else who reads your code at a later date and leaves you safe in the knowledge that it will just work as it should when required.
+Doing this manually is time-consuming and can be prone to error. Metalama removes the chore of writing repetitive code, makes your intention clearer to anyone else who reads your code later, and ensures that it will work as expected when required.
 
 <br>
 
-If you'd like to know more about Metalama in general then visit our [website](https://www.postsharp.net/metalama).
+If you'd like to know more about Metalama in general, visit our [website](https://www.postsharp.net/metalama).
 
 You can learn more about Metalama contracts [here](https://doc.postsharp.net/metalama/patterns/contracts).
 

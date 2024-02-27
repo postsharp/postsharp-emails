@@ -1,12 +1,12 @@
 # Creating Custom Aspects: An Introduction
 
-Whilst Metalama has a large number of pre-built aspects (available through downloadable libraries) it is impossible to cater for every scenario that developers' may want to cover.
+While Metalama offers a large number of pre-built aspects available through downloadable libraries, it's not possible to cater to every scenario that developers may encounter.
 
-When a developer comes across a situation where an aspect would be extremely beneficial but there isn't a ready made one available then the solution is to create a custom aspect to fulfil the immediate requirement.
+When a developer finds a situation where an aspect would be highly beneficial, but there isn't a pre-made one available, the solution is to create a custom aspect to meet the immediate need.
 
-The function of an aspect is can be divided into two basic areas, adding additional code at compile time to provide a particular functionality or to provide compile and pre-compile time validation of your codebase. The first thing to do then is to decide which part of the codebase the aspect is to target.
+An aspect's function can be divided into two basic areas: adding additional code at compile time to provide a specific functionality, or to provide compile and pre-compile time validation of your codebase. The first step is to decide which part of the codebase the aspect should target.
 
-If we want to target types in the codebase then the basic signature of a custom aspect would look like this.
+If we want to target types in the codebase, the basic signature of a custom aspect would look like this:
 
 ```c#
 using Metalama.Framework.Aspects;
@@ -16,7 +16,7 @@ using Metalama.Framework.Aspects;
     }
 ```
 
-If methods were our target then the signature would be like this.
+If methods are our target, then the signature would look like this:
 
 ```c#
 using Metalama.Framework.Aspects;
@@ -30,9 +30,9 @@ using Metalama.Framework.Aspects;
     }
 ```
 
-> <b>Notice that we must implement the abstract base OverideMethod() </b>
+> <b>Note that we must implement the abstract base OverrideMethod() </b>
 
-Field or property targets would lead us to this.
+For field or property targets, we would use this:
 
 ```c#
 using Metalama.Framework.Aspects;
@@ -48,7 +48,7 @@ using Metalama.Framework.Aspects;
     }
 ```
 
-Finally targeting events would require the following.
+Finally, targeting events would require the following:
 
 ```c#
 using Metalama.Framework.Aspects;
@@ -67,7 +67,7 @@ using Metalama.Framework.Aspects;
     }
 ```
 
-Having decided what to target what needs to be done next. In this very basic of introductions to creating custom aspects let's work on targeting a method. A not uncommon requirement is to restrict access to methods to certain users. The code below is a very basic implementation of that.
+Having decided what to target, we need to decide what to do next. In this very basic introduction to creating custom aspects, let's focus on targeting a method. A common requirement is to restrict access to methods to certain users. The code below is a very basic implementation of that:
 
 ```c#
 using Metalama.Framework.Aspects;
@@ -94,9 +94,9 @@ using System.Security.Principal;
     }
 ```
 
-In the above we want to add a check to whichever method(s) we want to be restricted to the user 'Mr Bojangles'. A check is made to ascertain who the current user is and if that user is in fact Mr Bojangles the method is run, that is the purpose of the special return statement `return meta.Proceed();`. If the condition isn't met an exception is thrown.
+In the example above, we want to add a check to whichever method(s) we want to restrict to the user 'Mr Bojangles'. A check is made to ascertain who the current user is and if that user is indeed Mr Bojangles, the method is run. That's the purpose of the special return statement `return meta.Proceed();`. If the condition isn't met, an exception is thrown.
 
-In use the custom aspect would be applied as an attribute on a method.
+In use, the custom aspect would be applied as an attribute on a method:
 
 ```c#
  [CustomAspect]
@@ -106,7 +106,7 @@ In use the custom aspect would be applied as an attribute on a method.
  }
 ```
 
-When looked at with the 'Show Metalama Diff' tool we can examine the code that will be added at compile time. This is a very good way to check that custom aspects that you create actually fulfil your requirements.
+When viewed with the 'Show Metalama Diff' tool, we can examine the code that will be added at compile time. This is a great way to check that the custom aspects you create actually meet your requirements:
 
 ```c#
 using System.Security;
@@ -129,12 +129,12 @@ using System.Security.Principal;
    }
 ```
 
-This is a very simple example of creating an aspect that affects methods. It does illustrate though that creating aspects for your own custom use shouldn't be seen as a daunting task.
+This is a simple example of creating an aspect that affects methods. However, it does illustrate that creating aspects for your own custom use shouldn't be seen as a daunting task.
 
 The Metalama Documentation has a lot of information on [creating custom aspects](https://doc.postsharp.net/metalama/conceptual/aspects).
 
 <br>
 
-If you'd like to know more about Metalama in general then visit our [website](https://www.postsharp.net/metalama).
+If you'd like to learn more about Metalama in general, visit our [website](https://www.postsharp.net/metalama).
 
 Why not join us on [Slack](https://www.postsharp.net/slack) where you can keep up with what's new and get answers to any technical questions that you might have.
