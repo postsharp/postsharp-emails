@@ -1,3 +1,3 @@
 # Validating references
 
-TODO
+[TODO](https://doc.postsharp.net/metalama/conceptual/architecture/usage)
