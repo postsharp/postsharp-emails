@@ -47,20 +47,25 @@ public class LogAttribute : Attribute, IAspect<IMethod>, IAspect<IFieldOrPropert
 {
 
     public void BuildAspect(IAspectBuilder<IMethod> builder)
-    { builder.Advice.Override(builder.Target, nameof(this.OverrideMethod)); }
+    { 
+        builder.Advice.Override(builder.Target, nameof(this.OverrideMethod)); 
+    }
 
     public void BuildAspect(IAspectBuilder<IFieldOrProperty> builder)
-    { builder.Advice.Override(builder.Target, nameof(this.OverrideProperty)); }
+    { 
+        builder.Advice.Override(builder.Target, nameof(this.OverrideProperty)); 
+    }
 
     [Template]
     public dynamic? OverrideMethod()
     {
-        var methodName = $"{meta.Target.Type.ToDisplayString(CodeDisplayFormat.MinimallyQualified)}.{meta.Target.Method.Name}";
+        var methodName = $"{meta.Target.Type}.{meta.Target.Method.Name}";
         try
         {
             Console.WriteLine($"You have entered {methodName}");
             return meta.Proceed();
-        } catch(Exception ex)
+        } 
+        catch(Exception ex)
         {
             Console.WriteLine($"An error was encountered in {methodName}");
             return null;
@@ -71,23 +76,22 @@ public class LogAttribute : Attribute, IAspect<IMethod>, IAspect<IFieldOrPropert
     public dynamic? OverrideProperty
     {
         get
-
         {
             var result = meta.Proceed();
             Console.WriteLine(
-                $"The value of {meta.Target.Type.ToDisplayString(CodeDisplayFormat.MinimallyQualified)}.{meta.Target.Property.Name} is: {meta.Target.Property.Type} = {meta.Target.Property.Value}");
+                $"The value of {meta.Target.Type}.{meta.Target.Property.Name} is: {meta.Target.Property.Type} = {meta.Target.Property.Value}");
             return result;
         }
-        set
 
+        set
         {
             Console.WriteLine(
-                $"The old value of {meta.Target.Type.ToDisplayString(CodeDisplayFormat.MinimallyQualified)} was: {meta.Target.Property.Type} = {meta.Target.Property.Value}");
+                $"The old value of {meta.Target.Type} was: {meta.Target.Property.Type} = {meta.Target.Property.Value}");
 
             meta.Proceed();
 
             Console.WriteLine(
-                $"The new value of {meta.Target.Type.ToDisplayString(CodeDisplayFormat.MinimallyQualified)} is: {meta.Target.Property.Type} = {meta.Target.Property.Value}");
+                $"The new value of {meta.Target.Type} is: {meta.Target.Property.Type} = {meta.Target.Property.Value}");
         }
     }
 }
@@ -161,7 +165,7 @@ namespace CreatingAspects.SimpleLogs
         private int _orderNumber;
         [Log]
         public int OrderNumber
-{
+        {
             get
             {
                 var result = this._orderNumber;
@@ -188,8 +192,6 @@ namespace CreatingAspects.SimpleLogs
 {
     internal class Program
     {
-
-
         static void Main(string[] args)
         {
             Order order = new Order();
@@ -207,8 +209,3 @@ You have entered Order.GenerateOrderNumber
 The old value of Order was: int = 0
 The new value of Order is: int = 59
 ```
-
-
-If you're interested in learning more about Metalama, please visit our [website](https://www.postsharp.net/metalama).
-
-Consider joining us on [Slack](https://www.postsharp.net/slack) to stay updated with the latest news and to get answers to any technical questions you might have.

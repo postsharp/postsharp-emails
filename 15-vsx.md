@@ -1,14 +1,12 @@
-# Using Metalama: The Metalama Tools for Visual Studio Extension
+# Did You Install Visual Tools for Metalama
 
-If you use Visual Studio 2022 (any edition), make sure to install the [Metalama Tools Extension](https://marketplace.visualstudio.com/items?itemName=PostSharpTechnologies.Metalama). While it's not a prerequisite for using Metalama, it undoubtedly makes the process easier thanks to the features it brings to the IDE.
+If you use Visual Studio 2022 (any edition), make sure to install the [Visual Tools for Metalama and PostSharp](https://marketplace.visualstudio.com/items?itemName=PostSharpTechnologies.PostSharp). While it's not a prerequisite for using Metalama, it undoubtedly makes the process easier thanks to the features it brings to the IDE.
 
 Primarily, it provides the ability to see how Metalama will affect your code.
 
-<br>
 
-![](images/us2.gif)
+![](images/vsx2.gif)
 
-<br>
 
 The right-click context menu in the editor window offers the option to 'Show Metalama Diff'. This action opens a separate editor window, showing exactly where and what code Metalama will insert at compile time.
 
@@ -20,31 +18,19 @@ Another handy feature this extension provides is natural integration with Visual
 
 In the short clip below, you can see an example of a class that implements an interface in which Metalama aspects have been applied to some properties. It's not immediately apparent that the aspects have been inherited, but upon closer examination, you can see that the code lens feature confirms that this is the case. Invoking the 'Show Metalama Diff' further confirms it.
 
-<br>
 
-![](images/us3.gif)
+![](images/vsx3.gif)
 
-<br>
 
 ![](images/us1.jpg)
 
-<br>
 
 This tool also provides syntax highlighting of specific Metalama keywords, which is particularly useful when creating your own custom aspects.
 
-<br>
 
 > Currently, there are no similar equivalents of this tool for either VSCode or JetBrains' Rider IDE.
 
-<br>
 
 The Metalama Tools for Visual Studio 2022 extension is available free of charge. New Metalama users will find the tool provides them with a clear insight into what Metalama actually does. It illustrates just how much standard boilerplate code it is writing on your behalf, saving you time and maintaining the overall clarity of your codebase.
 
 Experienced Metalama users will appreciate both the syntax highlighting and the ability to see how their own custom aspects are likely to interact with other third-party code.
-
-<br>
-
-If you'd like to know more about Metalama in general, then visit our [website](https://www.postsharp.net/metalama).
-
-Join us on [Slack](https://www.postsharp.net/slack) to keep up with what's new and get answers to any technical questions you might have.
-

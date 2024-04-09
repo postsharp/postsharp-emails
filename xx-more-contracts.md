@@ -59,8 +59,6 @@ namespace CommonTasks
 {
     internal class Program
     {
-
-
         private static string? _password1;
 
 

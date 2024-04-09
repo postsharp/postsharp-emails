@@ -1,4 +1,4 @@
-# Common Tasks: Verifying Required Parameters and Fields
+# Verifying Required Fields and Parameters With Metalama
 
 Developers often need to ensure that certain key properties or return values have a value. Although the code required to perform these checks isn't complex, it can clutter your code.
 
@@ -14,14 +14,12 @@ public class ApplicationUser
         get { return userName; }
         set
         {
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                userName = value;
-            }
-            else
+            if (string.IsNullOrWhiteSpace(value))
             {
                 throw new ArgumentException("Invalid value for MyString. Value must not be null or blank.");
             }
+
+            userName = value;
         }
     }
 }
@@ -43,9 +41,9 @@ namespace CommonTasks.Required
 }
 ```
 
-Not only is the code cleaner, but it's also immediately apparent that the UserName property is required for the application's operation. This isn't as quickly inferred from the first example.
+Not only is the code cleaner, but it's also immediately apparent that the `UserName` property is required for the application's operation. This isn't as quickly inferred from the first example.
 
-At compile time, Metalama will add all the necessary code to ensure that the UserName property must be present.
+At compile time, Metalama will add all the necessary code to ensure that the `UserName` property is assigned a non-empty value. The following is the code that is _executed_:
 
 ```c#
 using Metalama.Patterns.Contracts;
@@ -58,7 +56,7 @@ namespace CommonTasks.Required
 
         [Required]
         public string UserName
-{
+        {        
             get
             {
                 return this._userName;
@@ -76,6 +74,7 @@ namespace CommonTasks.Required
                         throw new ArgumentOutOfRangeException("value", "The 'UserName' property is required.");
                     }
                 }
+
                 this._userName = value;
             }
         }
@@ -83,16 +82,10 @@ namespace CommonTasks.Required
 }
 ```
 
-Metalama reinforces the check, ensuring a clear distinction between a null value being passed to the property and a simple space, making it easier to diagnose errors.
+As you can see, Metalama generates the boilerplate code that validates the string before it is assigned. 
 
-Metalama has a wide range of pre-built contracts that you can use in situations where it's necessary to ensure that fields, properties, parameters, or return values meet certain conditions. In every case, all you need to do is add the relevant attribute to your code in the correct place, and Metalama will add the necessary additional code at compile time. Examples include phone, email, and credit card number checks.
+Metalama has a wide range of pre-built contracts that you can use in situations where it's necessary to ensure that fields, properties, parameters, or return values meet certain conditions. In every case, all you need to do is add the relevant attribute to your code in the correct place, and Metalama will add the necessary additional code at compile time. Examples include `[Phone]`, `[Email]`, and `[CreditCard]` for strings, but also attributes like `[Positive]`, `[StrictlyPositive]` or `[Range]` for numbers.
 
-Doing this manually is time-consuming and can be prone to error. Metalama removes the chore of writing repetitive code, makes your intention clearer to anyone else who reads your code later, and ensures that it will work as expected when required.
+Doing this manually is time-consuming and can be prone to error. Metalama removes the chore of writing repetitive code, makes your intention clearer to anyone else who reads your code later, and ensures that it will work as expected when required. Because the boilerplate is now generated _on the fly_ at compile time, you no longer need any boilerplate in your _source_ code. Your codebase is simpler, easier to read, and simpler to maintain.
 
-<br>
 
-If you'd like to know more about Metalama in general, visit our [website](https://www.postsharp.net/metalama).
-
-You can learn more about Metalama contracts [here](https://doc.postsharp.net/metalama/patterns/contracts).
-
-Why not join us on [Slack](https://www.postsharp.net/slack) where you can keep up with what's new and get answers to any technical questions that you might have.
