@@ -2,15 +2,15 @@
 
 Developers need to adhere to specific rules and conventions to work together effectively as a team. This adherence ensures that individual contributions integrate seamlessly into the overall application.
 
-In a previous email, we have seen how to enforce naming conventions. Today, we will see how to verify that components are _used_ as expected. 
+In a previous email, we discussed how to enforce naming conventions. Today, we will examine how to verify that components are _used_ as expected.
 
-How can these rules and conventions be enforced? In a small team working in the same office, it could be through word of mouth or some code comment like DO NOT USE IN PRODUCTION CODE. These rules would need to be verified during code reviews. Unfortunately, this approach can be time-consuming and prone to errors.
+How can these rules and conventions be enforced? In a small team working in the same office, this could be achieved through word of mouth or via code comments such as **DO NOT USE IN PRODUCTION CODE!**, hoping the exclamation mark will help. These rules would then need to be verified during code reviews. Unfortunately, this approach can be time-consuming and prone to errors.
 
- Wouldn't it be more efficient if developers could be warned about mistakes or infringements as they write code?
+Wouldn't it be more efficient if developers could be warned about errors or infringements as they write code?
 
-The `Metalama.Extensions.Architecture` package offers a number of pre-made custom attributes or compile-time APIs that cover many common conventions that teams might want to follow. Of course, you can also design custom attributes or compile-time APIs that cover very specific rules that you'd like your team to adhere to. 
+The `Metalama.Extensions.Architecture` package offers a number of pre-made custom attributes or compile-time APIs that cover many common conventions that teams might want to follow. Of course, you can also design custom attributes or compile-time APIs that cover very specific rules that you'd like your team to adhere to.
 
-Enforcing rules and conventions in this way allows you to:
+Enforcing rules and conventions in this manner allows you to:
 
 - Eliminate the need for a written set of rules to which everyone must refer.
 - Provide immediate feedback to developers within the familiar confines of the IDE itself.
@@ -83,7 +83,7 @@ With Metalama, you can validate each namespace by adding the following fabric ty
         public override void AmendNamespace( INamespaceAmender amender )
         {
             amender.Verify()
-                .InternalsCanOnlyBeUsedFrom( from => 
+                .InternalsCanOnlyBeUsedFrom( from =>
                     from.CurrentNamespace()
                         .Or( or => or.Type( "**.Tests.**"  )));
         }
@@ -96,5 +96,4 @@ Now, if some foreign code tries to access an internal API of the `MyComponent` n
 ## Summary
 
 We've just seen two examples of how we can validate our code using pre-built Metalama aspects. You can learn more about these in the documentation [here](https://doc.postsharp.net/metalama/conceptual/architecture/usage), [here](https://doc.postsharp.net/metalama/conceptual/architecture/naming-conventions), and [here](https://doc.postsharp.net/metalama/conceptual/architecture/internal-only-implement).
-
 
