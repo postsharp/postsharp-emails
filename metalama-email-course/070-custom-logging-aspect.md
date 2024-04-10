@@ -145,44 +145,44 @@ namespace CreatingAspects.Logging
         [Log]
         private static double Divide(int a, int b)
         {
-```csharp
-Console.WriteLine($"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) started.");
-try
-{
-    double result;
-    result = a / b;
+            Console.WriteLine($"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) started.");
 
-    Console.WriteLine($"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) returned {result}.");
-    return (double)result;
-}
-catch (Exception e)
-{
-    Console.WriteLine($"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) failed: {e.Message}");
-    throw;
-}
-}
+            try
+            {
+                double result;
+                result = a / b;
+            
+                Console.WriteLine($"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) returned {result}.");
+                return (double)result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) failed: {e.Message}");
+                throw;
+            }
+        }
 
-[Log]
-public static void IntegerDivide(int a, int b, out int quotient, out int remainder)
-{
-```csharp
-Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) has started.");
-try
-{
-    quotient = a / b;
-    remainder = a % b;
+        [Log]
+        public static void IntegerDivide(int a, int b, out int quotient, out int remainder)
+        {
+            Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) has started.");
 
-    object result = null;
-    Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = {{{quotient}}}, remainder = {{{remainder}}}) has succeeded.");
-    return;
-}
-catch (Exception e)
-{
-    Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) has failed: {e.Message}");
-    throw;
-}
-}
-}
+            try
+            {
+                quotient = a / b;
+                remainder = a % b;
+            
+                object result = null;
+                Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = {{{quotient}}}, remainder = {{{remainder}}}) has succeeded.");
+                return;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) has failed: {e.Message}");
+                throw;
+            }
+        }
+    }
 }
 ```
 
@@ -202,7 +202,7 @@ catch (Exception ex)
 
 The console will output the following:
 
-```
+```text
 Program output
 
 Calculator.Divide(a = {7}, b = {3}) has started.

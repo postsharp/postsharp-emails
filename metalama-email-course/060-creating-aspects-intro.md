@@ -1,105 +1,113 @@
 # Creating Custom Aspects: An Introduction
 
-Metalama offers a wide array of pre-built aspects that are available through downloadable libraries. However, it is not always possible to cater to every scenario that developers may encounter.
+In the previous messages of this e-mail course, we have seen several pre-built aspects available through downloadable libraries. However, it is not always possible to cater to every scenario developers may encounter. It's time to learn how to craft your own aspects. Since most pre-built aspects are open source, this will also give you the skills to bend them to your specific needs.
 
-In those instances where an aspect would be highly beneficial, but there isn't a pre-built one available, the solution is to create a custom aspect tailored to the specific need.
+## What can an aspect do?
 
-The functionality of an aspect can be broadly divided into two areas: adding additional code at compile time to provide specific functionality, and providing compile and pre-compile time validation of your codebase. The first step is to identify which part of the codebase the aspect should target.
+You can think of aspects as units of compile-time behavior that can do three things:
+1. Generate code
+2. Report errors and warnings
+3. Suggest code fixes or refactorings, often as a remediation to an error or warning.
 
-If the aim is to target types in the codebase, the basic signature of a custom aspect would look like this:
+_Code generation_ is by far the most complex area. Here are the different kinds of transformations you can perform to code using Metalama:
 
-```c#
-using Metalama.Framework.Aspects;
+- Override existing members
+- Introduce new members into an existing type
+- Implement interfaces into an existing type
+- Adding custom attributes
+- Adding class or instance initializers
+- Adding parameters to an existing constructor and pulling them from upstream constructors
+- Adding validation or normalization logic to parameters or return values
 
-    internal class CustomAspectAttribute : TypeAspect
-    {
-    }
-```
+Let's start today with the most useful kind of code generation: overriding existing members.
 
-If methods are the target, then the signature would look like this:
+## Different kinds of member overrides
 
-```c#
-using Metalama.Framework.Aspects;
+Metalama comes with several abstract classes depending on the kind of member you want to override.
 
-    internal class CustomAspectAttribute : OverrideMethodAspect
-    {
-        public override dynamic OverrideMethod()
-        {
-            throw new NotImplementedException();
-        }
-    }
-```
-
-> <b>Note: We must implement the abstract base OverrideMethod() </b>
-
-For field or property targets, we would use this:
+For __methods__, create a class that derives from the `OverrideMethodAspect` class.
 
 ```c#
 using Metalama.Framework.Aspects;
 
-    internal class CustomAspectAttribute : OverrideFieldOrPropertyAspect
+internal class MyAspectAttribute : OverrideMethodAspect
+{
+    public override dynamic? OverrideMethod()
     {
-        public override dynamic OverrideProperty
-        {
-            get;
-            set;
-        }
-
+        throw new NotImplementedException();
     }
+}
 ```
 
-Lastly, to target events, we would require the following:
+For __fields or properties__, use the `OverrideFieldOrPropertyAspect` class.
 
 ```c#
 using Metalama.Framework.Aspects;
 
-    internal class CustomAspectAttribute : OverrideEventAspect
+internal class MyAspectAttribute : OverrideFieldOrPropertyAspect
+{
+    public override dynamic? OverrideProperty
     {
-        public override void OverrideAdd(dynamic value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void OverrideRemove(dynamic value)
-        {
-            throw new NotImplementedException();
-        }
+        get;
+        set;
     }
+}
 ```
 
-Once the target is decided, we need to determine the next steps. In this basic introduction to creating custom aspects, we will focus on targeting a method. A common requirement is to restrict access to methods to certain users. The code below is a basic implementation of that:
+Lastly, for __events__, use `OverrideEventAspect`.
+
+```c#
+using Metalama.Framework.Aspects;
+
+internal class MyAspectAttribute : OverrideEventAspect
+{
+    public override void OverrideAdd(dynamic value)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void OverrideRemove(dynamic value)
+    {
+        throw new NotImplementedException();
+    }
+}
+```
+
+Each of these classes defines a set of abstract _templates_ that you must implement: `OverrideMethod`, `OverrideProperty` and `OverrideAdd`.  The code of these templates will _replace_ the code of the members to which you apply the templates. In these templates, you can use `meta.Proceed()` to invoke the _original_ code of the method. To access information about the overridden member, your template can use the API behind `meta.Target`. `meta` stands for meta-programming.
+
+## Example: authorization
+
+To give an example, let's consider a simplified authorization aspect, which aims to add a check to whichever method(s) we want to restrict to the user 'Mr Bojangles'. A check is made to ascertain who the current user is, and if that user someone else than Mr Bojangles, an exception is thrown.  Otherwise, we use `return meta.Proceed();` to proceed with the normal execution of the method.
+
+
 
 ```c#
 using Metalama.Framework.Aspects;
 using System.Security;
 using System.Security.Principal;
 
-
-    internal class CustomAspectAttribute : OverrideMethodAspect
+internal class MyAspectAttribute : OverrideMethodAspect
+{
+    public override dynamic? OverrideMethod()
     {
-        public override dynamic OverrideMethod()
+        // Determine who the current user is
+        var user = WindowsIdentity.GetCurrent().Name;
+
+        if(user != "Mr Bojangles")
         {
-            // determine who the current user is
-            var user = WindowsIdentity.GetCurrent().Name;
-
-            if(user == "Mr Bojangles")
-            {
-                //carry on and execute the method
-                return meta.Proceed();
-            } else
-            {
-                throw new SecurityException("This method can only be called by Mr Bojangles");
-            }
+            throw new SecurityException($"The '{meta.Target.Method}' method can only be called by Mr Bojangles");
         }
-    }
-```
 
-In the above example, we aim to add a check to whichever method(s) we want to restrict to the user 'Mr Bojangles'. A check is made to ascertain who the current user is, and if that user is indeed Mr Bojangles, the method is executed. This is the purpose of the special return statement `return meta.Proceed();`. If the condition isn't met, an exception is thrown.
+        // Carry on and execute the method
+        return meta.Proceed();
+    }
+}
+```
 
 In practice, the custom aspect would be applied as an attribute on a method:
 
 ```c#
- [CustomAspect]
+ [MyAspect]
  private static void HelloFromMrBojangles()
  {
      Console.WriteLine("Hello");
@@ -112,21 +120,18 @@ When viewed with the 'Show Metalama Diff' tool, we can examine the code that wil
 using System.Security;
 using System.Security.Principal;
 
-   [CustomAspect]
-   private static void HelloFromMrBojangles()
-   {
-       var user = WindowsIdentity.GetCurrent().Name;
-       if (user == "Mr Bojangles")
-       {
-           Console.WriteLine("Hello");
+[MyAspect]
+private static void HelloFromMrBojangles()
+{
+    var user = WindowsIdentity.GetCurrent().Name;
 
-           return;
-       }
-       else
-       {
-           throw new SecurityException("This method can only be called by Mr Bojangles");
-       }
-   }
+    if (user != "Mr Bojangles")
+    {
+        throw new SecurityException("The 'HelloFromMrBojangles()' method can only be called by Mr Bojangles");
+    }
+    
+    Console.WriteLine("Hello");
+}
 ```
 
 While this is a simple example, it serves to illustrate that creating custom aspects should not be seen as a daunting task.
