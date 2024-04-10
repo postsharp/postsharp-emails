@@ -1,6 +1,8 @@
 # Verifying Required Fields and Parameters With Metalama
 
-Developers often need to ensure that certain key properties or return values are not null. Although the code required to perform these checks is not complex, it can clutter the codebase.
+Welcome to the Metalama e-mail course! In this first email, we will look into one of the most no-brainer features of Metalama: code contracts.
+
+Developers often need to ensure that certain fields, properties parameters, or return values are not null. Although the code required to perform these checks is not complex, it can clutter the codebase.
 
 Consider a typical string property that might look like this:
 
@@ -12,6 +14,7 @@ public class ApplicationUser
     public string UserName
     {
         get { return userName; }
+
         set
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -36,7 +39,6 @@ namespace CommonTasks.Required
     {
         [Required]
         public string UserName { get; set; }
-
     }
 }
 ```
@@ -61,6 +63,7 @@ namespace CommonTasks.Required
             {
                 return this._userName;
             }
+
             set
             {
                 if (string.IsNullOrWhiteSpace(value))

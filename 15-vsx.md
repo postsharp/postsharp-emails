@@ -1,30 +1,37 @@
-# Did You Install Visual Tools for Metalama?
+# Have You Installed Visual Tools for Metalama?
 
-If you are using Visual Studio 2022 (any edition), ensure that you have installed the [Visual Tools for Metalama and PostSharp](https://marketplace.visualstudio.com/items?itemName=PostSharpTechnologies.PostSharp). Although not a prerequisite for using Metalama, it significantly simplifies the process by offering several useful features in the IDE.
+If you are using Visual Studio 2022 (any edition), ensure that you have installed the [Visual Tools for Metalama and PostSharp](https://www.postsharp.net/links/download-unified-vsx). Although not a prerequisite for using Metalama, it significantly simplifies the process by offering several useful features in the IDE.
+
+## Metalama Diff
 
 Primarily, it allows you to visualize how Metalama will impact your code.
 
 ![](images/vsx2.gif)
 
-The right-click context menu in the editor window provides the 'Show Metalama Diff' option. This command opens a separate editor window, displaying the precise locations and modifications that Metalama will make at compile time.
+The right-click context menu in the editor window provides the _Show Metalama Diff_ option. This command opens a separate editor window, displaying the precise locations and modifications that Metalama will make at compile time.
 
 For new Metalama users, this feature is incredibly helpful as it reveals exactly how your code will be transformed at compile time. It also ensures that the functionality you want Metalama to add to your code is indeed being incorporated.
 
 As you start crafting your custom Metalama aspects, this feature becomes even more advantageous, allowing you to see how your aspects are integrated into your codebase.
 
-The Metalama extension also includes an aspect viewer, which offers a comprehensive overview of your project and its interaction with Metalama. You can access the viewer through the extensions menu.
+## Aspect Explorer
+
+The Metalama extension also includes the Aspect Explorer tool window. It offers a comprehensive overview of your project and its interaction with Metalama. You can access the viewer through the extensions menu.
 
 ![](images/aspectViewer.png)
 
-The aspect viewer comprises three panes.
+The Aspect Explorer comprises three panes.
 
 ![](images/aspectViewer1.png)
 
-The top pane displays all the aspects that are <b>available</b> to the project. This allows you to see all potential aspects and serves as a straightforward way to explore the available aspects within Metalama libraries (such as the Metalama.Patterns.Contracts library) without needing to consult the documentation.
+The top pane displays all the aspects that are <b>available</b> to the project. It allows you to see all potential aspects and serves as a straightforward way to explore the available aspects within Metalama libraries (such as the `Metalama.Patterns.Contracts` library) without needing to consult the documentation.
 
 In the central pane, you can identify which parts of your project's code are influenced by aspects. To use this pane, you must first select the aspect of interest in the upper pane.
 
-> <b>Note: If you apply aspects to the return value of methods, they will not appear in the Affected Code pane.</b>
+> [!NOTE]
+> If you apply aspects to the return value of methods, they will not appear in the Affected Code pane.
+
+## CodeLens
 
 Another useful feature of this extension is its seamless integration with Visual Studio's code lens feature.
 
@@ -36,9 +43,15 @@ In the brief clip below, you'll see a class implementing an interface where Meta
 
 This tool also offers syntax highlighting for specific Metalama keywords, which is especially beneficial when creating your custom aspects.
 
+> [!NOTE]
 > Currently, there are no similar equivalents of this tool for either VSCode or JetBrains' Rider IDE.
+
+## Aspect Syntax Highlighting
 
 The Metalama Tools for Visual Studio 2022 extension is available at no cost. New Metalama users will find this tool insightful, as it demonstrates what Metalama does precisely. It shows the amount of standard boilerplate code it writes on your behalf, saving you time and preserving the clarity of your codebase.
 
 Experienced Metalama users will appreciate both the syntax highlighting and the ability to see how their custom aspects are likely to interact with other third-party code.
 
+## Summary
+
+If you are using Visual Studio 2022, don't miss the [Visual Tools for Metalama and PostSharp](https://www.postsharp.net/links/download-unified-vsx). It offers plenty of features to make your work with Metalama easier.
