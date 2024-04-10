@@ -2,7 +2,7 @@
 
 In a previous example, we explored the use of `Metalama.Patterns.Caching.Aspects` to cache the return value of methods as a function of their arguments. This caching approach is based on the generation of a unique `string`: the cache key. While this method is highly effective in accelerating slow methods, it might not be as efficient for speeding up already fast methods.
 
-Fortunately, Metalama provides an alternative: _memoization_. The implementation of memoization is simplified to the addition of an attribute to your code. Memoization is available for read-only properties or parameterless methods.
+Fortunately, Metalama provides an alternative: _memoization_. Memoization is available for read-only properties or parameterless methods. It neither not relies on generating a cache key, nor on an in-memory synchronized dictionary or out-of-process storage, but instead stores the cached value straight inside the current instance. The access time is almost instant as there is no per-access memory allocation.
 
 ## Caching or Memoization: How to Choose?
 
@@ -35,7 +35,7 @@ public class HashedBuffer
     public ReadOnlyMemory<byte> Hash => XxHash64.Hash( this.Buffer.Span );
 
     [Memoize]
-    public override string ToString() => $"{{HashedBuffer ({this.Buffer.Length} bytes)}}";
+    public override string ToString() => $"HashedBuffer ({this.Buffer.Length} bytes)";
 }
 ```
 
@@ -74,7 +74,7 @@ public class HashedBuffer
         if (this._ToString == null)
         {
             string value;
-            value = $"{{HashedBuffer ({this.Buffer.Length} bytes)}}";
+            value = $"HashedBuffer ({this.Buffer.Length} bytes)";
             Interlocked.CompareExchange(ref this._ToString, value, null);
         }
 
