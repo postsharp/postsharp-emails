@@ -2,11 +2,11 @@
 
 In previous emails, we used a custom attribute to add aspects to a target class or method. We identified individual methods that needed logging, and added the `[Log]` custom attribute. 
 
-In a real-life application, we might have dozens of classes containing hundreds of methods. To log the application comprehensively, we would have to go through each class separately, adding the `[Log]` attribute to each method. Although this process is substantially faster than adding all the necessary code to each method for logging, it's still quite a task to manually navigate through each class and add the attribute to each method.
+In a real-world application, we might encounter dozens of classes and hundreds of methods. To achieve comprehensive logging of the application, we would need to sift through each class individually, adding the `[Log]` attribute to each method. Although this procedure is significantly more expedient than incorporating the necessary logging code into each method, it remains a substantial task to manually traverse each class and add the attribute to each method.
 
-Thankfully, Metalama provides a way to automate this process, known as _fabrics_.
+Fortunately, Metalama offers a mechanism to automate this process, referred to as _fabrics_.
 
-In the project, add another class. The name doesn't matter, but it must inherit from `ProjectFabric`.
+In the project, incorporate an additional class. The name is irrelevant, but it must inherit from `ProjectFabric`.
 
 ```c#
 using Metalama.Framework.Fabrics;
@@ -23,7 +23,7 @@ namespace UsingMetalama.Fabrics
 }
 ```
 
-From this basic implementation, you can see that this class will amend the current project. Now, let's fill this out so that it actually does something.
+From this rudimentary implementation, it's evident that this class will modify the current project. Now, let's enhance this so that it performs an actual function.
 
 ```c#
 using Metalama.Framework.Fabrics;
@@ -43,19 +43,18 @@ namespace UsingMetalama.Fabrics
 }
 ```
 
-In simple terms, the code we added selects every class in the project, then selects each method in each class. If it's safe, it adds the Log attribute to that method.
+In layman's terms, the code we incorporated selects every class in the project, then selects each method in each class. If it's feasible, it appends the Log attribute to that method.
 
-Using the Metalama Tools Extension for Visual Studio, we can see how this simple ProjectFabric has worked its magic on our code.
+Utilizing the Metalama Tools Extension for Visual Studio, we can observe how this simple ProjectFabric has effectively manipulated our code.
 
 ![](images/fabric2.jpg)
 
+Although this is a simplistic example, it should articulate the potency of Metalama and its potential as a time-saving tool.
 
-Although this is a simplistic example, it should convey just how powerful Metalama can be and what a time-saver it can prove to be.
+We have merely skimmed the surface of what is achievable with Fabrics. We could apply the log attribute to all methods across a solution of projects with the assistance of a TransitiveFabric.
 
-We have barely touched on what it's possible to do with Fabrics here. We could apply the log attribute to all of the methods across a solution of projects with the use of a TransitiveFabric.
+If we desired to target a Type or a Namespace, we could accomplish it with either TypeFabric or NamespaceFabric.
 
-If we wanted to target a Type or a Namespace, we could do it with either TypeFabric or NamespaceFabric.
+Fabrics are not only beneficial for appending aspects to your code, but they can also be utilized to implement architectural rules in your codebase.
 
-Fabrics are not only useful for applying aspects to your code, but they can also be used to implement architecture rules in your codebase.
-
-You can read more about Fabrics [here](https://doc.postsharp.net/metalama/conceptual/using/fabrics). It's one of Metalama's more advanced features, but learning how it works will enable you to do things that previously might have seemed nearly impossible.
+You can read more about Fabrics [here](https://doc.postsharp.net/metalama/conceptual/using/fabrics). It's one of Metalama's more advanced features, but understanding how it operates will enable you to perform tasks that might have previously seemed nearly unachievable.

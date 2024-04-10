@@ -1,8 +1,8 @@
-# Auto-Retry Aspect, With Aspect Parameters
+# Auto-Retry Aspect with Aspect Parameters
 
-Today we'll learn how to make your aspect parametric and will apply this technique to a new aspect type: auto-retry.
+Today, we will learn how to make your aspect parametric and apply this technique to a new aspect type: auto-retry.
 
-It's not unusual for a method to fail, not because of any inherent issues with the method's code, but due to unpredictable external circumstances. A good example of this is when connecting to an external data source or API. Instead of letting the method fail and immediately throw an exception that needs handling, it might be more appropriate to retry the operation.
+It's not uncommon for a method to fail, not due to inherent issues with the method's code, but because of unpredictable external circumstances. A good example of this is when connecting to an external data source or API. Instead of letting the method fail and immediately throw an exception that needs handling, it might be more suitable to retry the operation.
 
 With this in mind, let's outline some basic functionalities this aspect should have:
 
@@ -10,9 +10,9 @@ With this in mind, let's outline some basic functionalities this aspect should h
 - It should be possible to specify the number of attempts the aspect should make.
 - Ideally, there should be a delay between each attempt to allow the external fault to correct itself (e.g., an intermittent internet connection), and this delay should be configurable.
 
-We want our _retry_ aspect to accept two parameters: the maximal number of atempts, and the delay between attempts.
+We want our _retry_ aspect to accept two parameters: the maximum number of attempts, and the delay between attempts.
 
-> <b>NB: Because aspects add code at compile time, you can only set input parameters ahead of compilation. End users of an application will not be able to set these.</b>
+> **Note: Because aspects add code at compile time, you can only set input parameters ahead of compilation. End users of an application will not be able to set these.**
 
 The aspect will only apply to methods, so we already know what its main signature will be:
 
@@ -53,10 +53,7 @@ Now we can flesh out the functionality of the aspect:
  /// Retries the task at hand by the number of times stipulated as attempts. For each attempt, the number of
  /// milliseconds of Delay is doubled.
  /// </summary>
- ///
- /// <remarks></remarks>
- ///
- /// <seealso cref="T:OverrideMethodAspect"/>
+
 
  public class RetryAttribute : OverrideMethodAspect
  {
@@ -64,8 +61,6 @@ Now we can flesh out the functionality of the aspect:
      /// <summary>
      /// Constructor.
      /// </summary>
-     ///
-     /// <remarks></remarks>
      ///
      /// <param name="attempts">
      /// Gets or sets the maximum number of times that the method should be executed.
@@ -89,7 +84,7 @@ Now we can flesh out the functionality of the aspect:
              try
              {
                  return meta.Proceed();
-             } 
+             }
              catch(Exception e) when (i < this.Attempts)
              {
                  var delay = this.MillisecondsOfDelay * Math.Pow(2, i + 1);
@@ -126,7 +121,7 @@ private static string suffix;
  static bool ConnectToApi(string key)
  {
      attempts++;
-  
+
      Console.WriteLine($"Connecting... attempt #{attempts}.");
 
      if(attempts <= 4)
@@ -153,7 +148,7 @@ Is converted at compile time to:
             try
             {
                 attempts++;
-        
+
                 Console.WriteLine($"Connecting... attempt #{attempts}.");
 
                 if(attempts <= 4)

@@ -1,8 +1,8 @@
 # Creating Aspects: Practical Logging
 
-Logging can be very useful when it comes to debugging our code but simply writing to the console is a little restrictive. It would be better if we were to make use of one of the popular logging frameworks to record our output for future reference and one of the best ways to do that is to make use of Microsoft's ILogger interface. This will involve using dependency injection in our aspect which is very simple with Metalama.
+Logging can be highly beneficial for debugging code. However, merely writing to the console can be limiting. It's more advantageous to utilize one of the popular logging frameworks to record our output for future reference. One of the best ways to achieve this is by using Microsoft's ILogger interface. This process involves the use of dependency injection in our aspect, which is straightforward with Metalama.
 
-As in the previous example we'll be creating string based log messages so we'll make use of the InterpolatedStringBuilder again, however our aspect will be different.
+As in the previous example, we'll be creating string-based log messages, so we'll use the InterpolatedStringBuilder again. However, our aspect will differ.
 
 ```c#
 using Metalama.Extensions.DependencyInjection;
@@ -76,15 +76,15 @@ namespace CreatingAspects.Logging
 }
 ```
 
-This aspect is more complicated than those we have created to date and it warrants some explanation.
+This aspect is more complex than those we have created so far, and it warrants some explanation.
 
-To start with in order to support Dependency Injection we have pulled in the Metalama.Extensions.DependencyInjection package as well as the Microsoft.Extensions.Logging package to enable us to use the ILogger interface and that allows us to use the `[InjectDependency]` attribute to add the ILogger.
+Firstly, to support Dependency Injection, we have incorporated the Metalama.Extensions.DependencyInjection package and the Microsoft.Extensions.Logging package. This enables us to use the ILogger interface and the `[InjectDependency]` attribute to add the ILogger.
 
-The OverrideMethod method is a Metalama template which as you'll recall allows us to mix both runtime and compile time code allowing us to add the boolean variable isTracingEnabled (set by referencing the LogLevel applied to the ILogger instance) and at runtime that will be used to determine whether or not any logging will actually take place.
+The OverrideMethod method is a Metalama template, which, as you may remember, allows us to blend runtime and compile-time code. This lets us add the boolean variable isTracingEnabled (set by referencing the LogLevel applied to the ILogger instance). At runtime, this variable will determine whether any logging will actually occur.
 
-> Logging can be an expensive process and it is better to log sparingly but retain the option to log comprehensively when necessary.
+> Logging can be an expensive process, and it is better to log sparingly but retain the option to log comprehensively when necessary.
 
-In our aspect the bulk of the logging is wrapped conditionally on a Log Level of trace which would rarely be set but the exception is conditionally wrapped around a Log Level of warning which will almost always be met thus ensuring that errors will always be recorded in the log.
+In our aspect, the majority of the logging is conditionally wrapped around a Log Level of trace, which would rarely be set. However, the exception is conditionally wrapped around a Log Level of warning, which will almost always be met. This ensures that errors will always be recorded in the log.
 
 When applied to the following example;
 
@@ -190,4 +190,4 @@ namespace CreatingAspects.Logging
 }
 ```
 
-Observe how Metalama has added the necessary constructor to instantiate the ILogger and correctly handled a possible exception. Metalama makes Dependency Injection as simple as adding a single attribute, comprehensively described [here](https://doc.postsharp.net/metalama/conceptual/aspects/dependency-injection).
+Observe how Metalama has added the necessary constructor to instantiate the `ILogger` and correctly handled a possible exception. Metalama makes Dependency Injection as simple as adding a single attribute, comprehensively described [here](https://doc.postsharp.net/metalama/conceptual/aspects/dependency-injection).

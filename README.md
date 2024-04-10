@@ -1,1 +1,1 @@
-This is a list of email chains used by PostSharp Technologies.
+Here is a list of email chains utilized by PostSharp Technologies.

@@ -1,10 +1,10 @@
 # Creating Aspects: Eligibility and Diagnostics
 
-We have looked at the way that Metalama can be used to create our own sophisticated custom aspects but we have not yet touched on how to ensure that they are not used inappropriately.
+We've explored how Metalama can be used to create sophisticated custom aspects, but we haven't yet discussed how to ensure they're not used inappropriately.
 
-Let's reconsider the Log aspect once more. We saw how we could use Metalama's Dependency Injection Extension to make it easy for use to leverage Microsoft's ILogger Interface and we saw how Metalama introduced an appropriate constructor at compile time. However Static classes can't have constructors and whilst Metalama will produce an error message if you were to try and manually add the Log Aspect to a method in a static class the reality with something such as logging, which you'd probably want to apply in a fairly comprehensive fashion, is that you'd use a fabric to apply the attribute. That requires a way to ensure that the aspect is only applied where it is appropriate.
+Let's revisit the Log aspect. We saw how we could leverage Microsoft's ILogger Interface using Metalama's Dependency Injection Extension, and how Metalama introduced an appropriate constructor at compile time. However, static classes can't have constructors, and while Metalama will produce an error message if you try to manually add the Log Aspect to a method in a static class, the reality with something like logging—which you'd probably want to apply comprehensively—is that you'd use a fabric to apply the attribute. This requires a way to ensure that the aspect is only applied where it's appropriate.
 
-In the code below we have a revised version of our Log aspect. The functionality remains the same but we have introduced some logic to ensure that it only gets applied where it is safe to do so.
+Below, we have a revised version of our Log aspect. The functionality remains the same, but we've added some logic to ensure that it's only applied where it's safe to do so.
 
 ```c#
 using Metalama.Extensions.DependencyInjection;
@@ -80,7 +80,7 @@ namespace CreatingAspects.Logging
 }
 ```
 
-This aspect will be applied with a Fabric which makes it much simpler to apply widely. That Fabric is reproduced below.
+This aspect will be applied with a Fabric, which simplifies its widespread application. That Fabric is reproduced below.
 
 ```c#
 using Metalama.Framework.Fabrics;
@@ -102,19 +102,19 @@ namespace CreatingAspects.Logging
 }
 ```
 
-The first thing to note is that for the sake of brevity the bulk of the code from our previous example has been omitted allowing us to concentrate on what's been added.
+For the sake of brevity, we've omitted the bulk of the code from our previous example to focus on what's been added.
 
-We'll begin with the `BuildAspect` method. This adds some [diagnostics and code fixes](https://doc.postsharp.net/metalama/conceptual/aspects/diagnostics) to the IDE to catch those instances when you might add the `[Log]` attribute manually in an ineligible location (specifically in this case when a class has been marked as one that should not have any members logged).
+Let's start with the `BuildAspect` method. This adds some [diagnostics and code fixes](https://doc.postsharp.net/metalama/conceptual/aspects/diagnostics) to the IDE to catch instances when you might manually add the `[Log]` attribute in an ineligible location—specifically when a class has been marked as one that should not have any members logged.
 
-> This implementation uses a simple `[NoLog]` attribute (reproduced above) that acts as a simple indicator that either a class or method should not have logging applied to it.
+> This implementation uses a simple `[NoLog]` attribute (reproduced above) that indicates that either a class or method should not have logging applied to it.
 
-Initially a check is made for the presence of the `{NoLog]` on the class itself because clearly is the class shouldn't be logged then there is no point in adding logging. However a diagnostic is there to catch those occasions when the `[Log]` attribute might be added manually and a codefix made available to fix it.
+Initially, a check is made for the presence of the `{NoLog]` on the class itself. If the class shouldn't be logged, then there's no point in adding logging. However, a diagnostic is there to catch occasions when the `[Log]` attribute might be manually added, and a codefix is available to fix it.
 
-If the class itself can have logging then the individual methods are themselves checked to see that they have not been decorated with the `[NoLog]` attribute and if it's not present calls on the ```OverrideMethod''' template to add the aspect.
+If the class itself can have logging, then the individual methods are checked to see if they've been decorated with the `[NoLog]` attribute. If it's not present, the `OverrideMethod` template is called to add the aspect.
 
-Within the Fabric you'll notice that we use `AddAspectIfEligible<>()` and that eligibility is checked in the preceding lines ensuring that the type isn't static (because Dependency Injection requires a constructor), that we're looking at a method and that that method is not a ToString() implementation (in order to avoid potential recursion).
+Within the Fabric, you'll notice that we use `AddAspectIfEligible<>()`. The eligibility is checked in the preceding lines, ensuring that the type isn't static (because Dependency Injection requires a constructor), that we're looking at a method, and that the method is not a ToString() implementation (to avoid potential recursion).
 
-The `BuildEligibility` method is there to ensure that users of your `[Log]` attribute can only apply it in those areas where you have designed it to be applied, see the documentation [here](https://doc.postsharp.net/metalama/conceptual/aspects/eligibility).
+The `BuildEligibility` method ensures that users of your `[Log]` attribute can only apply it in areas where you've designed it to be applied. See the documentation [here](https://doc.postsharp.net/metalama/conceptual/aspects/eligibility).
 
 Let's now look at how the following class could be affected.
 
@@ -137,7 +137,7 @@ namespace CreatingAspects.Logging
 }
 ```
 
-In this instance everything should be logged and indeed it is with the Fabric applying the log aspect to each method.
+In this instance, everything should be logged, and indeed it is, with the Fabric applying the log aspect to each method.
 
 ```c#
 
@@ -215,7 +215,7 @@ namespace CreatingAspects.Logging
 }
 ```
 
-In the following case nothing should be logged.
+In the following case, nothing should be logged.
 
 ```c#
 namespace CreatingAspects.Logging
@@ -234,17 +234,17 @@ namespace CreatingAspects.Logging
 }
 ```
 
-As we can see nothing is applied.
+As we can see, nothing is applied.
 
-```c#
+```csharp
 namespace CreatingAspects.Logging
 {
     [NoLog]
-    public  partial class Calculator
+    public partial class Calculator
     {
-        public  double Divide(int a, int b) { return a / b; }
+        public double Divide(int a, int b) { return a / b; }
 
-        public  void IntegerDivide(int a, int b, out int quotient, out int remainder)
+        public void IntegerDivide(int a, int b, out int quotient, out int remainder)
         {
             quotient = a / b;
             remainder = a % b;
@@ -253,19 +253,17 @@ namespace CreatingAspects.Logging
 }
 ```
 
-In the example below logging should just be applied to the IntegerDivide method.
+In the example below, logging should only be applied to the `IntegerDivide` method.
 
-```c#
+```csharp
 namespace CreatingAspects.Logging
 {
-
-    public  partial class Calculator
+    public partial class Calculator
     {
-
         [NoLog]
-        public  double Divide(int a, int b) { return a / b; }
+        public double Divide(int a, int b) { return a / b; }
 
-        public  void IntegerDivide(int a, int b, out int quotient, out int remainder)
+        public void IntegerDivide(int a, int b, out int quotient, out int remainder)
         {
             quotient = a / b;
             remainder = a % b;
@@ -276,30 +274,28 @@ namespace CreatingAspects.Logging
 
 That is indeed the case.
 
-```c#
-
+```csharp
 using Microsoft.Extensions.Logging;
 
 namespace CreatingAspects.Logging
 {
-
-    public  partial class Calculator
+    public partial class Calculator
     {
         [NoLog]
-        public  double Divide(int a, int b) { return a / b; }
+        public double Divide(int a, int b) { return a / b; }
 
-        public  void IntegerDivide(int a, int b, out int quotient, out int remainder)
+        public void IntegerDivide(int a, int b, out int quotient, out int remainder)
         {
             var isTracingEnabled = this._logger.IsEnabled(LogLevel.Trace);
             if (isTracingEnabled)
             {
-                LoggerExtensions.LogTrace(this._logger, $"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out> , remainder = <out> ) started.");
+                LoggerExtensions.LogTrace(this._logger, $"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) started.");
             }
 
             try
             {
                 quotient = a / b;
-            remainder = a % b;
+                remainder = a % b;
 
                 object result = null;
                 if (isTracingEnabled)
@@ -319,14 +315,12 @@ namespace CreatingAspects.Logging
 }
 ```
 
-Finally in the last example we should see an error and suggested codefix if the class should not have logging and we try to add the Log aspect manually.
+In the final example, we should observe an error and a suggested code fix if the class should not have logging, and we attempt to manually add the Log aspect.
 
 ![](images/diagnostics.gif)
 
-By leveraging the power of Metalama you can build some very powerful custom aspects.
+By harnessing the capabilities of Metalama, you can develop some highly powerful custom aspects.
 
-<br>
+If you're interested in learning more about Metalama, please visit our [website](https://www.postsharp.net/metalama).
 
-If you'd like to know more about Metalama in general, visit our [website](https://www.postsharp.net/metalama).
-
-Why not join us on [Slack](https://www.postsharp.net/slack) where you can keep up with what's new and get answers to any technical questions that you might have.
+We also invite you to join us on [Slack](https://www.postsharp.net/slack), where you can stay updated on our latest developments and get answers to any technical questions you may have.

@@ -1,14 +1,14 @@
 # Using Metalama: Inheritance (via an Interface)
 
-In our emails about common tasks that can be simplified with Metalama, we've demonstrated how adding simple attributes to your code can save you from writing large amounts of repetitive boilerplate code, leaving your code more compact. These attributes also help clarify the purpose of the code to anyone reading it.
+In our previous discussions about common tasks that can be simplified with Metalama, we've showcased how the addition of simple attributes to your code can eliminate the need for writing large amounts of repetitive boilerplate code, thereby making your code more compact. These attributes also help in clarifying the purpose of the code to anyone who reads it.
 
-You might wonder if adding attributes to the code base is easier than writing the actual boilerplate code that would be required instead. Does this mean that you need to add those attributes to every piece of code where a task needs to be done?
+You might question whether adding attributes to the code base is less cumbersome than writing the actual boilerplate code that would be required otherwise. Does it imply that you need to add these attributes to every piece of code where a task needs to be performed?
 
-The answer to that question is no, because Metalama supports inheritance. Let's look at a simple example.
+The answer to that question is no, thanks to the support for inheritance in Metalama. Let's consider a simple example.
 
-In a typical Line of Business application, there may be classes that represent customers, suppliers, and employees. While these classes represent very different aspects of the business, they almost certainly have some commonalities, such as an email address, a phone number, and some sort of indication that they are important to the business.
+In a typical Line of Business application, there might be classes representing customers, suppliers, and employees. Although these classes represent vastly different aspects of the business, they almost certainly share some commonalities, such as an email address, a phone number, and some sort of indication of their importance to the business.
 
-This could lead us to add an interface to our application (which is itself a type of contract) that could look like this:
+This could prompt us to introduce an interface to our application (which is, in itself, a type of contract) that could look like this:
 
 ```c#
 using Metalama.Patterns.Contracts;
@@ -56,12 +56,12 @@ At this point, you might be wondering if the attributes we added to the interfac
 
 ![](images/aspect-inheritance.jpg)
 
-Notice how each of the properties inherited from the interface shows that there is an aspect associated with it, and when the code itself is compiled, this will be the end result.
+Notice how each of the properties inherited from the interface indicates that there is an aspect associated with it. When the code itself is compiled, this will be the final result.
 
 
 > <b>The Code lens feature is added by the Metalama Tools for Visual Studio Extension and is, by definition, only available when using Visual Studio.</b>
 
- 
+
 ```c#
 using Metalama.Patterns.Contracts;
 
@@ -150,4 +150,4 @@ namespace UsingMetalama.Inheritance
 }
 ```
 
-Metalama has enabled the attributes that enforced specific contracts on your code to be inherited. The Customer class, and indeed any other class that implements the IContact interface, will remain compact, clean, and easy to read. However, at compile time, the functionality that you require will be added. Not only does this save you from writing lots of what is essentially boilerplate code, but you can rest assured that it's being done for you consistently.
+Metalama automatically propagated contract attributes from the base class to the derived class. The `Customer` class, and indeed any other class that implements the `IContact` interface, will remain compact, clean, and easy to read. However, at compile time, the required functionality will be added. Not only does this spare you from writing a substantial amount of what is essentially boilerplate code, but it also ensures that it's done for you consistently.

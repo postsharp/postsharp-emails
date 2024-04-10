@@ -1,12 +1,12 @@
 # Common Tasks: Input / Output Validation
 
-Many developers are familiar with the phrase 'Garbage in, garbage out'. Essentially, if the input entered into an application is flawed, one shouldn't be surprised if the output is flawed as well. To avoid this, developers need to ensure that what goes into their application's routines meets acceptable criteria and, equally, what comes out does the same.
+The phrase 'Garbage in, garbage out' is well-known among developers. In essence, if the input to an application is flawed, it should not be surprising if the output is also flawed. To prevent this, developers must ensure that both the input to their application's routines and the output from them meet acceptable criteria.
 
-Validation is a task that every developer will face at some point, and the approach they take is often a good indication of their overall development experience.
+Validation is a task that every developer must tackle at some point. The approach they adopt often serves as a good indicator of their overall development experience.
 
-Consider a basic requirement that a given string must fall within a certain number of characters.
+Consider a basic requirement where a given string must fall within a certain number of characters.
 
-A new or relatively inexperienced developer might create a simple checking method to satisfy the immediate requirement.
+A novice or relatively inexperienced developer might create a simple checking method to fulfill the immediate requirement.
 
 ```c#
 bool ValidateString(string input)
@@ -15,11 +15,11 @@ bool ValidateString(string input)
 }
 ```
 
-If the requirement is that the string be no less than 10 characters in length and no more than 16, then this simple validation will at least provide an answer to the basic question: 'Does this string fall within the defined character length?' However, it doesn't really handle failure. Over time, developers will learn how to approach this properly, but they will still find themselves having to take differing approaches depending on whether they are validating parameter inputs, properties, or results.
+If the requirement is for the string to be no less than 10 characters in length and no more than 16, then this simple validation will provide an answer to the basic question: 'Does this string fall within the defined character length?' However, it doesn't adequately handle failure. Over time, developers learn to handle this more effectively, but they still find themselves adopting different approaches depending on whether they are validating parameter inputs, properties, or results.
 
-Using Metalama, tasks like this can be solved easily. It has a package `Metalama.Patterns.Contracts` that provides a number of pre-made contracts for a wide range of scenarios, including the example under discussion.
+With Metalama, tasks like these can be solved easily. It offers a package `Metalama.Patterns.Contracts` that provides a number of pre-made contracts for a wide range of scenarios, including the example discussed here.
 
-You could write code as follows (using a simple console application as an example) employing no more than a simple attribute;
+You could write code as follows (using a simple console application as an example), employing nothing more than a simple attribute:
 
 ```c#
 using Metalama.Patterns.Contracts;
@@ -48,9 +48,9 @@ namespace CommonTasks
 }
 ```
 
-Metalama's StringLength aspect takes as parameters either a maximum, or a minimum and maximum length and, in the event of a validation failure, throws a System.ArgumentException.
+Metalama's StringLength aspect accepts either a maximum, or a minimum and maximum length as parameters and, in the event of a validation failure, throws a System.ArgumentException.
 
-At the point of compilation, it adds the necessary logic into your code.
+At the point of compilation, it injects the necessary logic into your code.
 
 ```c#
 using Metalama.Patterns.Contracts;
@@ -99,7 +99,7 @@ namespace CommonTasks
 }
 ```
 
-There are numerous benefits to using Metalama contracts for validation. They are named in such a way that their intention is clear, and where appropriate, they accept parameters that provide flexibility in the rules being tested. When validation fails, it does so by throwing standard exceptions that are easy to handle. The real benefit, though, is that they can be used in exactly the same way to validate both inputs and outputs.
+There are numerous benefits to using Metalama contracts for validation. They are named in a way that clearly indicates their purpose, and where appropriate, they accept parameters that provide flexibility in the rules being tested. When validation fails, it does so by throwing standard exceptions that are easy to handle. The real benefit, however, is that they can be used consistently to validate both inputs and outputs.
 
 In the two examples that follow, the task remains the same, but instead of validating a property, input parameters are validated in the first example, and the actual output in the second. In both cases, the code that Metalama adds at compilation is also shown.
 
@@ -110,7 +110,7 @@ static string CreatePasswordValidatingInputs([StringLength(5,8)]string a, [Strin
 }
 ```
 
-Which at compile time becomes;
+Which at compile time becomes:
 
 ```c#
      static string CreatePasswordValidatingInputs([StringLength(5,8)]string a, [StringLength(5, 8)] string b)
@@ -128,7 +128,7 @@ Which at compile time becomes;
      }
 ```
 
-And for outputs;
+And for outputs:
 
 ```c#
  [return: StringLength(10,16)]
@@ -138,7 +138,7 @@ And for outputs;
  }
 ```
 
-Which at compile time becomes;
+Which at compile time becomes:
 
 ```c#
     [return: StringLength(10,16)]
@@ -159,9 +159,4 @@ Which at compile time becomes;
 
 The same contract is used in ostensibly the same way via an attribute for three quite different validation scenarios but produces consistent code at compilation time that the developer has not had to write by hand.
 
-> **While it should be noted that there is a StringLength attribute that forms part of the system.ComponentModel.DataAnnotations library, it does not offer the same versatility as that provided by Metalama.Patterns.Contracts, as it cannot be applied to return values and requires the developer to provide their own error message.**
-
-If you'd like to know more about Metalama in general, then visit our [website](https://www.postsharp.net/metalama).
-You can learn more about Metalama contracts [here](https://doc.postsharp.net/metalama/patterns/contracts).
-
-Consider joining us on [Slack](https://www.postsharp.net/slack). Here, you can stay updated with what's new and get answers to any technical questions you might have.
+> **Note: While the system.ComponentModel.DataAnnotations library includes a StringLength attribute, it does not offer the same versatility as that provided by Metalama.Patterns.Contracts, as it cannot be applied to return values and requires the developer to provide their own error message.**

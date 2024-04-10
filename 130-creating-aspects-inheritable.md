@@ -1,6 +1,6 @@
-# Automatically adding aspects to derived types: aspect inheritance
+# Automatically Adding Aspects to Derived Types: Aspect Inheritance
 
-In the previous email, we've examined how Metalama can simplify the implementation of `INotifyPropertyChanged`, compared to relying solely on the help provided by IntelliSense. To achieve this, a specific Metalama aspect was created. You might have missed it when we first discussed it, but this aspect was decorated with the `[Inheritable]` aspect.
+In the previous email, we examined how Metalama can simplify the implementation of `INotifyPropertyChanged`, compared to relying solely on the help provided by IntelliSense. To achieve this, a specific Metalama aspect was created. You might have overlooked it when we first discussed it, but this aspect was decorated with the `[Inheritable]` aspect.
 
 ```c#
   [Inheritable]
@@ -10,7 +10,7 @@ In the previous email, we've examined how Metalama can simplify the implementati
   }
 ```
 
-By doing this, we ensured that the aspect could be passed down to classes derived from a class to which the `[NotifyPropertyChanged]` attribute had been added.
+By doing this, we ensured that the aspect could be inherited by classes derived from a class to which the `[NotifyPropertyChanged]` attribute had been added.
 
 This means it's possible to create a very simple base class:
 
@@ -131,6 +131,6 @@ namespace CommonTasks.NotifyPropertyChanged
 }
 ```
 
-> Note: When using the `[Inheritable]` aspect, careful consideration must be given to what might happen in the derived classes if the aspect you wish to apply has already been applied. Specifically, you must pay attention to the `OverrideStrategy` parameters and properties (also named `WhenExists`)
+> Note: When using the `[Inheritable]` aspect, careful consideration must be given to potential issues in the derived classes if the aspect you wish to apply has already been applied. Specifically, you must pay attention to the `OverrideStrategy` parameters and properties (also named `WhenExists`).
 
-Your codebase remains clean and uncluttered, but its intention is clear. At compile time, everything needed to implement INotifyPropertyChanged, in this instance, is applied correctly.
+Your codebase remains clean and uncluttered, but its intention is clear. At compile time, everything needed to implement `INotifyPropertyChanged`, in this instance, is applied correctly.

@@ -1,6 +1,6 @@
 # Creating Custom Aspects: Multi-targeting
 
-After reading our introduction to creating custom aspects, you might have been left with the impression that you need to create separate aspects for each target (field, property, method, or type). However, that's not the case. You can create a single aspect that targets multiple elements, but it requires you to use a slightly different signature for your aspect.
+After reading our introduction to creating custom aspects, you might have gotten the impression that you need to create separate aspects for each target (field, property, method, or type). However, that's not the case. You can create a single aspect that targets multiple elements, but it requires a slightly different signature for your aspect.
 
 To illustrate this, let's consider a simple example where we want to log the fact that a property or a method has been accessed.
 
@@ -19,7 +19,7 @@ namespace CreatingAspects.SimpleLogs
 }
 ```
 
-In this example, we're inheriting directly from `System.Attribute` and implementing Metalama's `IAspect<T>` interface for both methods and fields or properties. We're also explicitly stating where the attribute should be used.
+In this example, we're directly inheriting from `System.Attribute` and implementing Metalama's `IAspect<T>` interface for both methods and fields or properties. We're also explicitly stating where the attribute should be used.
 
 To implement the interfaces, we need to add the following methods:
 
@@ -47,13 +47,13 @@ public class LogAttribute : Attribute, IAspect<IMethod>, IAspect<IFieldOrPropert
 {
 
     public void BuildAspect(IAspectBuilder<IMethod> builder)
-    { 
-        builder.Advice.Override(builder.Target, nameof(this.OverrideMethod)); 
+    {
+        builder.Advice.Override(builder.Target, nameof(this.OverrideMethod));
     }
 
     public void BuildAspect(IAspectBuilder<IFieldOrProperty> builder)
-    { 
-        builder.Advice.Override(builder.Target, nameof(this.OverrideProperty)); 
+    {
+        builder.Advice.Override(builder.Target, nameof(this.OverrideProperty));
     }
 
     [Template]
@@ -64,7 +64,7 @@ public class LogAttribute : Attribute, IAspect<IMethod>, IAspect<IFieldOrPropert
         {
             Console.WriteLine($"You have entered {methodName}");
             return meta.Proceed();
-        } 
+        }
         catch(Exception ex)
         {
             Console.WriteLine($"An error was encountered in {methodName}");
@@ -97,7 +97,7 @@ public class LogAttribute : Attribute, IAspect<IMethod>, IAspect<IFieldOrPropert
 }
 ```
 
-The builder adds advice to the chosen targets via methods which are themselves decorated with the `[Template]` attribute. Without going into too much detail, Metalama Templates integrate both compile-time and runtime code.
+The builder adds advice to the chosen targets via _template_ methods, which must be decorated with the `[Template]` attribute. Without delving into too much detail, Metalama Templates integrate both compile-time and runtime code.
 
 Now, logging can be applied to a simple `Order` class:
 
@@ -202,7 +202,7 @@ namespace CreatingAspects.SimpleLogs
 }
 ```
 
-Produces this result:
+This code will produce the following result:
 
 ```
 You have entered Order.GenerateOrderNumber

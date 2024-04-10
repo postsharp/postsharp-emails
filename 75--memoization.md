@@ -1,27 +1,27 @@
-# Common Tasks: Memoization, a simplified form of caching
+# Common Tasks: Memoization, A Simplified Form of Caching
 
-Developers recognise that implementing caching can greatly improve the performance of their applications however that performance gain needs to be offset against the costs of actually implementing it, even when doing so with Metalama.
+Developers understand that implementing caching can significantly improve the performance of their applications. However, the performance gain needs to be offset against the costs of implementing it, even when doing so with Metalama.
 
-There is an alternative. As you'd expect Metalama supports it and makes implementing it as simple as adding an attribute to your code. That alternative is Memoization.
+There is an alternative. As expected, Metalama supports it and simplifies its implementation to merely adding an attribute to your code. That alternative is Memoization.
 
-In the table below you can see the main differences between Memoization and caching.
+The table below highlights the primary differences between Memoization and caching.
 
 | Factor                             | Memoization                                                  | Caching                                                                                                             |
 | ---------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
 | <b>Scope</b>                       | Local to a single class instance within the current process. | Either local or shared, when run as an external service such as Redis.                                              |
 | <b>Uniqueness of cache items</b>   | Specific to the current instance or type.                    | Based on explicit string cache keys.                                                                                |
-| <b>Complexity and Overhead</b>     | Minimal overhead.                                            | Significant overhead related to the generation of cache keys and in the case of distributed caching, serialisation. |
-| <b>Expiration and Invalidation</b> | No expiration or invalidation.                               | Advanced and configurable expiration policies and invalidation API's.                                               |
+| <b>Complexity and Overhead</b>     | Minimal overhead.                                            | Significant overhead related to the generation of cache keys and in the case of distributed caching, serialization. |
+| <b>Expiration and Invalidation</b> | No expiration or invalidation.                               | Advanced and configurable expiration policies and invalidation APIs.                                                |
 
-From this you'll see that in very simple cases Memoization is really the obvious choice to implement a simple form of caching.
+From this comparison, it's clear that in very simple cases, Memoization is the obvious choice to implement a simplified form of caching.
 
-Some caveats apply to the current implementation of Memoization...
+However, some caveats apply to the current implementation of Memoization:
 
-- Currently it can only be applied to get-only properties or parameterless methods.
+- It can currently only be applied to get-only properties or parameterless methods.
 - There is no guarantee that a method will only be called once, although it will always return the same value or object.
-- There may be some additional memory allocation overhead.
+- Additional memory allocation overhead may occur.
 
-Using Memoization with Metalama requires nothing more than to all the `Metalama.Patterns.Memoization` library to your project and apply the `[Memoize]` attribute where required. An example is shown below.
+Using Memoization with Metalama requires adding the `Metalama.Patterns.Memoization` library to your project and applying the `[Memoize]` attribute where necessary. An example is shown below.
 
 ```c#
 using Metalama.Patterns.Memoization;
@@ -29,7 +29,6 @@ using System;
 using System.IO.Hashing;
 
 namespace CommonTasks.Memoize
-
 {
     public class HashedBuffer
     {
@@ -49,7 +48,7 @@ namespace CommonTasks.Memoize
 }
 ```
 
-Which at compile time becomes.
+This code, at compile time, becomes:
 
 ```c#
 using Metalama.Patterns.Memoization;
@@ -104,10 +103,4 @@ namespace CommonTasks.Memoize
 }
 ```
 
-As you can see this is a very much simpler caching implementation which may in fact be all that is required in relatively simple scenarios.
-
-<br>
-
-If you'd like to know more about Metalama in general, visit our [website](https://www.postsharp.net/metalama).
-
-Why not join us on [Slack](https://www.postsharp.net/slack) where you can keep up with what's new and get answers to any technical questions that you might have.
+As you can see, this is a much simpler caching implementation, which may be all that is required in relatively simple scenarios.
