@@ -62,7 +62,8 @@ namespace CreatingAspects.Caching
                 return ((CloudCalculator)instance).Add_Source((int)args[0], (int)args[1]);
             }
 
-            return this._cachingService!.GetFromCacheOrExecute<int>(CloudCalculator._cacheRegistration_Add!, this, new object[] { a, b }, Invoke);
+            return this._cachingService!.GetFromCacheOrExecute<int>(
+                CloudCalculator._cacheRegistration_Add!, this, new object[] { a, b }, Invoke);
         }
 
         private int Add_Source(int a, int b)
@@ -85,12 +86,13 @@ namespace CreatingAspects.Caching
 
         static CloudCalculator()
         {
-            CloudCalculator._cacheRegistration_Add = CachedMethodMetadata.Register(RunTimeHelpers.ThrowIfMissing(typeof(CloudCalculator).GetMethod("Add", BindingFlags.Public | BindingFlags.Instance, null, new[] { typeof(int), typeof(int) }, null)!, "CloudCalculator.Add(int, int)"), new CachedMethodConfiguration() { AbsoluteExpiration = null, AutoReload = null, IgnoreThisParameter = null, Priority = null, ProfileName = (string?)null, SlidingExpiration = null }, false);
+            // Skipped for brievety.
         }
 
         public CloudCalculator(ICachingService? cachingService = default)
         {
-            this._cachingService = cachingService ?? throw new System.ArgumentNullException(nameof(cachingService));
+            this._cachingService = cachingService 
+               ?? throw new System.ArgumentNullException(nameof(cachingService));
 
         }
     }
