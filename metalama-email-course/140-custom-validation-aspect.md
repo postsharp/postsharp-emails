@@ -1,10 +1,10 @@
 # Common Tasks: Validating Architecture (Custom Validation)
 
-We've already discussed how Metalama provides a number of pre-built aspects to assist with validating the architecture of your codebase. However, there may be situations where these are insufficient, necessitating the creation of a custom validation.
+We've already discussed how Metalama provides a number of pre-built aspects to assist with validating the architecture of your codebase. However, there might be scenarios where these pre-built aspects are not sufficient, prompting the need for a custom validation.
 
-Before delving into that, it's worthwhile to consider whether you could simply extend the use of an existing verification. Some of Metalama's existing verifications can be extended with a custom predicate, leveraging the [ReferencePredicateBuilder](https://doc.postsharp.net/metalama/api/metalama-extensions-architecture-predicates-referencepredicatebuilder).
+Before exploring that, it's worth considering whether you could simply extend the use of an existing verification. Some of Metalama's existing verifications can be extended with a custom predicate, leveraging the [ReferencePredicateBuilder](https://doc.postsharp.net/metalama/api/metalama-extensions-architecture-predicates-referencepredicatebuilder).
 
-In the extensively commented code below, we demonstrate how to extend existing validation aspects with ReferencePredicates.
+The extensively commented code below demonstrates how to extend existing validation aspects with ReferencePredicates.
 
 ```c#
 using Metalama.Extensions.Architecture.Fabrics;
@@ -18,9 +18,9 @@ namespace CommonTasks.ValidatingArchitecture
 {
     /// <summary> A method name predicate. </summary>
     ///
-    /// <remarks> This class actually creates the predicate. It's designed to
+    /// <remarks> This class creates the predicate. It's designed to
     ///           check method names and see if, in this case, they end with
-    ///           a particular word or phrase. </remarks>
+    ///           a specific word or phrase. </remarks>
     internal class MethodNamePredicate : ReferencePredicate
     {
         private readonly string _suffix;
@@ -37,7 +37,7 @@ namespace CommonTasks.ValidatingArchitecture
 
 
     /// <summary> A class to expose your custom extensions. </summary>
-    /// <remarks> This class could be thought of as a form of API for
+    /// <remarks> This class can be thought of as a form of API for
     ///           your extensions. </remarks>
     [CompileTime]
     public static class Extensions
@@ -91,13 +91,13 @@ namespace CommonTasks.ValidatingArchitecture
 }
 ```
 
-You can see how this works in the gif below.
+The functioning of this code extension is demonstrated in the gif below.
 
 ![](images/refpredicate.gif)
 
-This demonstrates that simply extending the existing verification attributes can provide various ways to customize verification to meet our specific requirements.
+This example shows that simply extending the existing verification attributes can provide various ways to customize verification to meet our specific requirements.
 
-Having looked at extending existing Metalama validation aspects, we'll now discuss what needs to be considered when creating custom validation.
+Having explored how to extend existing Metalama validation aspects, let's now discuss the considerations when creating custom validation.
 
 Custom validations are arguably among the most complex tasks you can undertake with Metalama. Before you begin, ensure that you understand:
 
@@ -107,9 +107,9 @@ Custom validations are arguably among the most complex tasks you can undertake w
 - How aspects can be applied to derived types.
 - The use and role of Fabrics.
 
-After establishing a good working knowledge of the Metalama framework, the next step is to determine whether you'll need the rule to be available as a custom attribute, a compile-time method invoked from a fabric, or both. Generally, attributes are used when the requirement is to apply rules individually, while fabrics are used to apply them to numerous items at once.
+After establishing a good working knowledge of the Metalama framework, the next step is to determine whether you'll need the rule to be available as a custom attribute, a compile-time method invoked from a fabric, or both. Generally, attributes are used when the requirement is to apply rules individually, while fabrics are used to apply them to numerous items simultaneously.
 
-Your next decision revolves around how the target declaration is used in your code. For instance, if you want to restrict the areas where an interface could be implemented, you'd need to verify references. Conversely, if you're concerned about the number of parameters a method could accept, you would need to validate types rather than references.
+Your next decision involves how the target declaration is used in your code. For instance, if you want to restrict the areas where an interface could be implemented, you'd need to verify references. Conversely, if you're concerned about the number of parameters a method could accept, you would need to validate types rather than references.
 
 The final decision to be made is whether the validation will be inheritable, meaning derived types can inherit it from a base type.
 

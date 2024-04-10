@@ -1,6 +1,6 @@
 # Common Tasks: Input / Output Validation
 
-The phrase 'Garbage in, garbage out' is well-known among developers. In essence, if the input to an application is flawed, it should not be surprising if the output is also flawed. To prevent this, developers must ensure that both the input to their application's routines and the output from them meet acceptable criteria.
+The phrase 'Garbage in, garbage out' is well-known among developers. Essentially, if the input to an application is flawed, it shouldn't be surprising if the output is also flawed. To prevent this, developers must ensure that both the input to their application's routines and the output from them meet acceptable criteria.
 
 Validation is a task that every developer must tackle at some point. The approach they adopt often serves as a good indicator of their overall development experience.
 
@@ -159,4 +159,5 @@ Which at compile time becomes:
 
 The same contract is used in ostensibly the same way via an attribute for three quite different validation scenarios but produces consistent code at compilation time that the developer has not had to write by hand.
 
-> **Note: While the system.ComponentModel.DataAnnotations library includes a StringLength attribute, it does not offer the same versatility as that provided by Metalama.Patterns.Contracts, as it cannot be applied to return values and requires the developer to provide their own error message.**
+> **Note: While the System.ComponentModel.DataAnnotations library includes a StringLength attribute, it does not offer the same versatility as that provided by Metalama.Patterns.Contracts, as it cannot be applied to return values and requires the developer to provide their own error message.**
+

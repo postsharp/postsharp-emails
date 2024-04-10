@@ -1,8 +1,8 @@
 # Creating Aspects: Meaningful Logging
 
-In an earlier article, we demonstrated a simple example of logging, which involved noting the name of a method being called. Now, we're going to delve deeper into logging and describe more options available to you when creating your own aspects.
+In a previous article, we demonstrated a simple example of logging, which involved recording the name of a method being called. Now, we're going to delve deeper into logging and explain more options available to you when creating your own aspects.
 
-In this example, we'll log not just the method name being called, but also any parameters (with their types) that are being passed into it, and any return value if relevant.
+In this example, we'll log not just the method name being called, but also any parameters (along with their types) that are being passed into it, and any return value, if relevant.
 
 For now, we'll continue to output the messages to the console as strings. To facilitate their creation, we'll create an interpolated string builder that we can use in our aspect.
 
@@ -48,7 +48,7 @@ private static InterpolatedStringBuilder BuildInterpolatedString(bool includeOut
 }
 ```
 
-The code above is relatively straightforward, but there are a couple of points worth noting. The first is the use of the special 'meta' keyword, which enables us to access the elements in our source code. The second point is that Metalama cannot read the value of out parameters. This is entirely logical, given that these values would not be known at the time the code is compiled.
+The code above is relatively straightforward, but there are a couple of points worth noting. The first is the use of the special 'meta' keyword, which allows us to access the elements in our source code. The second point is that Metalama cannot read the value of out parameters. This is entirely logical, given that these values would not be known at the time the code is compiled.
 
 Now that we have our InterpolatedStringBuilder, we can create our revised logging aspect that will utilize it.
 
@@ -110,7 +110,7 @@ namespace CreatingAspects.Logging
 }
 ```
 
-In this aspect, we log the name of the method and any parameters that are being passed to it. The method then runs, and we go on to log the return value if the method is not void or an error message should one occur.
+In this aspect, we log the name of the method and any parameters that are being passed to it. The method then runs, and we proceed to log the return value if the method is not void or an error message should one occur.
 
 When the `[Log]` attribute is applied to the following code:
 
@@ -165,27 +165,28 @@ catch (Exception e)
 [Log]
 public static void IntegerDivide(int a, int b, out int quotient, out int remainder)
 {
-    Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) started.");
-    try
-    {
-        quotient = a / b;
-        remainder = a % b;
+```csharp
+Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) has started.");
+try
+{
+    quotient = a / b;
+    remainder = a % b;
 
-        object result = null;
-        Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = {{{quotient}}}, remainder = {{{remainder}}}) succeeded.");
-        return;
-    }
-    catch (Exception e)
-    {
-        Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) failed: {e.Message}");
-        throw;
-    }
+    object result = null;
+    Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = {{{quotient}}}, remainder = {{{remainder}}}) has succeeded.");
+    return;
+}
+catch (Exception e)
+{
+    Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) has failed: {e.Message}");
+    throw;
+}
 }
 }
 }
 ```
 
-Now, if we run the following code:
+Now, if we execute the following code:
 
 ```csharp
 try
@@ -199,13 +200,13 @@ catch (Exception ex)
 }
 ```
 
-The following will be written to the console:
+The console will output the following:
 
 ```
 Program output
 
-Calculator.Divide(a = {7}, b = {3}) started.
+Calculator.Divide(a = {7}, b = {3}) has started.
 Calculator.Divide(a = {7}, b = {3}) returned 2.3333333333333335.
-Calculator.IntegerDivide(a = {7}, b = {3}, quotient = <out>, remainder = <out>) started.
-Calculator.IntegerDivide(a = {7}, b = {3}, quotient = {2}, remainder = {1}) succeeded.
+Calculator.IntegerDivide(a = {7}, b = {3}, quotient = <out>, remainder = <out>) has started.
+Calculator.IntegerDivide(a = {7}, b = {3}, quotient = {2}, remainder = {1}) has succeeded.
 ```

@@ -1,6 +1,6 @@
 # Creating Custom Aspects: Multi-targeting
 
-After reading our introduction to creating custom aspects, you might have gotten the impression that you need to create separate aspects for each target (field, property, method, or type). However, that's not the case. You can create a single aspect that targets multiple elements, but it requires a slightly different signature for your aspect.
+After reading our introduction to creating custom aspects, you might have gotten the impression that you need to create separate aspects for each target (field, property, method, or type). However, this is not the case. You can create a single aspect that targets multiple elements, but it requires a slightly different signature for your aspect.
 
 To illustrate this, let's consider a simple example where we want to log the fact that a property or a method has been accessed.
 
@@ -19,7 +19,7 @@ namespace CreatingAspects.SimpleLogs
 }
 ```
 
-In this example, we're directly inheriting from `System.Attribute` and implementing Metalama's `IAspect<T>` interface for both methods and fields or properties. We're also explicitly stating where the attribute should be used.
+In this example, we are directly inheriting from `System.Attribute` and implementing Metalama's `IAspect<T>` interface for both methods and fields or properties. We are also explicitly stating where the attribute should be used.
 
 To implement the interfaces, we need to add the following methods:
 
@@ -37,7 +37,7 @@ public class LogAttribute : Attribute, IAspect<IMethod>, IAspect<IFieldOrPropert
 }
 ```
 
-Here, we're adding specific methods to build the aspects that will be applied to methods or properties. Each method takes a builder object as a parameter, which is used to add the actual advice to them.
+Here, we are adding specific methods to build the aspects that will be applied to methods or properties. Each method takes a builder object as a parameter, which is used to add the actual advice to them.
 
 Once these methods have been fleshed out, they should look like this:
 
@@ -196,13 +196,14 @@ namespace CreatingAspects.SimpleLogs
         {
             Order order = new Order();
             order.GenerateOrderNumber();
+```
         }
 
     }
 }
 ```
 
-This code will produce the following result:
+The above code will produce the following result:
 
 ```
 You have entered Order.GenerateOrderNumber

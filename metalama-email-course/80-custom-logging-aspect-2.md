@@ -148,18 +148,18 @@ namespace CreatingAspects.Logging
         }
 
         [Log]
-        public  void IntegerDivide(int a, int b, out int quotient, out int remainder)
+        public void IntegerDivide(int a, int b, out int quotient, out int remainder)
         {
             var isTracingEnabled = this._logger.IsEnabled(LogLevel.Trace);
             if (isTracingEnabled)
             {
-                LoggerExtensions.LogTrace(this._logger, $"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out> , remainder = <out> ) started.");
+                LoggerExtensions.LogTrace(this._logger, $"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) started.");
             }
 
             try
             {
                 quotient = a / b;
-            remainder = a % b;
+                remainder = a % b;
 
                 object result = null;
                 if (isTracingEnabled)
@@ -171,23 +171,21 @@ namespace CreatingAspects.Logging
             }
             catch (Exception e) when (this._logger.IsEnabled(LogLevel.Warning))
             {
-                LoggerExtensions.LogWarning(this._logger, $"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out> , remainder = <out> ) failed: {e.Message}");
+                LoggerExtensions.LogWarning(this._logger, $"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) failed: {e.Message}");
                 throw;
             }
         }
 
-
         private ILogger _logger;
 
-        public Calculator
-        (ILogger<Calculator> logger = default)
+        public Calculator(ILogger<Calculator> logger = default)
         {
             this._logger = logger ?? throw new System.ArgumentNullException(nameof(logger));
-
         }
 
     }
 }
 ```
 
-Observe how Metalama has added the necessary constructor to instantiate the `ILogger` and correctly handled a possible exception. Metalama makes Dependency Injection as simple as adding a single attribute, comprehensively described [here](https://doc.postsharp.net/metalama/conceptual/aspects/dependency-injection).
+Note how Metalama has added the necessary constructor to instantiate the `ILogger` and has correctly handled a potential exception. Metalama simplifies Dependency Injection to the addition of a single attribute, which is comprehensively described [here](https://doc.postsharp.net/metalama/conceptual/aspects/dependency-injection).
+

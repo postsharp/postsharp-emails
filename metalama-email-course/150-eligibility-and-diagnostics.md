@@ -2,7 +2,7 @@
 
 We've explored how Metalama can be used to create sophisticated custom aspects, but we haven't yet discussed how to ensure they're not used inappropriately.
 
-Let's revisit the Log aspect. We saw how we could leverage Microsoft's ILogger Interface using Metalama's Dependency Injection Extension, and how Metalama introduced an appropriate constructor at compile time. However, static classes can't have constructors, and while Metalama will produce an error message if you try to manually add the Log Aspect to a method in a static class, the reality with something like logging—which you'd probably want to apply comprehensively—is that you'd use a fabric to apply the attribute. This requires a way to ensure that the aspect is only applied where it's appropriate.
+Let's revisit the Log aspect. We saw how we could leverage Microsoft's ILogger Interface using Metalama's Dependency Injection Extension and how Metalama introduced an appropriate constructor at compile time. However, static classes can't have constructors, and while Metalama will produce an error message if you try to manually add the Log Aspect to a method in a static class, the reality with something like logging—which you'd probably want to apply comprehensively—is that you'd use a fabric to apply the attribute. This requires a way to ensure that the aspect is only applied where it's appropriate.
 
 Below, we have a revised version of our Log aspect. The functionality remains the same, but we've added some logic to ensure that it's only applied where it's safe to do so.
 
@@ -104,7 +104,7 @@ namespace CreatingAspects.Logging
 
 For the sake of brevity, we've omitted the bulk of the code from our previous example to focus on what's been added.
 
-Let's start with the `BuildAspect` method. This adds some [diagnostics and code fixes](https://doc.postsharp.net/metalama/conceptual/aspects/diagnostics) to the IDE to catch instances when you might manually add the `[Log]` attribute in an ineligible location—specifically when a class has been marked as one that should not have any members logged.
+Let's start with the `BuildAspect` method. This method adds some [diagnostics and code fixes](https://doc.postsharp.net/metalama/conceptual/aspects/diagnostics) to the IDE to catch instances when you might manually add the `[Log]` attribute in an ineligible location—specifically when a class has been marked as one that should not have any members logged.
 
 > This implementation uses a simple `[NoLog]` attribute (reproduced above) that indicates that either a class or method should not have logging applied to it.
 
@@ -161,71 +161,71 @@ namespace CreatingAspects.Logging
                 result = a / b;
 
                 if (isTracingEnabled)
-                {
-                    LoggerExtensions.LogTrace(this._logger, $"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) returned {result}.");
-                }
+```csharp
+{
+    LoggerExtensions.LogTrace(this._logger, $"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) returned {result}.");
+}
 
-                return (double)result;
-            }
-            catch (Exception e) when (this._logger.IsEnabled(LogLevel.Warning))
-            {
-                LoggerExtensions.LogWarning(this._logger, $"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) failed: {e.Message}");
-                throw;
-            }
-        }
+return (double)result;
+}
+catch (Exception e) when (this._logger.IsEnabled(LogLevel.Warning))
+{
+    LoggerExtensions.LogWarning(this._logger, $"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) failed: {e.Message}");
+    throw;
+}
+}
 
-        public  void IntegerDivide(int a, int b, out int quotient, out int remainder)
-        {
-            var isTracingEnabled = this._logger.IsEnabled(LogLevel.Trace);
-            if (isTracingEnabled)
-            {
-                LoggerExtensions.LogTrace(this._logger, $"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out> , remainder = <out> ) started.");
-            }
-
-            try
-            {
-                quotient = a / b;
-            remainder = a % b;
-
-                object result = null;
-                if (isTracingEnabled)
-                {
-                    LoggerExtensions.LogTrace(this._logger, $"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = {{{quotient}}}, remainder = {{{remainder}}}) succeeded.");
-                }
-
-                return;
-            }
-            catch (Exception e) when (this._logger.IsEnabled(LogLevel.Warning))
-            {
-                LoggerExtensions.LogWarning(this._logger, $"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out> , remainder = <out> ) failed: {e.Message}");
-                throw;
-            }
-        }
-
-
-        private ILogger _logger;
-
-        public Calculator
-        (ILogger<Calculator> logger = default)
-        {
-            this._logger = logger ?? throw new System.ArgumentNullException(nameof(logger));
-
-        }
+public void IntegerDivide(int a, int b, out int quotient, out int remainder)
+{
+    var isTracingEnabled = this._logger.IsEnabled(LogLevel.Trace);
+    if (isTracingEnabled)
+    {
+        LoggerExtensions.LogTrace(this._logger, $"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) started.");
     }
+
+    try
+    {
+        quotient = a / b;
+        remainder = a % b;
+
+        object result = null;
+        if (isTracingEnabled)
+        {
+            LoggerExtensions.LogTrace(this._logger, $"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = {{{quotient}}}, remainder = {{{remainder}}}) succeeded.");
+        }
+
+        return;
+    }
+    catch (Exception e) when (this._logger.IsEnabled(LogLevel.Warning))
+    {
+        LoggerExtensions.LogWarning(this._logger, $"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) failed: {e.Message}");
+        throw;
+    }
+}
+
+
+private ILogger _logger;
+
+public Calculator
+(ILogger<Calculator> logger = default)
+{
+    this._logger = logger ?? throw new System.ArgumentNullException(nameof(logger));
+}
+}
 }
 ```
 
-In the following case, nothing should be logged.
+In the following case, no logs should be generated.
 
-```c#
+```csharp
 namespace CreatingAspects.Logging
 {
     [NoLog]
-    public  partial class Calculator
+    public partial class Calculator
     {
-        public  double Divide(int a, int b) { return a / b; }
+        public double Divide(int a, int b) { return a / b; }
 
-        public  void IntegerDivide(int a, int b, out int quotient, out int remainder)
+        public void IntegerDivide(int a, int b, out int quotient, out int remainder)
         {
             quotient = a / b;
             remainder = a % b;
@@ -234,7 +234,7 @@ namespace CreatingAspects.Logging
 }
 ```
 
-As we can see, nothing is applied.
+As demonstrated, no logs are generated.
 
 ```csharp
 namespace CreatingAspects.Logging
@@ -272,7 +272,7 @@ namespace CreatingAspects.Logging
 }
 ```
 
-That is indeed the case.
+As expected, logging is only applied to the `IntegerDivide` method.
 
 ```csharp
 using Microsoft.Extensions.Logging;
@@ -307,20 +307,24 @@ namespace CreatingAspects.Logging
             }
             catch (Exception e) when (this._logger.IsEnabled(LogLevel.Warning))
             {
-                LoggerExtensions.LogWarning(this._logger, $"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out> , remainder = <out> ) failed: {e.Message}");
+                LoggerExtensions.LogWarning(this._logger, $"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) failed: {e.Message}");
                 throw;
             }
         }
     }
 }
 ```
+```
+}
+}
+```
 
-In the final example, we should observe an error and a suggested code fix if the class should not have logging, and we attempt to manually add the Log aspect.
+In the final example, an error and a suggested code fix should be observed if an attempt is made to manually add the Log aspect to a class that should not have logging.
 
 ![](images/diagnostics.gif)
 
-By harnessing the capabilities of Metalama, you can develop some highly powerful custom aspects.
+By leveraging the capabilities of Metalama, powerful custom aspects can be developed.
 
-If you're interested in learning more about Metalama, please visit our [website](https://www.postsharp.net/metalama).
+For more information about Metalama, please visit our [website](https://www.postsharp.net/metalama).
 
-We also invite you to join us on [Slack](https://www.postsharp.net/slack), where you can stay updated on our latest developments and get answers to any technical questions you may have.
+We also encourage you to join us on [Slack](https://www.postsharp.net/slack), where you can stay updated on our latest developments and get answers to your technical questions.

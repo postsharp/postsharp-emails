@@ -1,21 +1,20 @@
-# The simplest way to cache a method's return value
+# The Simplest Way to Cache a Method's Return Value
 
-Caching is a way to optimise the performance of an application by storing data, which either changes infrequently or is expensive to retrieve, in an intermediate layer.
+Caching is a technique to optimize the performance of an application by storing data that either changes infrequently or is expensive to retrieve, in an intermediate layer.
 
-Implementing caching can be challenging as it requires several components to work together seamlessly. Metalama makes this process extremely simple.
+Implementing caching can be challenging as it requires several components to work together seamlessly. Metalama simplifies this process significantly.
 
-## Adding caching to your app
+## Adding Caching to Your App
 
 Metalama supports caching with and without Dependency Injection (DI). In our first example, we will explore its usage in a project that employs DI.
 
 You can add caching to your app in just three steps:
 
 1. Add the [Metalama.Patterns.Caching.Aspects](https://www.nuget.org/packages/Metalama.Patterns.Caching.Aspects/) package to your project.
-2. Go to all methods that need caching and add the `[Cache]` custom attribute.
-3. Go to the application startup code and call `AddCaching`, which adds the `ICachingService` interface to your `IServiceCollection`, enabling the `[Cache]` aspect to be used on all objects instantiated by the DI container. This code has nothing special and we omit it for brievety, but you can find it in the [documentation](https://doc.postsharp.net/metalama/patterns/caching/getting-started). 
+2. Navigate to all methods that need caching and add the `[Cache]` custom attribute.
+3. Go to the application startup code and call `AddCaching`, which adds the `ICachingService` interface to your `IServiceCollection`, enabling the `[Cache]` aspect to be used on all objects instantiated by the DI container. This code is rather standard and we omit it for brevity, but you can find it in the [documentation](https://doc.postsharp.net/metalama/patterns/caching/getting-started).
 
-Let's look at what the `[Cache]` attribute does with your code. Consider the following example:
-
+Let's examine what the `[Cache]` attribute does with your code. Consider the following example:
 
 ```c#
 using Metalama.Patterns.Caching.Aspects;
@@ -43,7 +42,6 @@ namespace CreatingAspects.Caching
 ```
 
 At build time, Metalama transforms it into the following:
-
 
 ```c#
 using System.Reflection;
@@ -134,7 +132,7 @@ From the transformed code, it is evident that Metalama has automatically incorpo
 
 Without a doubt, Metalama significantly simplifies the process of cache implementation.
 
-## Without dependency injection
+## Without Dependency Injection
 
 Not every project requires or warrants the use of Dependency Injection, and it cannot be used for caching static methods. However, Metalama Caching can be used without DI.
 
@@ -149,15 +147,14 @@ using Metalama.Patterns.Caching.Aspects;
 
 The Metalama [documentation](https://doc.postsharp.net/metalama/patterns/caching/getting-started) illustrates the same example as above, but without using Dependency Injection. As before, caching can be added via a single `[Cache]` attribute and it will produce the same result.
 
-## Going further with caching
+## Going Further with Caching
 
-Metalama not only simplifies the implementation of caching but also provides means to customise your cache keys, exclude certain parameters, and invalidate a particular cache by merely adding an attribute. This principle even extends to configuring the caching itself via the `[CachingConfiguration()]` attribute.
+Metalama not only simplifies the implementation of caching but also provides means to customize your cache keys, exclude certain parameters, and invalidate a particular cache by merely adding an attribute. This principle even extends to configuring the caching itself via the `[CachingConfiguration()]` attribute.
 
-Applying caching to an application can dramatically improve performance, but implementing the pattern is not straightforward. Metalama does all the heavy lifting for you and provides several flexible implementations that you can customise to meet your specific requirements.
+Applying caching to an application can dramatically improve performance, but implementing the pattern is not straightforward. Metalama does all the heavy lifting for you and provides several flexible implementations that you can customize to meet your specific requirements.
 
 If you have a distributed application that could benefit from caching, Metalama has that [covered for you](https://doc.postsharp.net/metalama/patterns/caching/redis).
 
-Metalama also supports the synchronisation of [local in-memory caches for multiple servers](https://doc.postsharp.net/metalama/patterns/caching/pubsub), offering support for both the Azure service bus and Redis Pub/Sub.
+Metalama also supports the synchronization of [local in-memory caches for multiple servers](https://doc.postsharp.net/metalama/patterns/caching/pubsub), offering support for both the Azure service bus and Redis Pub/Sub.
 
 By leveraging Metalama, you'll find that implementing caching is both simpler and more efficient than creating a bespoke solution.
-

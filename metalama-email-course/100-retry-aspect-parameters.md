@@ -1,8 +1,8 @@
 # Auto-Retry Aspect with Aspect Parameters
 
-Today, we will learn how to make your aspect parametric and apply this technique to a new aspect type: auto-retry.
+Today, we will explore how to make your aspect parametric and apply this technique to a new aspect type: auto-retry.
 
-It's not uncommon for a method to fail, not due to inherent issues with the method's code, but because of unpredictable external circumstances. A good example of this is when connecting to an external data source or API. Instead of letting the method fail and immediately throw an exception that needs handling, it might be more suitable to retry the operation.
+It's not uncommon for a method to fail, not due to inherent issues with the method's code, but because of unpredictable external circumstances. An excellent example of this is when connecting to an external data source or API. Instead of allowing the method to fail and immediately throw an exception that requires handling, it might be more appropriate to retry the operation.
 
 With this in mind, let's outline some basic functionalities this aspect should have:
 
@@ -10,7 +10,7 @@ With this in mind, let's outline some basic functionalities this aspect should h
 - It should be possible to specify the number of attempts the aspect should make.
 - Ideally, there should be a delay between each attempt to allow the external fault to correct itself (e.g., an intermittent internet connection), and this delay should be configurable.
 
-We want our _retry_ aspect to accept two parameters: the maximum number of attempts, and the delay between attempts.
+We want our _retry_ aspect to accept two parameters: the maximum number of attempts and the delay between attempts.
 
 > **Note: Because aspects add code at compile time, you can only set input parameters ahead of compilation. End users of an application will not be able to set these.**
 

@@ -1,8 +1,8 @@
 # Verifying Required Fields and Parameters With Metalama
 
-Welcome to the Metalama e-mail course! In this first email, we will look into one of the most no-brainer features of Metalama: code contracts.
+Welcome to the Metalama e-mail course! In this first email, we will explore one of the most straightforward features of Metalama: code contracts.
 
-Developers often need to ensure that certain fields, properties parameters, or return values are not null. Although the code required to perform these checks is not complex, it can clutter the codebase.
+Developers frequently need to verify that certain fields, properties, parameters, or return values are not null. Even though the code necessary to perform these checks is not complex, it can lead to clutter in the codebase.
 
 Consider a typical string property that might look like this:
 
@@ -28,7 +28,7 @@ public class ApplicationUser
 }
 ```
 
-Metalama can simplify this task. Using the same string property as an example, you would only need the following:
+Metalama can streamline this task. Using the same string property as an example, you would only need the following:
 
 ```c#
 using Metalama.Patterns.Contracts;
@@ -45,7 +45,7 @@ namespace CommonTasks.Required
 
 Not only is the code cleaner, but it also becomes immediately apparent that the `UserName` property is required for the application's operation. This inference isn't as quickly made from the first example.
 
-At compile time, Metalama will add all the necessary code to ensure that the `UserName` property is assigned a non-empty value. The following is the code that is _executed_:
+At compile time, Metalama will introduce all the necessary code to ensure that the `UserName` property is assigned a non-empty value. The following is the code that is _executed_:
 
 ```c#
 using Metalama.Patterns.Contracts;
@@ -85,8 +85,8 @@ namespace CommonTasks.Required
 }
 ```
 
-As you can see, Metalama generates the boilerplate code that validates the string before it is assigned. 
+As you can see, Metalama generates the boilerplate code that validates the string before it is assigned.
 
-Metalama offers a wide range of pre-built contracts that you can use in situations where it's necessary to ensure that fields, properties, parameters, or return values meet certain conditions. In every case, all you need to do is add the relevant attribute to your code in the correct place, and Metalama will add the necessary additional code at compile time. Examples include `[Phone]`, `[Email]`, and `[CreditCard]` for strings, as well as attributes like `[Positive]`, `[StrictlyPositive]` or `[Range]` for numbers.
+Metalama provides a broad range of pre-built contracts that you can employ in scenarios where it's necessary to ensure that fields, properties, parameters, or return values meet certain conditions. In every case, all you need to do is add the relevant attribute to your code in the appropriate place, and Metalama will introduce the necessary additional code at compile time. Examples include `[Phone]`, `[Email]`, and `[CreditCard]` for strings, as well as attributes like `[Positive]`, `[StrictlyPositive]` or `[Range]` for numbers.
 
-Performing these tasks manually is time-consuming and can be prone to error. Metalama eliminates the chore of writing repetitive code, makes your intention clearer to anyone else who reads your code later, and ensures that it will work as expected when required. Because the boilerplate is now generated _on the fly_ at compile time, you no longer need any boilerplate in your _source_ code. Your codebase is simpler, easier to read, and simpler to maintain.
+Performing these tasks manually can be time-consuming and error-prone. Metalama eliminates the need for writing repetitive code, clarifies your intention to anyone else who reads your code later, and ensures that it will function as expected when required. Because the boilerplate is now generated _on the fly_ at compile time, you no longer need any boilerplate in your _source_ code. Your codebase becomes simpler, easier to read, and easier to maintain.

@@ -1,8 +1,8 @@
 # Common Tasks: Validating Architecture (Pre-built Aspects)
 
-In order to work together effectively as a team, developers need to adhere to specific rules and conventions. This adherence ensures that individual contributions integrate seamlessly into the overall application.
+Developers need to adhere to specific rules and conventions to work together effectively as a team. This adherence ensures that individual contributions integrate seamlessly into the overall application.
 
-How can these rules and conventions be enforced? In a small team working in the same office, it could be through word of mouth or code review. However, this approach can be time-consuming and error-prone. It would be more efficient if developers could be warned about mistakes or infringements as they write code.
+How can these rules and conventions be enforced? In a small team working in the same office, it could be through word of mouth or code review. However, this approach can be time-consuming and prone to errors. It would be more efficient if developers could be warned about mistakes or infringements as they write code.
 
 Metalama offers a number of pre-made attributes, available in the `Metalama.Extensions.Architecture` Nuget package, that cover many common conventions that teams might want to follow. Of course, you can also design custom attributes that cover very specific rules that you'd like your team to adhere to. Enforcing rules and conventions in this way allows you to:
 

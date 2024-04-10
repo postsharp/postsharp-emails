@@ -1,10 +1,10 @@
 # Have You Installed Visual Tools for Metalama?
 
-If you are using Visual Studio 2022 (any edition), ensure that you have installed the [Visual Tools for Metalama and PostSharp](https://www.postsharp.net/links/download-unified-vsx). Although not a prerequisite for using Metalama, it significantly simplifies the process by offering several useful features in the IDE.
+If you are using Visual Studio 2022 (any edition), ensure that you have installed the [Visual Tools for Metalama and PostSharp](https://www.postsharp.net/links/download-unified-vsx). While not a prerequisite for using Metalama, this tool significantly simplifies the process by offering several useful features in the IDE.
 
 ## Metalama Diff
 
-Primarily, it allows you to visualize how Metalama will impact your code.
+Primarily, this tool allows you to visualize the impact of Metalama on your code.
 
 ![](images/vsx2.gif)
 
@@ -24,7 +24,7 @@ The Aspect Explorer comprises three panes.
 
 ![](images/aspectViewer1.png)
 
-The top pane displays all the aspects that are <b>available</b> to the project. It allows you to see all potential aspects and serves as a straightforward way to explore the available aspects within Metalama libraries (such as the `Metalama.Patterns.Contracts` library) without needing to consult the documentation.
+The top pane displays all the aspects that are available to the project. It allows you to see all potential aspects and serves as a straightforward way to explore the available aspects within Metalama libraries (such as the `Metalama.Patterns.Contracts` library) without needing to consult the documentation.
 
 In the central pane, you can identify which parts of your project's code are influenced by aspects. To use this pane, you must first select the aspect of interest in the upper pane.
 

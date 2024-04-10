@@ -1,26 +1,25 @@
-# Memoization, A Simplifer and Faster Form of Caching
+# Memoization: A Simplified and Faster Form of Caching
 
-In a previous example, we saw how to use the `Metalama.Patterns.Caching.Aspects` to cache the return value of methods as a function of their arguments. This approach to caching is based on the generation of a unique `string`: the cache key. This approach is highly useful to make slow methods fast. However, it is not fast enough to make fast methods even faster. 
+In a previous example, we explored the use of `Metalama.Patterns.Caching.Aspects` to cache the return value of methods as a function of their arguments. This caching approach is based on the generation of a unique `string`: the cache key. While this method is highly effective in accelerating slow methods, it might not be as efficient for speeding up already fast methods.
 
-There is an alternative. As expected, Metalama supports it and simplifies its implementation to merely adding an attribute to your code. That alternative is _memoization_. Memoization is available for read-only properties or parameterless methods.
+Fortunately, Metalama provides an alternative: _memoization_. The implementation of memoization is simplified to the addition of an attribute to your code. Memoization is available for read-only properties or parameterless methods.
 
-## Caching or memoization: how to choose?
+## Caching or Memoization: How to Choose?
 
-The table below highlights the primary differences between memoization and caching.
+The table below delineates the primary differences between memoization and caching.
 
 | Factor                             | Memoization                                                  | Caching                                                                                                             |
 | ---------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
 | <b>Scope</b>                       | Local to a single class instance within the current process. | Either local or shared, when run as an external service such as Redis.                                              |
-| <b>Method parameters</b>                       | No supported. | Supported |
+| <b>Method Parameters</b>                       | Not supported. | Supported |
 | <b>Complexity and Overhead</b>     | Minimal overhead.                                            | Significant overhead related to the generation of cache keys and in the case of distributed caching, serialization. |
 | <b>Expiration and Invalidation</b> | Not supported.                               | Advanced and configurable expiration policies and invalidation APIs.                                                |
 
-From this comparison, it's clear that in very simple cases, memoization is the obvious choice to implement a simplified form of caching. 
+From this comparison, it's clear that memoization is the preferable choice for very simple cases, providing a simplified form of caching.
 
 ## Example
 
-Using Memoization with Metalama requires adding the `Metalama.Patterns.Memoization` library to your project and applying the `[Memoize]` attribute where necessary.  Let's consider an example where the challenge is to make sure that the `Hash` property and `ToString()` method (supposedly called at a very high frequency) only do their computation and allocate memory once.
-
+To use Memoization with Metalama, add the `Metalama.Patterns.Memoization` library to your project and apply the `[Memoize]` attribute where necessary.  Let's consider an example where the challenge is to ensure that the `Hash` property and `ToString()` method (presumably called at a very high frequency) only perform their computation and allocate memory once.
 
 ```c#
 public class HashedBuffer
@@ -40,7 +39,7 @@ public class HashedBuffer
 }
 ```
 
-This code, at compile time, becomes:
+At compile time, this code becomes:
 
 ```c#
 public class HashedBuffer
@@ -92,4 +91,4 @@ As you can see, this is a much simpler caching implementation, which may be all 
 
 ## Summary
 
-Memomization is one of the simplest way to make CPU-intensive applications faster without adding boilerplate code. It is even simpler and allocates less memory than using the `Lazy<T>` class.
+Memoization is one of the simplest ways to accelerate CPU-intensive applications without adding boilerplate code. It is even simpler and allocates less memory than using the `Lazy<T>` class.
