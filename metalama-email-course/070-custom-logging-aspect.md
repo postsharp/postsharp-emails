@@ -1,116 +1,118 @@
-# Creating Aspects: Meaningful Logging
+# Logging Methods, Including Parameter Values
 
-In a previous article, we demonstrated a simple example of logging, which involved recording the name of a method being called. Now, we're going to delve deeper into logging and explain more options available to you when creating your own aspects.
+In a previous article, we demonstrated a simple example of `OverrideMethodAspect` that performed authorization. This example made minimal use of the `meta` model: it only called `meta.Proceed()` to proceed with the method execution, and used `meta.Target.Method.ToString()` to print the name of the method.
+
+Today, we're going to delve deeper into logging and explain that your meta-code can be much richer.
 
 In this example, we'll log not just the method name being called, but also any parameters (along with their types) that are being passed into it, and any return value, if relevant.
 
-For now, we'll continue to output the messages to the console as strings. To facilitate their creation, we'll create an interpolated string builder that we can use in our aspect.
+For now, we'll output the messages to the console as _interpolated strings_. To facilitate their creation, let's create a helper method that creates an interpolated string that contains the overridden method (exposed as `meta.Target.Method`) and its parameters (exposed as `meta.Target.Method.Parameters`).
+
 
 ```c#
 using Metalama.Framework.Code;
 using Metalama.Framework.Code.SyntaxBuilders;
 
-private static InterpolatedStringBuilder BuildInterpolatedString(bool includeOutParameters)
+public partial class LogAttribute
 {
-    var stringBuilder = new InterpolatedStringBuilder();
-
-    // Include the type and method name.
-    stringBuilder.AddText(meta.Target.Type.ToDisplayString(CodeDisplayFormat.MinimallyQualified));
-    stringBuilder.AddText(".");
-    stringBuilder.AddText(meta.Target.Method.Name);
-    stringBuilder.AddText("(");
-    var i = meta.CompileTime(0);
-
-    // Include a placeholder for each parameter.
-    foreach (var p in meta.Target.Parameters)
+    private static InterpolatedStringBuilder BuildInterpolatedString(bool includeOutParameters)
     {
-        var comma = i > 0 ? ", " : "";
-
-        if (p.RefKind == RefKind.Out && !includeOutParameters)
+        var stringBuilder = new InterpolatedStringBuilder();
+    
+        // Include the type and method name.
+        stringBuilder.AddText(meta.Target.Type.ToDisplayString(CodeDisplayFormat.MinimallyQualified));
+        stringBuilder.AddText(".");
+        stringBuilder.AddText(meta.Target.Method.Name);
+        stringBuilder.AddText("(");
+        var i = meta.CompileTime(0);
+    
+        // Include a placeholder for each parameter.
+        foreach (var p in meta.Target.Method.Parameters)
         {
-            // When the parameter is 'out', we cannot read the value.
-            stringBuilder.AddText($"{comma}{p.Name} = <out> ");
+            var comma = i > 0 ? ", " : "";
+    
+            if (p.RefKind == RefKind.Out && !includeOutParameters)
+            {
+                // When the parameter is 'out', we cannot read the value.
+                stringBuilder.AddText($"{comma}{p.Name} = <out> ");
+            }
+            else
+            {
+                // Otherwise, add the parameter value.
+                stringBuilder.AddText($"{comma}{p.Name} = {{");
+                stringBuilder.AddExpression(p.Value);
+                stringBuilder.AddText("}");
+            }
+    
+            i++;
         }
-        else
-        {
-            // Otherwise, add the parameter value.
-            stringBuilder.AddText($"{comma}{p.Name} = {{");
-            stringBuilder.AddExpression(p.Value);
-            stringBuilder.AddText("}");
-        }
-
-        i++;
+    
+        stringBuilder.AddText(")");
+    
+        return stringBuilder;
     }
-
-    stringBuilder.AddText(")");
-
-    return stringBuilder;
 }
 ```
 
-The code above is relatively straightforward, but there are a couple of points worth noting. The first is the use of the special 'meta' keyword, which allows us to access the elements in our source code. The second point is that Metalama cannot read the value of out parameters. This is entirely logical, given that these values would not be known at the time the code is compiled.
-
-Now that we have our InterpolatedStringBuilder, we can create our revised logging aspect that will utilize it.
+Now that we have our `InterpolatedStringBuilder`, we can create our revised logging aspect that will utilize it.
 
 ```c#
 using Metalama.Framework.Aspects;
 using Metalama.Framework.Code;
 using Metalama.Framework.Code.SyntaxBuilders;
 
-namespace CreatingAspects.Logging
+public partial class LogAttribute : OverrideMethodAspect
 {
-    public class LogAttribute : OverrideMethodAspect
+    public override dynamic? OverrideMethod()
     {
-        public override dynamic? OverrideMethod()
+        // Write entry message.
+        var entryMessage = BuildInterpolatedString(false);
+        entryMessage.AddText(" started.");
+        Console.WriteLine(entryMessage.ToValue());
+
+        try
         {
-            // Write entry message.
-            var entryMessage = BuildInterpolatedString(false);
-            entryMessage.AddText(" started.");
-            Console.WriteLine(entryMessage.ToValue());
+            // Invoke the method and store the result in a variable.
+            var result = meta.Proceed();
 
-            try
+            // Display the success message. The message is different when the method is void.
+            var successMessage = BuildInterpolatedString(true);
+
+            if (meta.Target.Method.ReturnType.Is(typeof(void)))
             {
-                // Invoke the method and store the result in a variable.
-                var result = meta.Proceed();
-
-                // Display the success message. The message is different when the method is void.
-                var successMessage = BuildInterpolatedString(true);
-
-                if (meta.Target.Method.ReturnType.Is(typeof(void)))
-                {
-                    // When the method is void, display a constant text.
-                    successMessage.AddText(" succeeded.");
-                }
-                else
-                {
-                    // When the method has a return value, add it to the message.
-                    successMessage.AddText(" returned ");
-                    successMessage.AddExpression(result);
-                    successMessage.AddText(".");
-                }
-
-                Console.WriteLine(successMessage.ToValue());
-
-                return result;
+                // When the method is void, display a constant text.
+                successMessage.AddText(" succeeded.");
             }
-            catch (Exception e)
+            else
             {
-                // Display the failure message.
-                var failureMessage = BuildInterpolatedString(false);
-                failureMessage.AddText(" failed: ");
-                failureMessage.AddExpression(e.Message);
-                Console.WriteLine(failureMessage.ToValue());
-
-                throw;
+                // When the method has a return value, add it to the message.
+                successMessage.AddText(" returned ");
+                successMessage.AddExpression(result);
+                successMessage.AddText(".");
             }
+
+            Console.WriteLine(successMessage.ToValue());
+
+            return result;
         }
+        catch (Exception e)
+        {
+            // Display the failure message.
+            var failureMessage = BuildInterpolatedString(false);
+            failureMessage.AddText(" failed: ");
+            failureMessage.AddExpression(e.Message);
+            Console.WriteLine(failureMessage.ToValue());
 
-        // Add the InterpolatedStringBuilder here.
+            throw;
+        }
     }
 }
+
 ```
 
 In this aspect, we log the name of the method and any parameters that are being passed to it. The method then runs, and we proceed to log the return value if the method is not void or an error message should one occur.
+
+As you can see, Metalama allows you to write complex templates, with the full power of C# available at compile-time for you to author templates. We called _T#_ this C#-to-C# template language.
 
 When the `[Log]` attribute is applied to the following code:
 
@@ -172,7 +174,6 @@ namespace CreatingAspects.Logging
                 quotient = a / b;
                 remainder = a % b;
             
-                object result = null;
                 Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = {{{quotient}}}, remainder = {{{remainder}}}) has succeeded.");
                 return;
             }
@@ -210,3 +211,5 @@ Calculator.Divide(a = {7}, b = {3}) returned 2.3333333333333335.
 Calculator.IntegerDivide(a = {7}, b = {3}, quotient = <out>, remainder = <out>) has started.
 Calculator.IntegerDivide(a = {7}, b = {3}, quotient = {2}, remainder = {1}) has succeeded.
 ```
+
+You now know how to create non-trivial templates with T#, Metalama's very own C#-to-C# template language.
