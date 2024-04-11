@@ -1,13 +1,12 @@
 # Logging Methods, Including Parameter Values
 
-In a previous article, we demonstrated a simple example of `OverrideMethodAspect` that performed authorization. This example made minimal use of the `meta` model: it only called `meta.Proceed()` to proceed with the method execution, and used `meta.Target.Method.ToString()` to print the name of the method.
+In a previous article, we demonstrated a simple example of `OverrideMethodAspect` that performed authorization. This example made minimal use of the `meta` model: it only invoked `meta.Proceed()` to continue with the method execution, and utilized `meta.Target.Method.ToString()` to print the method name.
 
-Today, we're going to delve deeper into logging and explain that your meta-code can be much richer.
+Today, we will delve deeper into logging and explain that your meta-code can be much richer.
 
-In this example, we'll log not just the method name being called, but also any parameters (along with their types) that are being passed into it, and any return value, if relevant.
+In this example, we will log not just the name of the method being called, but also any parameters (along with their types) that are being passed into it, and any return value, if applicable.
 
-For now, we'll output the messages to the console as _interpolated strings_. To facilitate their creation, let's create a helper method that creates an interpolated string that contains the overridden method (exposed as `meta.Target.Method`) and its parameters (exposed as `meta.Target.Method.Parameters`).
-
+For now, we will output the messages to the console as _interpolated strings_. To facilitate their creation, we will create a helper method that generates an interpolated string containing the overridden method (exposed as `meta.Target.Method`) and its parameters (exposed as `meta.Target.Method.Parameters`).
 
 ```c#
 using Metalama.Framework.Code;
@@ -18,19 +17,19 @@ public partial class LogAttribute
     private static InterpolatedStringBuilder BuildInterpolatedString(bool includeOutParameters)
     {
         var stringBuilder = new InterpolatedStringBuilder();
-    
+
         // Include the type and method name.
         stringBuilder.AddText(meta.Target.Type.ToDisplayString(CodeDisplayFormat.MinimallyQualified));
         stringBuilder.AddText(".");
         stringBuilder.AddText(meta.Target.Method.Name);
         stringBuilder.AddText("(");
         var i = meta.CompileTime(0);
-    
+
         // Include a placeholder for each parameter.
         foreach (var p in meta.Target.Method.Parameters)
         {
             var comma = i > 0 ? ", " : "";
-    
+
             if (p.RefKind == RefKind.Out && !includeOutParameters)
             {
                 // When the parameter is 'out', we cannot read the value.
@@ -43,12 +42,12 @@ public partial class LogAttribute
                 stringBuilder.AddExpression(p.Value);
                 stringBuilder.AddText("}");
             }
-    
+
             i++;
         }
-    
+
         stringBuilder.AddText(")");
-    
+
         return stringBuilder;
     }
 }
@@ -75,7 +74,7 @@ public partial class LogAttribute : OverrideMethodAspect
             // Invoke the method and store the result in a variable.
             var result = meta.Proceed();
 
-            // Display the success message. The message is different when the method is void.
+            // Display the success message. The message differs when the method is void.
             var successMessage = BuildInterpolatedString(true);
 
             if (meta.Target.Method.ReturnType.Is(typeof(void)))
@@ -107,32 +106,28 @@ public partial class LogAttribute : OverrideMethodAspect
         }
     }
 }
-
 ```
 
-In this aspect, we log the name of the method and any parameters that are being passed to it. The method then runs, and we proceed to log the return value if the method is not void or an error message should one occur.
+In this aspect, we log the name of the method and any parameters that are being passed to it. The method then runs, and we proceed to log the return value if the method is not void or an error message if one occurs.
 
-As you can see, Metalama allows you to write complex templates, with the full power of C# available at compile-time for you to author templates. We called _T#_ this C#-to-C# template language.
+As you can see, Metalama allows you to write complex templates, with the full power of C# available at compile-time for you to author templates. We call this C#-to-C# template language _T#_.
 
 When the `[Log]` attribute is applied to the following code:
 
 ```c#
-namespace CreatingAspects.Logging
+public static class Calculator
 {
-    public static class Calculator
+    [Log]
+    private static double Divide(int a, int b)
     {
-        [Log]
-        private static double Divide(int a, int b)
-        {
-            return a / b;
-        }
+        return a / b;
+    }
 
-        [Log]
-        public static void IntegerDivide(int a, int b, out int quotient, out int remainder)
-        {
-            quotient = a / b;
-            remainder = a % b;
-        }
+    [Log]
+    public static void IntegerDivide(int a, int b, out int quotient, out int remainder)
+    {
+        quotient = a / b;
+        remainder = a % b;
     }
 }
 ```
@@ -140,49 +135,43 @@ namespace CreatingAspects.Logging
 That code will then be transformed at compile time to this:
 
 ```c#
-namespace CreatingAspects.Logging
+[Log]
+public static double Divide(int a, int b)
 {
-    public static class Calculator
+    Console.WriteLine($"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) started.");
+
+    try
     {
-        [Log]
-        private static double Divide(int a, int b)
-        {
-            Console.WriteLine($"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) started.");
+        double result;
+        result = a / b;
 
-            try
-            {
-                double result;
-                result = a / b;
-            
-                Console.WriteLine($"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) returned {result}.");
-                return (double)result;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) failed: {e.Message}");
-                throw;
-            }
-        }
+        Console.WriteLine($"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) returned {result}.");
+        return (double)result;
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine($"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) failed: {e.Message}");
+        throw;
+    }
+}
 
-        [Log]
-        public static void IntegerDivide(int a, int b, out int quotient, out int remainder)
-        {
-            Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) has started.");
+[Log]
+public static void IntegerDivide(int a, int b, out int quotient, out int remainder)
+{
+    Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) has started.");
 
-            try
-            {
-                quotient = a / b;
-                remainder = a % b;
-            
-                Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = {{{quotient}}}, remainder = {{{remainder}}}) has succeeded.");
-                return;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) has failed: {e.Message}");
-                throw;
-            }
-        }
+    try
+    {
+        quotient = a / b;
+        remainder = a % b;
+
+        Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = {{{quotient}}}, remainder = {{{remainder}}}) has succeeded.");
+        return;
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) has failed: {e.Message}");
+        throw;
     }
 }
 ```
@@ -212,4 +201,4 @@ Calculator.IntegerDivide(a = {7}, b = {3}, quotient = <out>, remainder = <out>) 
 Calculator.IntegerDivide(a = {7}, b = {3}, quotient = {2}, remainder = {1}) has succeeded.
 ```
 
-You now know how to create non-trivial templates with T#, Metalama's very own C#-to-C# template language.
+You now know how to create non-trivial templates with T#, Metalama's own C#-to-C# template language.
