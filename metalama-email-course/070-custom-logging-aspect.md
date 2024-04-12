@@ -38,7 +38,7 @@ public partial class LogAttribute
             else
             {
                 // Otherwise, add the parameter value.
-                stringBuilder.AddText($"{comma}{p.Name} = {{");
+                stringBuilder.AddText($"{comma}{p.Name} = ");
                 stringBuilder.AddExpression(p.Value);
                 stringBuilder.AddText("}");
             }
@@ -138,19 +138,19 @@ That code will then be transformed at compile time to this:
 [Log]
 public static double Divide(int a, int b)
 {
-    Console.WriteLine($"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) started.");
+    Console.WriteLine($"Calculator.Divide(a = {a}, b = {b}) started.");
 
     try
     {
         double result;
         result = a / b;
 
-        Console.WriteLine($"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) returned {result}.");
+        Console.WriteLine($"Calculator.Divide(a = {a}, b = {b}) returned {result}.");
         return (double)result;
     }
     catch (Exception e)
     {
-        Console.WriteLine($"Calculator.Divide(a = {{{a}}}, b = {{{b}}}) failed: {e.Message}");
+        Console.WriteLine($"Calculator.Divide(a = {a}, b = {b}) failed: {e.Message}");
         throw;
     }
 }
@@ -158,19 +158,19 @@ public static double Divide(int a, int b)
 [Log]
 public static void IntegerDivide(int a, int b, out int quotient, out int remainder)
 {
-    Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) has started.");
+    Console.WriteLine($"Calculator.IntegerDivide(a = {a}, b = {b}, quotient = <out>, remainder = <out>) has started.");
 
     try
     {
         quotient = a / b;
         remainder = a % b;
 
-        Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = {{{quotient}}}, remainder = {{{remainder}}}) has succeeded.");
+        Console.WriteLine($"Calculator.IntegerDivide(a = {a}, b = {b}, quotient = {quotient}, remainder = {remainder}) has succeeded.");
         return;
     }
     catch (Exception e)
     {
-        Console.WriteLine($"Calculator.IntegerDivide(a = {{{a}}}, b = {{{b}}}, quotient = <out>, remainder = <out>) has failed: {e.Message}");
+        Console.WriteLine($"Calculator.IntegerDivide(a = {a}, b = {b}, quotient = <out>, remainder = <out>) has failed: {e.Message}");
         throw;
     }
 }
@@ -195,10 +195,10 @@ The console will output the following:
 ```text
 Program output
 
-Calculator.Divide(a = {7}, b = {3}) has started.
-Calculator.Divide(a = {7}, b = {3}) returned 2.3333333333333335.
-Calculator.IntegerDivide(a = {7}, b = {3}, quotient = <out>, remainder = <out>) has started.
-Calculator.IntegerDivide(a = {7}, b = {3}, quotient = {2}, remainder = {1}) has succeeded.
+Calculator.Divide(a = 7, b = 3) has started.
+Calculator.Divide(a = 7, b = 3) returned 2.3333333333333335.
+Calculator.IntegerDivide(a = 7, b = 3, quotient = <out>, remainder = <out>) has started.
+Calculator.IntegerDivide(a = 7, b = 3, quotient = 2, remainder = 1) has succeeded.
 ```
 
 You now know how to create non-trivial templates with T#, Metalama's own C#-to-C# template language.
