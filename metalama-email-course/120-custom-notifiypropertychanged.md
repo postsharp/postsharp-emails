@@ -4,7 +4,7 @@ In the previous emails, you learned how to create simple aspects by deriving fro
 
 First, let's introduce `INotifyPropertyChanged`.
 
-Application user interfaces are designed to respond almost instantaneously to the data we input. This is achievable due to UIs built around data-bound controls in architectures that implement patterns such as MVVM (Model, View, ViewModel). In simple terms, this works because the UI updates when properties in the underlying data models change, thereby triggering the PropertyChanged event. This logic is encapsulated in the `INotifyPropertyChanged` interface. This pattern has gained widespread acceptance due to its ability to reuse data models with different views.
+Application user interfaces are designed to respond almost instantaneously to the data we input. This is achievable due to UIs built around data-bound controls in architectures that implement patterns such as MVVM (Model, View, ViewModel). In simple terms, this works because the UI updates when properties in the underlying data models change, thereby triggering the `PropertyChanged` event. This logic is encapsulated in the `INotifyPropertyChanged` interface. This pattern has gained widespread acceptance due to its ability to reuse data models with different views.
 
 However, using this interface has a significant drawback. It requires a large amount of repetitive boilerplate code, which is not generated automatically, making it possible to unintentionally omit parts of it.
 
@@ -12,7 +12,7 @@ The .NET class library already includes an `INotifyPropertyChanged` interface, s
 
 ![](images/notifypropertychanged1.gif)
 
-The standard Visual Studio intellisense for this barely does anything. There's still a need to adjust the properties so that they actually raise the event, and the event itself needs to be handled.
+The standard Visual Studio's _implement interface_ code fix barely does anything. There's still a need to adjust the properties so that they actually raise the event, and the event itself needs to be handled.
 
 By using Metalama to implement `INotifyPropertyChanged`, all of the additional code required to make this work will be handled. You will need to create an aspect to do this, but fortunately, there's a great example of such an aspect in the [Metalama Documentation](https://doc.postsharp.net/metalama/examples/notifypropertychanged).
 
@@ -59,13 +59,15 @@ namespace CommonTasks.NotifyPropertyChanged
 }
 ```
 
-If you read through the aspect implementation, you'll notice that:
+If you read through the `BuildAspect`'s implementation, you'll notice that:
 
 1. It first implements the `INotifyPropertyChanged` interface by calling `builder.Advice.ImplementInterface`. The members of the `INotifyPropertyChanged` interface must be implemented in the aspect class and have the `[InterfaceMember]` custom attribute.
 2. It then loops through the writable properties, modifying their setters through `builder.Advice.OverrideAccessors` to apply the `OverridePropertySetter` template method.
 3. Finally, it adds an `OnPropertyChanged` method to the target type using the `[Introduce]` advice attribute.
 
-With the aspect added to your project, the `INotifyPropertyChanged` implementation is greatly simplified.
+Also notice the `[Inheritable]` attribute on the top of the aspect class: it ensures that the aspect will be automatically propagated to all derived classes, even across project boundaries.
+
+With this aspect added to your project, the `INotifyPropertyChanged` implementation is greatly simplified.
 
 ![](images/notifypropertychanged2.gif)
 
