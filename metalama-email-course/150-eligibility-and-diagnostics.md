@@ -2,7 +2,7 @@
 
 We've explored how Metalama can be used to create sophisticated custom aspects, but we haven't yet discussed how to ensure they're not used inappropriately.
 
-Let's revisit the Log aspect. We saw how we could leverage Microsoft's ILogger Interface using Metalama's Dependency Injection Extension and how Metalama introduced an appropriate constructor at compile time. However, static classes can't have constructors, and while Metalama will produce an error message if you try to manually add the Log Aspect to a method in a static class, the reality with something like logging—which you'd probably want to apply comprehensively—is that you'd use a fabric to apply the attribute. This requires a way to ensure that the aspect is only applied where it's appropriate.
+Let's revisit the version of the logging aspect that had a dependency on `ILogger`. We saw how Metalama introduced an appropriate constructor at compile time. However, static classes can't have constructors, and while Metalama will produce an error message if you try to manually add the Log Aspect to a method in a static class, the reality with something like logging—which you'd probably want to apply comprehensively—is that you'd use a fabric to apply the attribute. This requires a way to ensure that the aspect is only applied where it's appropriate.
 
 Below, we have a revised version of our Log aspect. The functionality remains the same, but we've added some logic to ensure that it's only applied where it's safe to do so.
 
