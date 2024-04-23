@@ -21,42 +21,40 @@ using Metalama.Framework.Aspects;
 using Metalama.Framework.Code;
 using System.ComponentModel;
 
-namespace CommonTasks.NotifyPropertyChanged
+[Inheritable]
+internal class NotifyPropertyChangedAttribute : TypeAspect
 {
-    [Inheritable]
-    internal class NotifyPropertyChangedAttribute : TypeAspect
+    public override void BuildAspect(IAspectBuilder<INamedType> builder)
     {
-        public override void BuildAspect(IAspectBuilder<INamedType> builder)
+        builder.Advice.ImplementInterface(builder.Target, typeof(INotifyPropertyChanged), OverrideStrategy.Ignore);
+
+        foreach (var property in builder.Target.Properties.Where(p =>
+                        !p.IsAbstract && p.Writeability == Writeability.All))
         {
-            builder.Advice.ImplementInterface(builder.Target, typeof(INotifyPropertyChanged), OverrideStrategy.Ignore);
-
-            foreach (var property in builder.Target.Properties.Where(p =>
-                         !p.IsAbstract && p.Writeability == Writeability.All))
-            {
-                builder.Advice.OverrideAccessors(property, null, nameof(this.OverridePropertySetter));
-            }
-        }
-
-        [InterfaceMember]
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        [Introduce(WhenExists = OverrideStrategy.Ignore)]
-        protected void OnPropertyChanged(string name) =>
-            this.PropertyChanged?.Invoke(meta.This, new PropertyChangedEventArgs(name));
-
-        [Template]
-        private dynamic OverridePropertySetter(dynamic value)
-        {
-            if (value != meta.Target.Property.Value)
-            {
-                meta.Proceed();
-                this.OnPropertyChanged(meta.Target.Property.Name);
-            }
-
-            return value;
+            builder.Advice.OverrideAccessors(property, null, nameof(this.OverridePropertySetter));
         }
     }
+
+    [InterfaceMember]
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    [Introduce(WhenExists = OverrideStrategy.Ignore)]
+    protected void OnPropertyChanged(string name) =>
+        this.PropertyChanged?.Invoke(meta.This, new PropertyChangedEventArgs(name));
+
+    [Template]
+    private dynamic OverridePropertySetter(dynamic value)
+    {
+        if (value != meta.Target.Property.Value)
+        {
+            meta.Proceed();
+            this.OnPropertyChanged(meta.Target.Property.Name);
+        }
+
+        return value;
+    }
 }
+
 ```
 
 If you read through the `BuildAspect`'s implementation, you'll notice that:
@@ -64,8 +62,6 @@ If you read through the `BuildAspect`'s implementation, you'll notice that:
 1. It first implements the `INotifyPropertyChanged` interface by calling `builder.Advice.ImplementInterface`. The members of the `INotifyPropertyChanged` interface must be implemented in the aspect class and have the `[InterfaceMember]` custom attribute.
 2. It then loops through the writable properties, modifying their setters through `builder.Advice.OverrideAccessors` to apply the `OverridePropertySetter` template method.
 3. Finally, it adds an `OnPropertyChanged` method to the target type using the `[Introduce]` advice attribute.
-
-Also notice the `[Inheritable]` attribute on the top of the aspect class: it ensures that the aspect will be automatically propagated to all derived classes, even across project boundaries.
 
 With this aspect added to your project, the `INotifyPropertyChanged` implementation is greatly simplified.
 
