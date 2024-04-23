@@ -12,7 +12,8 @@ With this in mind, let's outline some basic functionalities this aspect should h
 
 We want our _retry_ aspect to accept two parameters: the maximum number of attempts and the delay between attempts.
 
-> **Note: Because aspects add code at compile time, you can only set input parameters ahead of compilation. End users of an application will not be able to set these.**
+> [!NOTE]
+> Because aspects add code at compile time, you can only set input parameters ahead of compilation. End users of an application will not be able to set these.**
 
 The aspect will only apply to methods, so we already know what its main signature will be:
 
@@ -50,11 +51,9 @@ Now we can flesh out the functionality of the aspect:
 
 ```c#
  /// <summary>
- /// Retries the task at hand by the number of times stipulated as attempts. For each attempt, the number of
- /// milliseconds of Delay is doubled.
+ /// Retries the task at hand by the number of times stipulated as attempts. 
+/// For each attempt, the number of milliseconds of Delay is doubled.
  /// </summary>
-
-
  public class RetryAttribute : OverrideMethodAspect
  {
 
@@ -66,16 +65,14 @@ Now we can flesh out the functionality of the aspect:
      /// Gets or sets the maximum number of times that the method should be executed.
      /// </param>
      /// <param name="millisecondsOfDelay">
-     /// Gets or sets the delay, in ms, to wait between the first and the second attempt. The delay is doubled at
-     /// every further attempt.
+     /// Gets or sets the delay, in ms, to wait between the first and the second attempt. 
+     /// The delay is doubled at every further attempt.
      /// </param>
-
-     public RetryAttribute(int attempts, int millisecondsOfDelay)
+     public RetryAttribute(int attempts = 3, int millisecondsOfDelay = 1000)
      {
          this.Attempts = attempts;
          this.MillisecondsOfDelay = millisecondsOfDelay;
      }
-
 
      public override dynamic? OverrideMethod()
      {
@@ -101,8 +98,8 @@ Now we can flesh out the functionality of the aspect:
      public int Attempts { get; set; }
 
      /// <summary>
-     /// Gets or sets the delay, in ms, to wait between the first and the second attempt. The delay is doubled at
-     /// every further attempt.
+     /// Gets or sets the delay, in ms, to wait between the first and the second attempt. 
+     /// The delay is doubled at every further attempt.
      /// </summary>
      public int MillisecondsOfDelay { get; set;}
 
@@ -128,7 +125,9 @@ private static string suffix;
      {
          throw new InvalidOperationException();
      }
+
      Console.WriteLine("Success, Connected");
+
      return true;
  }
 

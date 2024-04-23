@@ -1,8 +1,8 @@
 # Creating Custom Aspects: Multi-targeting
 
-After reading our introduction to creating custom aspects, you might have gotten the impression that you need to create separate aspects for each target (field, property, method, or type). However, this is not the case. You can create a single aspect that targets multiple elements, but it requires a slightly different signature for your aspect.
+After reading our introduction to creating custom aspects, you may have thought that you need to create separate aspects for each target (field, property, method, or type). However, this is not the case. You can create a single aspect class that targets multiple elements, but it requires a slightly different signature for your aspect.
 
-To illustrate this, let's consider a simple example where we want to log the fact that a property or a method has been accessed.
+To illustrate this, let's consider a simple example where we have a logging aspect that could be applied to either a method or a property.
 
 The basic signature of the aspect will look like this:
 
@@ -19,7 +19,7 @@ namespace CreatingAspects.SimpleLogs
 }
 ```
 
-In this example, we are directly inheriting from `System.Attribute` and implementing Metalama's `IAspect<T>` interface for both methods and fields or properties. We are also explicitly stating where the attribute should be used.
+In this example, we are directly inheriting from `System.Attribute` and implementing Metalama's `IAspect<T>` interface for both methods and fields or properties. Thanks to `[AttributeUsage]`, we are also explicitly stating where the attribute should be used.
 
 To implement the interfaces, we need to add the following methods:
 
@@ -37,9 +37,16 @@ public class LogAttribute : Attribute, IAspect<IMethod>, IAspect<IFieldOrPropert
 }
 ```
 
-Here, we are adding specific methods to build the aspects that will be applied to methods or properties. Each method takes a builder object as a parameter, which is used to add the actual advice to them.
+The `BuildAspect` methods are the _entry points_ of the aspect. The Metalama framework will invoke either of these methods for each declaration to which the aspect is applied. The `BuildAspect` method is executed at _compile time_.
 
-Once these methods have been fleshed out, they should look like this:
+Next, we must add two _templates_: one template method, and one template property. Templates must be annotated with the `[Template]` attribute. As you already know, templates can combine compile-time and run-time code.
+
+Finally, we must edit the `BuildAspect` to instruct that Metalama must override the target method or property with the given template. This is done by calling the `builder.Advice.Override(target, template)` method.
+
+If you look at the source code of the [OverrideMethodAspect](https://github.com/postsharp/Metalama.Framework/blob/HEAD/Metalama.Framework/Aspects/OverrideMethodAspect.cs
+), which should already be familiar to you, you will find that this is exactly what this class is doing for methods, except that the template method is abstract.
+
+Once the `BuildAspect` and template methods have been fleshed out, they should look like this:
 
 ```c#
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property)]
@@ -96,8 +103,6 @@ public class LogAttribute : Attribute, IAspect<IMethod>, IAspect<IFieldOrPropert
     }
 }
 ```
-
-The builder adds advice to the chosen targets via _template_ methods, which must be decorated with the `[Template]` attribute. Without delving into too much detail, Metalama Templates integrate both compile-time and runtime code.
 
 Now, logging can be applied to a simple `Order` class:
 
@@ -185,7 +190,7 @@ namespace CreatingAspects.SimpleLogs
 }
 ```
 
-Running this code in a console app:
+When the following code is run in a console application:
 
 ```c#
 namespace CreatingAspects.SimpleLogs
@@ -196,17 +201,17 @@ namespace CreatingAspects.SimpleLogs
         {
             Order order = new Order();
             order.GenerateOrderNumber();
-```
         }
-
     }
 }
 ```
 
-The above code will produce the following result:
+It will produce the following output:
 
-```
+```text
 You have entered Order.GenerateOrderNumber
 The old value of Order was: int = 0
 The new value of Order is: int = 59
 ```
+
+As you can see, Metalama is more powerful than it may initially appear. Classes such as `OverrideMethodAspect` serve as API sugar. For Metalama, what really matters are the `IAspect<T>` interface and the operations performed by the `IAspect<T>.BuildAspect` method. This method can add advice to the target, such as overriding a member with a template, implementing a new interface, or adding a new member. They can also report warnings or errors, suggest code fixes, validate references, and add chil aspects. You can discover this in the documentation of the [IAspectBuilder](https://doc.postsharp.net/metalama/api/metalama-framework-aspects-iaspectbuilder) class.
