@@ -81,12 +81,9 @@ Other features of this open-source caching library include:
 
 ## Conclusion
 
-Applying caching to an application can dramatically improve performance, but implementing the pattern by hand is not straightforward. Metalama does all the heavy lifting for you and provides several flexible implementations that you can customize to meet your specific requirements.
-
-By leveraging Metalama, you'll find that implementing caching is both simpler and more efficient than creating a bespoke solution.
+Applying caching to an application can dramatically improve performance, but implementing the pattern by hand is not straightforward. Luckily, Metalama does all the heavy lifting for you while remaining flexible enough so you can customize the library to meet your specific requirements.
 
 Caching is just one of the open-source aspects built by our team. For more, check [Metalama Marketplace](https://www.postsharp.net/metalama/marketplace).
-
 
 Our development team is looking forward to your feedback and questions on our [Slack community workspace](https://www.postsharp.net/slack). Of course, you can also answer this email and I’ll make sure it will reach an engineer.
 
