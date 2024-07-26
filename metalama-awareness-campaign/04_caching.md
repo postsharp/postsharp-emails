@@ -1,7 +1,6 @@
-
 Hello!
 
-It's Fedja from Metalama again. In my previous emails, I described Metalama as a ,meta-programming _framework_ that allows you to generate and validate code as you type.
+It's Fedja from Metalama again. In my previous emails, I described Metalama as a meta-programming _framework_ that allows you to generate and validate code as you type.
 
 If you looked at our API and documentation, you may have got the impression that the framework is deep and complex.
 
@@ -18,33 +17,33 @@ You can add caching to your app in just three steps:
 1. Add the [Metalama.Patterns.Caching.Aspects](https://www.nuget.org/packages/Metalama.Patterns.Caching.Aspects/) package to your project.
 2. Navigate to all methods that need caching and add the `[Cache]` custom attribute.
 
-    
+
     ```c#
     using Metalama.Patterns.Caching.Aspects;
-    
+
     namespace CreatingAspects.Caching
     {
         public sealed class CloudCalculator
         {
-    
+
             [Cache]
             public int Add(int a, int b)
             {
                 Console.WriteLine("Doing some very hard work.");
-    
+
                 this.OperationCount++;
-    
+
                 Console.WriteLine("Finished doing some very hard work.");
-    
+
                 return a + b;
             }
-    
+
             public int OperationCount { get; private set; }
         }
     }
     ```
 
-3. Go to the application startup code and call `AddMetalamaCaching`. This adds the `ICachingService` interface to your `IServiceCollection`, enabling the `[Cache]` aspect to be used on all objects instantiated by the DI container. 
+3. Go to the application startup code and call `AddMetalamaCaching`. This adds the `ICachingService` interface to your `IServiceCollection`, enabling the `[Cache]` aspect to be used on all objects instantiated by the DI container.
 
     ```c#
      builder.Services.AddMetalamaCaching();
@@ -62,7 +61,6 @@ You can add caching to your app in just three steps:
     builder.Services.AddMetalamaCaching(
             caching => caching.WithBackend(
                 backend => backend.Redis().WithL1() ) );
-
     ```
 
 ## What Metalama does for you
@@ -83,8 +81,19 @@ Other features of this open-source caching library include:
 
 ## Conclusion
 
-Applying caching to an application can dramatically improve performance, but implementing the pattern is not straightforward. Metalama does all the heavy lifting for you and provides several flexible implementations that you can customize to meet your specific requirements.
+Applying caching to an application can dramatically improve performance, but implementing the pattern by hand is not straightforward. Metalama does all the heavy lifting for you and provides several flexible implementations that you can customize to meet your specific requirements.
 
 By leveraging Metalama, you'll find that implementing caching is both simpler and more efficient than creating a bespoke solution.
 
-Caching is just one of the open-source aspects built by our team. For more, check  [Metalama Marketplace](https://www.postsharp.net/metalama/marketplace).
+Caching is just one of the open-source aspects built by our team. For more, check [Metalama Marketplace](https://www.postsharp.net/metalama/marketplace).
+
+
+Our development team is looking forward to your feedback and questions on our [Slack community workspace](https://www.postsharp.net/slack). Of course, you can also answer this email and I’ll make sure it will reach an engineer.
+
+Thank you!
+
+All the best,
+Fedja
+Community Manager
+
+*P.S. We will send you 2 more emails about Metalama and then stop. You can unsubscribe at any time.*
