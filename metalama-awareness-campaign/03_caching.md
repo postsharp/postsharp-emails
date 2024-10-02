@@ -1,3 +1,6 @@
+# Here is How to Save Time on Caching
+
+
 Hello!
 
 It's Fedja from Metalama again. In my previous emails, I described Metalama as a meta-programming _framework_ that allows you to generate and validate code as you type.
