@@ -82,10 +82,8 @@ With Metalama, you can validate each namespace by adding the following fabric ty
     {
         public override void AmendNamespace( INamespaceAmender amender )
         {
-            amender.Verify()
-                .InternalsCanOnlyBeUsedFrom( from =>
-                    from.CurrentNamespace()
-                        .Or( or => or.Type( "**.Tests.**"  )));
+            amender.InternalsCanOnlyBeUsedFrom( from =>
+                    from.CurrentNamespace().Or( or => or.Type( "**.Tests.**"  )));
         }
     }
  }

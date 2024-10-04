@@ -55,12 +55,12 @@ public class LogAttribute : Attribute, IAspect<IMethod>, IAspect<IFieldOrPropert
 
     public void BuildAspect(IAspectBuilder<IMethod> builder)
     {
-        builder.Advice.Override(builder.Target, nameof(this.OverrideMethod));
+        builder.Override(nameof(this.OverrideMethod));
     }
 
     public void BuildAspect(IAspectBuilder<IFieldOrProperty> builder)
     {
-        builder.Advice.Override(builder.Target, nameof(this.OverrideProperty));
+        builder.Override(nameof(this.OverrideProperty));
     }
 
     [Template]

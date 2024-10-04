@@ -76,7 +76,6 @@ internal class Fabric : ProjectFabric
         // that methods within a certain type (in this case CoffeeMachine) can
         // only be called from methods whose name ends with the word "Politely"
         amender
-        .Verify()
         .SelectTypes(typeof(CoffeeMachine))
         .CanOnlyBeUsedFrom(r => r.MethodNameEndsWith("Politely"));
     }

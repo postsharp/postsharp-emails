@@ -78,7 +78,6 @@ internal class NamingConvention : ProjectFabric
     public override void AmendProject(IProjectAmender amender)
     {
         amender
-            .Verify()
             .SelectTypesDerivedFrom(typeof(StreamReader))
             .MustRespectNamingConvention("*Reader");
     }

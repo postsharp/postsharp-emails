@@ -34,7 +34,7 @@ namespace UsingMetalama.Fabrics
     {
         public override void AmendProject(IProjectAmender amender)
         {
-            amender.Outbound
+            amender
                 .SelectMany(t => t.AllTypes)
                 .SelectMany(t => t.Methods)
                 .AddAspectIfEligible<LogAttribute>();
