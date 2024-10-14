@@ -1,4 +1,4 @@
-In my previous email, I demonstrated how Metalama can generate boilerplate code on-the-fly during compilation, automating the task of implementing necessary but repetitive code. However, code generation is not the only functionality Metalama offers. In this email, I will explore Metalama's second horn: its ability to validate source code against architectural rules.
+[In my previous article](https://goatreview.com/generating-repetitive-code-with-metalama/), I demonstrated how Metalama can generate boilerplate code during compilation, automating the repetitive yet necessary tasks. But Metalama doesn’t stop there. If Metalama were a goat, its second horn would be its ability to validate source code against architectural rules — ensuring that your code stays on track. This is the focus of today’s article.
 
 ## Why Does Architecture Matter?
 
@@ -22,13 +22,16 @@ Most of the time, the output of the software architecture role is a set of texts
 
 Because these texts and diagrams are not provided in executable form, rule violations can happen in source code, degrading code quality. To avoid rule violations, we perform code reviews, a manual process that sometimes happens days after the code has been written. First, in an attempt to streamline the merge process, benign violations are ignored. Then, the broken window syndrome happens, and more and more violations are accepted in the codebase. Progressively, rules are no longer followed. With turnover in the team, new team members may not even be trained in the original architecture.
 
-This process is called _architecture erosion_: the growing gap between the original architectural intention and its implementation in source code.
+This process is called [architecture erosion](https://ieeexplore.ieee.org/document/9463012): the growing gap between the original architectural intention and its implementation in source code.
+
 
 ## How Can Metalama Help Avoid Architecture Erosion?
 
 As we have seen, one of the principal causes of architecture erosion is the lack of automated verification of the source code against the architecture, relying instead on the long feedback loop provided (in the best cases) by code reviews.
 
-Metalama allows you to validate your architecture both _in real-time_, straight from the IDE, and during your CI build. Therefore, the feedback loop is shortened from hours to seconds. Violations can be corrected immediately. As for the most important defects, they will generate an error and won't even pass the continuous integration build.
+Metalama allows you to [validate your architecture](https://doc.postsharp.net/metalama/conceptual/architecture) both _in real-time_, straight from the IDE, and during your CI build. Therefore, the feedback loop is shortened from hours to seconds. Violations can be corrected immediately. As for the most important defects, they will generate an error and won't even pass the continuous integration build.
+
+Like the Provençal goats of the Luberon, your code must roam free but within well-defined limits, respecting the _terroir_ of your architecture.
 
 The [open-source](https://github.com/postsharp/Metalama.Extensions/tree/HEAD/src/Metalama.Extensions.Architecture) [Metalama.Extensions.Architecture](https://www.nuget.org/packages/Metalama.Extensions.Architecture) package offers several pre-made custom attributes and compile-time APIs that cover many common conventions teams might want to follow.
 
@@ -38,7 +41,7 @@ Let's see two families of rules you can easily validate with Metalama: naming co
 
 _Il faut appeler une chèvre une chèvre._
 
-You’ve perhaps experienced how hard it can be to align everyone on the same naming conventions. With Metalama, you define rules and conventions using plain C#. They will be enforced both in real-time in the IDE and at compile time.
+You’ve perhaps experienced how hard it can be to align everyone on the same [naming conventions](https://doc.postsharp.net/metalama/conceptual/architecture/naming-conventions). With Metalama, you define rules and conventions using plain C#. They will be enforced both in real-time in the IDE and at compile time.
 
 For instance, assume you want every class implementing `ICheeseFactory` to have the `CheeseFactory` suffix. You can do this with a single attribute: [DerivedTypesMustRespectNamingConvention](https://doc.postsharp.net/metalama/api/metalama-extensions-architecture-aspects-derivedtypesmustrespectnamingconventionattribute).
 
@@ -53,7 +56,7 @@ public interface ICheeseFactory
 If someone violates this rule, a warning will immediately be reported:
 
 ```
-LAMA0903. The type ‘MyInvoiceConverted’ does not respect the naming convention set on the base class or interface ‘IInvoiceFactory’. The type name should match the "\*InvoiceFactory" pattern.
+LAMA0903. The type ‘CheeseGenerator’ does not respect the naming convention set on the base class or interface ICheeseFactory. The type name should match the "*CheeseFactory" pattern.
 ```
 
 The shorter the feedback loop is, the smoother the code reviews will go! Not to mention the frustration both sides avoided!
@@ -94,7 +97,7 @@ For details regarding usage validation, please refer to the [Metalama documentat
 
 ## Fabrics
 
-In the previous examples, I have used custom attributes to express architectural constraints. However, this is not always the most convenient way to express architecture.
+In the previous examples, I have used custom attributes to express [architectural constraints](https://doc.postsharp.net/metalama/conceptual/architecture/usage). However, this is not always the most convenient way to express architecture.
 
 Suppose we have a project composed of a large number of components. Each of these components is implemented in its own namespace and is made up of several classes. There are so many components that we don't want to have them each in their own project.
 
@@ -102,7 +105,7 @@ However, we still want to isolate components from each other. Specifically, we w
 
 Additionally, we want `internal` components to be accessible from any test namespace.
 
-With Metalama, you can validate each namespace by adding a _fabric_ type: a compile-time class that executes within the compiler or the IDE.
+With Metalama, you can validate each namespace by adding a [fabric](https://doc.postsharp.net/metalama/conceptual/using/fabrics) type: a compile-time class that executes within the compiler or the IDE.
 
 ```cs
 namespace BarnEquipment
@@ -139,6 +142,7 @@ The package includes verification methods like:
 - [MustRespectRegexNamingConvention](https://doc.postsharp.net/metalama/api/metalama-extensions-architecture-fabrics-verifierextensions-mustrespectregexnamingconvention)
 
 ## Verifying Your Own Rules
+
 If, like _la chèvre de Monsieur Seguin_, you feel confined within the enclosure of predefined methods and yearn for the fresh air of do-it-yourself mountains, we have good news for you. First, you can create your own rules—both custom attributes and programmatic—using Metalama's API. Second, there's no wolf in these mountains. At worst, you might get lost or a bit dazed bu the fresh air, and sheepishly find your way back to the enclosure.
 
 There are two ways to extend the API: by creating your own _rules_ (like `InternalsCanOnlyBeUsedFrom` or `CannotBeUsedFrom`) or your own _predicates_ (like `CurrentNamespace`).
@@ -186,6 +190,8 @@ internal class Fabric : ProjectFabric
     }
 }
 ```
+
+To explore the rabbit hole, [start here](https://doc.postsharp.net/metalama/conceptual/architecture/extending).
 
 ## Conclusion
 
