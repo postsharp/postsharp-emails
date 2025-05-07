@@ -1,4 +1,6 @@
-# Verifying Required Fields and Parameters With Metalama
+---
+subject: Verifying Required Fields and Parameters With Metalama
+---
 
 Welcome to the Metalama e-mail course! In this first email, we will explore one of the most straightforward features of Metalama: code contracts.
 

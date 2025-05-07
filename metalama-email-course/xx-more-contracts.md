@@ -1,3 +1,6 @@
+subject: "Common Tasks: Input / Output Validation"
+---
+
 # Common Tasks: Input / Output Validation
 
 The phrase 'Garbage in, garbage out' is well-known among developers. Essentially, if the input to an application is flawed, it shouldn't be surprising if the output is also flawed. To prevent this, developers must ensure that both the input to their application's routines and the output from them meet acceptable criteria.

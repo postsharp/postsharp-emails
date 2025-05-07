@@ -1,10 +1,12 @@
-# Creating Custom Aspects: Multi-targeting
+---
+subject: "Creating Custom Aspects: Multi-targeting"
+---
 
-After reading our introduction to creating custom aspects, you may have thought that you need to create separate aspects for each target (field, property, method, or type). However, this is not the case. You can create a single aspect class that targets multiple elements, but it requires a slightly different signature for your aspect.
+After reading our introduction to creating custom aspects, you might think you need to create separate aspects for each target (field, property, method, or type). However, this is not the case. You can create a single aspect class that targets multiple elements, but it requires a slightly different approach.
 
-To illustrate this, let's consider a simple example where we have a logging aspect that could be applied to either a method or a property.
+To illustrate this, let's consider a simple example of a logging aspect that can be applied to either a method or a property.
 
-The basic signature of the aspect will look like this:
+The basic signature of the aspect looks like this:
 
 ```c#
 using Metalama.Framework.Aspects;
@@ -19,7 +21,7 @@ namespace CreatingAspects.SimpleLogs
 }
 ```
 
-In this example, we are directly inheriting from `System.Attribute` and implementing Metalama's `IAspect<T>` interface for both methods and fields or properties. Thanks to `[AttributeUsage]`, we are also explicitly stating where the attribute should be used.
+In this example, we inherit directly from `System.Attribute` and implement Metalama's `IAspect<T>` interface for both methods and fields or properties. The `[AttributeUsage]` attribute explicitly specifies where the attribute can be applied.
 
 To implement the interfaces, we need to add the following methods:
 
@@ -37,9 +39,9 @@ public class LogAttribute : Attribute, IAspect<IMethod>, IAspect<IFieldOrPropert
 }
 ```
 
-The `BuildAspect` methods are the _entry points_ of the aspect. The Metalama framework will invoke either of these methods for each declaration to which the aspect is applied. The `BuildAspect` method is executed at _compile time_.
+The `BuildAspect` methods are the _entry points_ of the aspect. The Metalama framework invokes one of these methods for each declaration to which the aspect is applied. The `BuildAspect` method is executed at _compile time_.
 
-Next, we must add two _templates_: one template method, and one template property. Templates must be annotated with the `[Template]` attribute. As you already know, templates can combine compile-time and run-time code.
+Next, we need to add two _templates_: one for a method and one for a property. Templates must be annotated with the `[Template]` attribute. As you know, templates can combine compile-time and run-time code.
 
 Finally, we must edit the `BuildAspect` to instruct that Metalama must override the target method or property with the given template. This is done by calling the `builder.Advice.Override(target, template)` method.
 

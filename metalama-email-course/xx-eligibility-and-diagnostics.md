@@ -1,4 +1,7 @@
-# Creating Aspects: Eligibility and Diagnostics
+subject: "Creating Aspects: Eligibility and Diagnostics"
+---
+
+{% raw %}
 
 > TODO: The example is constrived. A caching example woud be better.
 
@@ -131,6 +134,7 @@ public partial class Calculator
 ```
 
 In this instance, everything should be logged, and indeed it is, with the Fabric applying the log aspect to each method.
+
 
 ```c#
 using Microsoft.Extensions.Logging;
@@ -306,3 +310,5 @@ By leveraging the capabilities of Metalama, powerful custom aspects can be devel
 For more information about Metalama, please visit our [website](https://www.postsharp.net/metalama).
 
 We also encourage you to join us on [Slack](https://www.postsharp.net/slack), where you can stay updated on our latest developments and get answers to your technical questions.
+
+{% endraw %}

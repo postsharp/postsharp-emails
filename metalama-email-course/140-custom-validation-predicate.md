@@ -1,12 +1,14 @@
-# Validating Architecture on Your Terms: Custom Predicates
+---
+subject: "Validating Architecture on Your Terms: Custom Predicates"
+---
 
-In previous discussions, we have explored how Metalama provides a number of pre-built fabric extension methods to assist with validating the architecture of your codebase. However, there may be scenarios where these pre-built methods do not meet your requirements, necessitating the need for custom validation.
+In previous discussions, we explored how Metalama provides several pre-built fabric extension methods to help validate the architecture of your codebase. However, there may be scenarios where these pre-built methods do not fully meet your requirements, necessitating custom validation.
 
-Metalama offers several methods for architecture validation, including `CanOnlyBeUsedFrom`, `CannotBeUsedFrom`, `InternalsCanOnlyBeUsedFrom` or `InternalsCannotBeUsedFrom`. These methods accept predicates such as `Assembly(name)`, `CurrentNamespace()`, `Namespace(name)`, `NamespaceOf(type)`, `Type(type)`, or `HasFamilyAccess`, all exposed as extension methods of the [ReferencePredicateBuilder](https://doc.metalama.net/api/metalama-extensions-architecture-predicates-referencepredicatebuilder) class. Before creating your own validation methods, it may be beneficial to consider whether you could simply continue using these methods, but build a custom predicate. This is the approach we will take in this article.
+Metalama offers various methods for architecture validation, such as `CanOnlyBeUsedFrom`, `CannotBeUsedFrom`, `InternalsCanOnlyBeUsedFrom`, and `InternalsCannotBeUsedFrom`. These methods accept predicates like `Assembly(name)`, `CurrentNamespace()`, `Namespace(name)`, `NamespaceOf(type)`, `Type(type)`, or `HasFamilyAccess`, all exposed as extension methods of the [ReferencePredicateBuilder](https://doc.metalama.net/api/metalama-extensions-architecture-predicates-referencepredicatebuilder) class. Before creating your own validation methods, consider whether you can use these methods with a custom predicate. This is the approach we will explore in this article.
 
 ## 1. Create a Predicate Class
 
-The first step involves creating a class derived from the `ReferencePredicate` abstract class and implementing its `IsMatch` method. Implementing a class instead of supplying a delegate may seem cumbersome at first, but the reason is that predicates must be serializable for cases when the validation must apply to references from other projects.
+The first step is to create a class derived from the `ReferencePredicate` abstract class and implement its `IsMatch` method. While implementing a class instead of supplying a delegate may seem cumbersome at first, it is necessary because predicates must be serializable to validate references from other projects.
 
 We recommend keeping this predicate class internal.
 
@@ -22,7 +24,7 @@ using Metalama.Framework.Validation;
 ///    A method name predicate.
 /// </summary>
 /// <remarks>
-///    This class creates the predicate. It's designed to  check method names and see if,
+///    This class defines the predicate. It checks method names to determine if,
 ///    in this case, they end with a specific word or phrase.
 /// </remarks>
 internal class MethodNamePredicate : ReferencePredicate
@@ -41,16 +43,17 @@ internal class MethodNamePredicate : ReferencePredicate
     }
 }
 ```
+
 ## 2. Create an Extension Method
 
-The second step requires creating a public extension method for your predicate.
+The next step is to create a public extension method for your predicate.
 
 ```cs
 /// <summary>
 ///   A class to expose your custom extensions.
 /// </summary>
 /// <remarks>
-///   This class can be thought of as a form of API for your extensions.
+///   This class serves as an API for your extensions.
 /// </remarks>
 [CompileTime]
 public static class Extensions
@@ -72,9 +75,8 @@ internal class Fabric : ProjectFabric
 {
     public override void AmendProject(IProjectAmender amender)
     {
-        // We'll be validating our code with a ProjectFabric. It will verify
-        // that methods within a certain type (in this case CoffeeMachine) can
-        // only be called from methods whose name ends with the word "Politely"
+        // Validate that methods within a certain type (in this case, CoffeeMachine)
+        // can only be called from methods whose names end with "Politely".
         amender
         .SelectTypes(typeof(CoffeeMachine))
         .CanOnlyBeUsedFrom(r => r.MethodNameEndsWith("Politely"));
@@ -82,9 +84,8 @@ internal class Fabric : ProjectFabric
 }
 ```
 
-
 ```cs
-// A proud coffee machine. This is the class whose method(s) we wish to verify.
+// A proud coffee machine. This is the class whose method(s) we wish to validate.
 internal static class CoffeeMachine
 {
     public static void TurnOn()
@@ -92,24 +93,23 @@ internal static class CoffeeMachine
     }
 }
 
-// Our test class to verify our new predicate.
+// A test class to verify the new predicate.
 internal class Bar
 {
     public static void OrderCoffee()
     {
-        // The call to CoffeeMachine in this method is reported because the method is not polite enough.
+        // This call to CoffeeMachine is reported because the method is not polite enough.
         CoffeeMachine.TurnOn();
     }
 
     public static void OrderCoffeePolitely()
     {
-        // This call to CofeeMachine is accepted because the method is polite.
+        // This call to CoffeeMachine is accepted because the method is polite.
         CoffeeMachine.TurnOn();
     }
 }
-
 ```
 
-The functionality of this code extension is demonstrated in the gif below.
+The functionality of this code extension is demonstrated in the GIF below.
 
 ![](images/refpredicate.gif)

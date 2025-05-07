@@ -1,10 +1,12 @@
-# Creating Aspects: Practical Logging
+---
+subject: "Practical Logging with Dependency Injection"
+---
 
-Logging is often used as a _Hello, world_ example for aspect-oriented programming, and this email course is no exception. In previous emails, we took the simple path of using `Console.WriteLine`, but of course, you would never do that in production code. Nowadays, the most common way to log is to use the `ILogger` interface from the `Microsoft.Extensions.Logging` namespace.
+Logging is often used as a _Hello, world_ example for aspect-oriented programming, and this email course is no exception. In previous emails, we took the simple approach of using `Console.WriteLine`. However, in production code, you would typically use a more robust solution. Nowadays, the most common way to log is by using the `ILogger` interface from the `Microsoft.Extensions.Logging` namespace.
 
-To use `ILogger`, you need to introduce a dependency to `ILogger` in your aspect, which is straightforward with Metalama. All you have to do is add a field of `ILogger` type to your aspect, and annotate it with the `[IntroduceDependency]` attribute.
+To use `ILogger`, you need to introduce a dependency on `ILogger` in your aspect. This is straightforward with Metalama. Simply add a field of type `ILogger` to your aspect and annotate it with the `[IntroduceDependency]` attribute.
 
-Let's see this in action with a simplified logging aspect.
+Let’s see this in action with a simplified logging aspect:
 
 ```c#
 using Metalama.Extensions.DependencyInjection;
@@ -15,7 +17,6 @@ using Microsoft.Extensions.Logging;
 
 public class LogAttribute : OverrideMethodAspect
 {
-
     [IntroduceDependency]
     private readonly ILogger? _logger;
 
@@ -35,7 +36,7 @@ public class LogAttribute : OverrideMethodAspect
             // Invoke the method and store the result in a variable.
             var result = meta.Proceed();
 
-            if(isTracingEnabled)
+            if (isTracingEnabled)
             {
                 this._logger.LogTrace($"{meta.Target.Method}: Completed.");
             }
@@ -44,23 +45,21 @@ public class LogAttribute : OverrideMethodAspect
         }
         catch (Exception e) when (this._logger?.IsEnabled(LogLevel.Warning) == true)
         {
-            // Display the failure message.
+            // Log the failure message.
             this._logger.LogWarning($"{meta.Target.Method}: {e.Message}.");
-
             throw;
         }
     }
 }
-
 ```
 
-We intentionally made the `_logger` field nullable, which implicitly makes the `ILogger` dependency optional. Indeed, our code can work perfectly _without_ logging.
+We intentionally made the `_logger` field nullable, which implicitly makes the `ILogger` dependency optional. This ensures that our code can function even without logging.
 
-The `OverrideMethod` method is a Metalama template that, as you may remember, allows us to blend runtime and compile-time code. This allows us to add the boolean variable `isTracingEnabled` (set by calling `ILogger.IsEnabled`). At runtime, this variable will determine whether any logging will actually occur. Logging can be an expensive process, so it's better to log sparingly but retain the option to log comprehensively when necessary.
+The `OverrideMethod` method is a Metalama template that allows us to blend runtime and compile-time code. This enables us to add the `isTracingEnabled` boolean variable (set by calling `ILogger.IsEnabled`). At runtime, this variable determines whether any logging will actually occur. Since logging can be an expensive process, it’s better to log sparingly while retaining the option to log comprehensively when needed.
 
-In our aspect, most of the logging is conditionally wrapped around a log level of _Trace_, which would rarely be set. However, the exception is conditionally wrapped around a log level of _Warning_, which will almost always be met. This ensures that errors will always be recorded in the log.
+In our aspect, most of the logging is conditionally wrapped around the _Trace_ log level, which is rarely enabled. However, exception logging is wrapped around the _Warning_ log level, which is almost always enabled. This ensures that errors are consistently recorded in the log.
 
-When applied to the following example;
+When applied to the following example:
 
 ```c#
 public class Calculator
@@ -77,7 +76,7 @@ public class Calculator
 }
 ```
 
-Metalama will add the following at compile time;
+Metalama will generate the following code at compile time:
 
 ```c#
 using Microsoft.Extensions.Logging;
@@ -95,16 +94,15 @@ public class Calculator
 
         try
         {
-            double result;
-            result = a / b;
+            double result = a / b;
             if (isTracingEnabled)
             {
                 LoggerExtensions.LogTrace(this._logger, "Calculator.Divide(int, int): Completed.");
             }
 
-            return (double)result;
+            return result;
         }
-        catch (Exception e)when (this._logger?.IsEnabled(LogLevel.Warning) == true)
+        catch (Exception e) when (this._logger?.IsEnabled(LogLevel.Warning) == true)
         {
             LoggerExtensions.LogWarning(this._logger, $"Calculator.Divide(int, int): {e.Message}.");
             throw;
@@ -124,15 +122,12 @@ public class Calculator
         {
             quotient = a / b;
             remainder = a % b;
-            object result = null;
             if (isTracingEnabled)
             {
                 LoggerExtensions.LogTrace(this._logger, "Calculator.IntegerDivide(int, int, out int, out int): Completed.");
             }
-
-            return;
         }
-        catch (Exception e)when (this._logger?.IsEnabled(LogLevel.Warning) == true)
+        catch (Exception e) when (this._logger?.IsEnabled(LogLevel.Warning) == true)
         {
             LoggerExtensions.LogWarning(this._logger, $"Calculator.IntegerDivide(int, int, out int, out int): {e.Message}.");
             throw;
@@ -145,13 +140,10 @@ public class Calculator
     {
         this._logger = logger;
     }
-
 }
-
-
 ```
 
-Note how Metalama has added the necessary constructor to pull in the `ILogger` dependency.
+Note how Metalama automatically adds the necessary constructor to inject the `ILogger` dependency.
 
-As you can see, using dependency injection with Metalama is straightforward. For more details, see the [conceptual documentation](https://doc.metalama.net/conceptual/aspects/dependency-injection).
+As you can see, using dependency injection with Metalama is straightforward. For more details, refer to the [conceptual documentation](https://doc.metalama.net/conceptual/aspects/dependency-injection).
 

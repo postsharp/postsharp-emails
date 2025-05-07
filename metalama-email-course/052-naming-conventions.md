@@ -1,26 +1,30 @@
-# Validating Naming Conventions
+---
+subject: "Validating Naming Conventions"
+---
 
-In my previous emails, I demonstrated how Metalama can generate boilerplate code on-the-fly during compilation, automating the task of implementing necessary but repetitive code. However, code generation is not the only functionality Metalama offers. In this email, I will explore Metalama's second pillar: its ability to validate source code against architectural rules, starting with naming conventions.
 
+In previous emails, we demonstrated how Metalama can generate boilerplate code on-the-fly during compilation, automating the implementation of repetitive but necessary code. However, code generation is just one of Metalama's capabilities. In this email, we will explore Metalama's second pillar: its ability to validate source code against architectural rules, starting with naming conventions.
 
+{: .note }
+Architecture validation is available only with Metalama Professional and is not included in the open-source version. Our next email will return to open-source features and use cases.
 
 ## Why Care About Naming Conventions?
 
-Adhering to naming conventions keeps code clean and understandable, whether you're working in a team or independently. It's akin to maintaining a tidy room; it assists everyone, including your future self, in quickly locating what they need without confusion.
+Adhering to naming conventions keeps code clean and understandable, whether you're working in a team or independently. It's like maintaining a tidy room: it helps everyone, including your future self, quickly find what they need without confusion.
 
-You're likely aware that your IDE can already enforce the most basic naming conventions like casing or prefixes. Nowadays, code style can be configured through `.editorconfig`. However, aside from special classes like collections or dictionaries, there is no standard tool to verify the name itself.
+While your IDE can enforce basic naming conventions like casing or prefixes, and `.editorconfig` can configure code style, there is no standard tool to verify the meaning of names themselves. For example, aside from special cases like collections or dictionaries, naming conventions often require custom validation.
 
-Appropriately named types and methods can often communicate their essence and purpose solely through their name. A common rule is that types must have a suffix that indicates what they are.
+Well-named types and methods can communicate their purpose and functionality clearly. A common rule is that types should have a suffix indicating their role.
 
 ## Enforcing Naming Conventions Using a Custom Attribute
 
-Metalama makes it easy to enforce naming conventions in your codebase -- in real time, straight from the IDE.
+Metalama makes it easy to enforce naming conventions in your codebase—in real time, directly within the IDE.
 
-To enforce naming conventions, we will use an open-source extension of Metalama, the `Metalama.Extensions.Architecture` package. Ensure to add it to your project first.
+To enforce naming conventions, we will use the `Metalama.Extensions.Architecture` package. Make sure to add it to your project first.
 
-For this first example, suppose we have a base class `Entity` that all entity classes must derive from. The team decides that all entity classes must have the `Entity` suffix in their names.
+For this example, suppose we have a base class `Entity` that all entity classes must derive from. The team decides that all entity classes must have the `Entity` suffix in their names.
 
-To enforce this convention, simply add the `[DerivedTypesMustRespectNamingConvention]` custom attribute to the `Entity` class.
+To enforce this convention, simply add the `[DerivedTypesMustRespectNamingConvention]` attribute to the `Entity` class:
 
 ```c#
 using Metalama.Extensions.Architecture.Aspects;
@@ -36,14 +40,13 @@ public abstract class Entity
         Id = id;
     }
 }
-
 ```
 
-From this moment on, you will receive a warning for every class derived from the `Entity` class that does not respect the naming convention.
+From this point on, a warning will be issued for any class derived from `Entity` that does not follow the naming convention.
 
-For instance, consider the following code:
+For example, consider the following code:
 
-```cs
+```c#
 public class Customer : Entity
 {
     public Customer(string id, string name) : base(id)
@@ -57,19 +60,19 @@ public class Customer : Entity
 }
 ```
 
-Since the `Customer` class does not respect the naming convention, a warning is immediately reported.
+Since the `Customer` class does not follow the naming convention, a warning is immediately displayed.
 
 ![](images/attribute-namingconvention.png)
 
 ## Enforcing Naming Conventions with a Fabric
 
-What if we don't own the source of the base class or interface for which we want to enforce a naming convention? What if the type comes from a class library?
+What if you don't own the source code of the base class or interface for which you want to enforce a naming convention? What if the type comes from a library?
 
-For instance, consider a situation where an application heavily utilizes stream readers, and there are several classes created by different team members that implement these readers for various tasks. A decision is made to ensure that all such classes have the suffix `StreamReader` added to their names for clarity.
+For instance, imagine an application that heavily uses stream readers, with several classes created by different team members to implement these readers for various tasks. The team decides that all such classes must have the `StreamReader` suffix for clarity.
 
-Fabrics are an excellent tool to enforce naming conventions for types you don't own. Fabrics are compile-time classes that are executed within the compiler or IDE. Fabrics derived from `ProjectFabric` will cover an entire project.
+Fabrics are an excellent tool for enforcing naming conventions on types you don't own. Fabrics are compile-time classes executed within the compiler or IDE. Fabrics derived from `ProjectFabric` apply to an entire project.
 
-Let's create a fabric that checks the codebase to ensure that developers are adhering to the naming convention.
+Here's how to create a fabric to enforce this naming convention:
 
 ```c#
 using Metalama.Extensions.Architecture.Fabrics;
@@ -86,34 +89,30 @@ internal class NamingConvention : ProjectFabric
 }
 ```
 
-In the code above, the fabric examines each class in the project that is derived from `StreamReader`. If the name of any class that matches this criterion does not end in `Reader`, a warning is displayed.
+In the code above, the fabric examines each class in the project derived from `StreamReader`. If any such class does not have a name ending in `Reader`, a warning is displayed.
 
-With our custom validation rule written, let's put it to the test. In the code below, we have two classes derived from StreamReader. One has the 'Reader' suffix, the other does not, and as such, it should trigger a warning.
+With this custom validation rule in place, let's test it. In the code below, we have two classes derived from `StreamReader`. One follows the naming convention, while the other does not, triggering a warning.
 
 ```c#
-namespace CommonTasks.NamingConventions
+internal class FancyStream : StreamReader
 {
-    internal class FancyStream : StreamReader
+    public FancyStream(Stream stream) : base(stream)
     {
-        public FancyStream(Stream stream) : base(stream)
-        {
-        }
     }
+}
 
-
-    internal class SuperFancyStreamReader : StreamReader
+internal class SuperFancyStreamReader : StreamReader
+{
+    public SuperFancyStreamReader(Stream stream) : base(stream)
     {
-        public SuperFancyStreamReader(Stream stream) : base(stream)
-        {
-        }
     }
 }
 ```
 
-We can see our warning in action below.
+The warning is displayed as shown below:
 
 ![](images/naming-conventions-1.gif)
 
 ## Summary
 
-Although both examples were quite simple, they illustrate how Metalama can be used to help validate your codebase and enforce rules. More information about this topic can be found in the [Metalama Documentation](https://doc.metalama.net/conceptual/architecture/naming-conventions).
+Although these examples are simple, they demonstrate how Metalama can help validate your codebase and enforce architectural rules. For more information, refer to the [Metalama Documentation](https://doc.metalama.net/conceptual/architecture/naming-conventions).

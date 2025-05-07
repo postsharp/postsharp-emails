@@ -1,3 +1,5 @@
+---
+---
 # Discover Metalama: A New Code Generation Toolkit for C#
 
 Hi {{firstName}},

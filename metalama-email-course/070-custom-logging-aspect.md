@@ -1,12 +1,14 @@
-# Logging Methods, Including Parameter Values
+---
+subject: Logging Methods, Including Parameter Values
+---
 
-In a previous article, we demonstrated a simple example of `OverrideMethodAspect` that performed authorization. This example made minimal use of the `meta` model: it only invoked `meta.Proceed()` to continue with the method execution, and utilized `meta.Target.Method.ToString()` to print the method name.
+In a previous article, we demonstrated a simple example of `OverrideMethodAspect` that performed authorization. This example made minimal use of the `meta` model: it only invoked `meta.Proceed()` to continue with the method execution and used `meta.Target.Method.ToString()` to print the method name.
 
-Today, we will delve deeper into logging and explain that your meta-code can be much richer.
+Today, we will dive deeper into logging and show how your meta-code can be much more expressive.
 
-In this example, we will log not just the name of the method being called, but also any parameters (along with their types) that are being passed into it, and any return value, if applicable.
+In this example, we will log not only the name of the method being called but also any parameters (along with their types) that are passed into it, as well as any return value, if applicable.
 
-For now, we will output the messages to the console as _interpolated strings_. To facilitate their creation, we will create a helper method that generates an interpolated string containing the overridden method (exposed as `meta.Target.Method`) and its parameters (exposed as `meta.Target.Method.Parameters`).
+For now, we will output the messages to the console as _interpolated strings_. To facilitate this, we will create a helper method that generates an interpolated string containing the overridden method (exposed as `meta.Target.Method`) and its parameters (exposed as `meta.Target.Method.Parameters`).
 
 ```c#
 using Metalama.Framework.Code;
@@ -32,8 +34,8 @@ public partial class LogAttribute
 
             if (p.RefKind == RefKind.Out && !includeOutParameters)
             {
-                // When the parameter is 'out', we cannot read the value.
-                stringBuilder.AddText($"{comma}{p.Name} = <out> ");
+                // When the parameter is 'out', we cannot read its value.
+                stringBuilder.AddText($"{comma}{p.Name} = <out>");
             }
             else
             {
@@ -53,7 +55,7 @@ public partial class LogAttribute
 }
 ```
 
-Now that we have our `InterpolatedStringBuilder`, we can create our revised logging aspect that will utilize it.
+Now that we have our `InterpolatedStringBuilder`, we can create a revised logging aspect that utilizes it.
 
 ```c#
 using Metalama.Framework.Aspects;
@@ -64,7 +66,7 @@ public partial class LogAttribute : OverrideMethodAspect
 {
     public override dynamic? OverrideMethod()
     {
-        // Write entry message.
+        // Write the entry message.
         var entryMessage = BuildInterpolatedString(false);
         entryMessage.AddText(" started.");
         Console.WriteLine(entryMessage.ToValue());
@@ -108,9 +110,9 @@ public partial class LogAttribute : OverrideMethodAspect
 }
 ```
 
-In this aspect, we log the name of the method and any parameters that are being passed to it. The method then runs, and we proceed to log the return value if the method is not void or an error message if one occurs.
+In this aspect, we log the name of the method and any parameters passed to it. The method then executes, and we log the return value if the method is not void or an error message if an exception occurs.
 
-As you can see, Metalama allows you to write complex templates, with the full power of C# available at compile-time for you to author templates. We call this C#-to-C# template language _T#_.
+As you can see, Metalama allows you to write complex templates with the full power of C# available at compile time for authoring templates. We call this C#-to-C# template language _T#_.
 
 When the `[Log]` attribute is applied to the following code:
 
@@ -158,19 +160,19 @@ public static double Divide(int a, int b)
 [Log]
 public static void IntegerDivide(int a, int b, out int quotient, out int remainder)
 {
-    Console.WriteLine($"Calculator.IntegerDivide(a = {a}, b = {b}, quotient = <out>, remainder = <out>) has started.");
+    Console.WriteLine($"Calculator.IntegerDivide(a = {a}, b = {b}, quotient = <out>, remainder = <out>) started.");
 
     try
     {
         quotient = a / b;
         remainder = a % b;
 
-        Console.WriteLine($"Calculator.IntegerDivide(a = {a}, b = {b}, quotient = {quotient}, remainder = {remainder}) has succeeded.");
+        Console.WriteLine($"Calculator.IntegerDivide(a = {a}, b = {b}, quotient = {quotient}, remainder = {remainder}) succeeded.");
         return;
     }
     catch (Exception e)
     {
-        Console.WriteLine($"Calculator.IntegerDivide(a = {a}, b = {b}, quotient = <out>, remainder = <out>) has failed: {e.Message}");
+        Console.WriteLine($"Calculator.IntegerDivide(a = {a}, b = {b}, quotient = <out>, remainder = <out>) failed: {e.Message}");
         throw;
     }
 }
@@ -195,10 +197,10 @@ The console will output the following:
 ```text
 Program output
 
-Calculator.Divide(a = 7, b = 3) has started.
+Calculator.Divide(a = 7, b = 3) started.
 Calculator.Divide(a = 7, b = 3) returned 2.3333333333333335.
-Calculator.IntegerDivide(a = 7, b = 3, quotient = <out>, remainder = <out>) has started.
-Calculator.IntegerDivide(a = 7, b = 3, quotient = 2, remainder = 1) has succeeded.
+Calculator.IntegerDivide(a = 7, b = 3, quotient = <out>, remainder = <out>) started.
+Calculator.IntegerDivide(a = 7, b = 3, quotient = 2, remainder = 1) succeeded.
 ```
 
-You now know how to create non-trivial templates with T#, Metalama's own C#-to-C# template language.
+You now know how to create non-trivial templates with T#, Metalama's C#-to-C# template language.

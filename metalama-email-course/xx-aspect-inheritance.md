@@ -1,4 +1,6 @@
-# Using Metalama: Inheritance (via an Interface)
+subject: "Using Metalama: Inheritance (via an Interface)"
+---
+---
 
 In our previous discussions about common tasks that can be simplified with Metalama, we demonstrated how adding simple attributes to your code can eliminate the need for writing large amounts of repetitive boilerplate code. This makes your code more compact and clarifies its purpose to any reader.
 

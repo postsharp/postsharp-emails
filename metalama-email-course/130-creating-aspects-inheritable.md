@@ -1,16 +1,18 @@
-# Automatically Adding Aspects to Derived Types: Aspect Inheritance
+---
+subject: "Automatically Adding Aspects to Derived Types: Aspect Inheritance"
+---
 
-In the previous email, we explored how Metalama can simplify the implementation of `INotifyPropertyChanged` compared to relying solely on IntelliSense. To accomplish this, we created a specific Metalama aspect. You might have missed it when we first introduced it, but this aspect was decorated with the `[Inheritable]` attribute.
+In the previous email, we explored how Metalama simplifies the implementation of `INotifyPropertyChanged` compared to relying solely on IntelliSense. To achieve this, we created a specific Metalama aspect. You might have missed it when we first introduced it, but this aspect was decorated with the `[Inheritable]` attribute.
 
 ```c#
 [Inheritable]
 internal class NotifyPropertyChangedAttribute : TypeAspect
 {
-// Aspect code here
+    // Aspect code here
 }
 ```
 
-By using this attribute, we ensured that the aspect could be inherited by classes that are derived from a class to which the `[NotifyPropertyChanged]` attribute had been applied.
+By using this attribute, we ensured that the aspect could be inherited by classes derived from a class to which the `[NotifyPropertyChanged]` attribute had been applied.
 
 This allows us to create a very simple base class:
 
@@ -19,14 +21,13 @@ This allows us to create a very simple base class:
 public abstract partial class NotifyChangedBase
 {
 }
-
 ```
 
-This base class can be utilized as shown below.
+This base class can then be utilized as shown below:
 
 ![](images/us5.jpg)
 
-As you can observe, the derived classes now have aspects applied to them. If we invoke the 'Show Metalama Diff' tool, we will see the following:
+As you can see, the derived classes now have aspects applied to them. If we invoke the 'Show Metalama Diff' tool, we will observe the following:
 
 ```c#
 public partial class Customer : NotifyChangedBase
@@ -49,7 +50,6 @@ public partial class Customer : NotifyChangedBase
     }
 
     private string? _customerName;
-
     public string? CustomerName
     {
         get
@@ -87,7 +87,6 @@ public partial class Order : NotifyChangedBase
     }
 
     private DateTime _requiredBy;
-
     public DateTime RequiredBy
     {
         get
@@ -104,16 +103,15 @@ public partial class Order : NotifyChangedBase
         }
     }
 }
-
 ```
 
-In the base class, we have the following:
+The base class contains the following implementation:
 
 ```c#
 using System.ComponentModel;
 
 [NotifyPropertyChanged]
-public abstract partial class NotifyChangedBase: INotifyPropertyChanged
+public abstract partial class NotifyChangedBase : INotifyPropertyChanged
 {
     protected void OnPropertyChanged(string name)
     {
@@ -124,7 +122,7 @@ public abstract partial class NotifyChangedBase: INotifyPropertyChanged
 }
 ```
 
-> [!NOTE]
-> When using the `[Inheritable]` aspect, careful consideration should be given to potential issues in the derived classes if the aspect you wish to apply has already been applied. Specifically, you must pay attention to the `OverrideStrategy` parameters and properties (also named `WhenExists`).
+{. note }
+When using the `[Inheritable]` aspect, careful consideration should be given to potential conflicts in derived classes if the aspect you wish to apply has already been applied. Specifically, you must pay attention to the `OverrideStrategy` parameters and properties (also named `WhenExists`).
 
-Your codebase remains clean and uncluttered, while its intention is clear. At compile time, everything needed to implement `INotifyPropertyChanged`, in this case, is applied correctly.
+This approach keeps your codebase clean and uncluttered while maintaining clear intent. At compile time, everything needed to implement `INotifyPropertyChanged` is applied correctly.
