@@ -153,5 +153,5 @@ public class Calculator
 
 Note how Metalama has added the necessary constructor to pull in the `ILogger` dependency.
 
-As you can see, using dependency injection with Metalama is straightforward. For more details, see the [conceptual documentation](https://doc.postsharp.net/metalama/conceptual/aspects/dependency-injection).
+As you can see, using dependency injection with Metalama is straightforward. For more details, see the [conceptual documentation](https://doc.metalama.net/conceptual/aspects/dependency-injection).
 

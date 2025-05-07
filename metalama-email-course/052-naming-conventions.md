@@ -1,6 +1,8 @@
 # Validating Naming Conventions
 
-In my previous email, I demonstrated how Metalama can generate boilerplate code on-the-fly during compilation, automating the task of implementing necessary but repetitive code. However, code generation is not the only functionality Metalama offers. In this email, I will explore Metalama's second pillar: its ability to validate source code against architectural rules, starting with naming conventions.
+In my previous emails, I demonstrated how Metalama can generate boilerplate code on-the-fly during compilation, automating the task of implementing necessary but repetitive code. However, code generation is not the only functionality Metalama offers. In this email, I will explore Metalama's second pillar: its ability to validate source code against architectural rules, starting with naming conventions.
+
+
 
 ## Why Care About Naming Conventions?
 
@@ -114,4 +116,4 @@ We can see our warning in action below.
 
 ## Summary
 
-Although both examples were quite simple, they illustrate how Metalama can be used to help validate your codebase and enforce rules. More information about this topic can be found in the [Metalama Documentation](https://doc.postsharp.net/metalama/conceptual/architecture/naming-conventions).
+Although both examples were quite simple, they illustrate how Metalama can be used to help validate your codebase and enforce rules. More information about this topic can be found in the [Metalama Documentation](https://doc.metalama.net/conceptual/architecture/naming-conventions).

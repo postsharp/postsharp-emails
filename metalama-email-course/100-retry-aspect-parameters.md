@@ -187,4 +187,4 @@ Connecting... attempt #5.
 Success, Connected
 ```
 
-The Metalama Documentation provides a wealth of information on [creating custom aspects](https://doc.postsharp.net/metalama/conceptual/aspects).
+The Metalama Documentation provides a wealth of information on [creating custom aspects](https://doc.metalama.net/conceptual/aspects).

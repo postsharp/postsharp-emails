@@ -134,4 +134,4 @@ private static void HelloFromMrBojangles()
 
 While this is a simple example, it serves to illustrate that creating custom aspects should not be seen as a daunting task.
 
-The Metalama Documentation provides comprehensive information on [creating custom aspects](https://doc.postsharp.net/metalama/conceptual/aspects).
+The Metalama Documentation provides comprehensive information on [creating custom aspects](https://doc.metalama.net/conceptual/aspects).

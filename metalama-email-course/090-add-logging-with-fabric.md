@@ -57,5 +57,5 @@ If we desired to target a Type or a Namespace, we could accomplish it with eithe
 
 Fabrics are not only beneficial for appending aspects to your code, but they can also be utilized to implement architectural rules in your codebase.
 
-You can read more about Fabrics [here](https://doc.postsharp.net/metalama/conceptual/using/fabrics). It's one of Metalama's more advanced features, but understanding how it operates will enable you to perform tasks that might have previously seemed nearly unachievable.
+You can read more about Fabrics [here](https://doc.metalama.net/conceptual/using/fabrics). It's one of Metalama's more advanced features, but understanding how it operates will enable you to perform tasks that might have previously seemed nearly unachievable.
 

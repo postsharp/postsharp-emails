@@ -52,7 +52,7 @@ You can add caching to your app in just three steps:
      builder.Services.AddMetalamaCaching();
     ```
 
-    This will use the `MemoryCache` by default. If you want to [use Redis](https://doc.postsharp.net/metalama/preview/patterns/caching/redis), do this:
+    This will use the `MemoryCache` by default. If you want to [use Redis](https://doc.metalama.net/preview/patterns/caching/redis), do this:
 
     ```c#
     builder.Services.AddMetalamaCaching( caching => caching.WithBackend( backend => backend.Redis() ) );
@@ -70,16 +70,16 @@ You can add caching to your app in just three steps:
 
 At build time, Metalama transforms your code on-the-fly:
 * It pulls the dependency to `ICachingService`.
-* It generates the [cache key](https://doc.postsharp.net/metalama/preview/patterns/caching/caching-keys).
+* It generates the [cache key](https://doc.metalama.net/preview/patterns/caching/caching-keys).
 * It wraps your cached method into a delegate before calling `ICachingService.GetOrAdd`.
 
 Other features of this open-source caching library include:
 
 * Serialization.
-* Robust [invalidation](https://doc.postsharp.net/metalama/preview/patterns/caching/invalidation). Say goodbye to the cache key hell.
-* Multi-node [synchronization](https://doc.postsharp.net/metalama/preview/patterns/caching/pubsub) over Redis or Azure Service Bus.
+* Robust [invalidation](https://doc.metalama.net/preview/patterns/caching/invalidation). Say goodbye to the cache key hell.
+* Multi-node [synchronization](https://doc.metalama.net/preview/patterns/caching/pubsub) over Redis or Azure Service Bus.
 * Transparent handling of weird types like `IEnumerable` or `Stream`.
-* [Locking](https://doc.postsharp.net/metalama/preview/patterns/caching/locking).
+* [Locking](https://doc.metalama.net/preview/patterns/caching/locking).
 * Compatible with .NET Aspire.
 
 ## Conclusion

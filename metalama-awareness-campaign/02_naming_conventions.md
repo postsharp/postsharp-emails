@@ -24,7 +24,7 @@ LAMA0903. The type ‘MyInvoiceConverted’ does not respect the naming conventi
 
 The shorter the feedback loop is, the smoother the code reviews will go! Not talking about the frustration both sides avoided!
 
-You can learn more about code validation with Metalama in our [online documentation](https://doc.postsharp.net/metalama/examples?mtm_campaign=awareness&mtm_source=instantly).
+You can learn more about code validation with Metalama in our [online documentation](https://doc.metalama.net/examples?mtm_campaign=awareness&mtm_source=instantly).
 
 As I wrote in my first email, our development team is looking forward to your feedback and questions on our [Slack community workspace](https://www.postsharp.net/slack?mtm_campaign=awareness&mtm_source=instantly). Of course, you can also answer this email and I’ll make sure it will reach an engineer.
 

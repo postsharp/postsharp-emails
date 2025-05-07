@@ -102,7 +102,7 @@ public class ProjectLoggerApplication : ProjectFabric
 
 For the sake of brevity, we've omitted the bulk of the code from our previous example to focus on what's been added.
 
-Let's start with the `BuildAspect` method. This method adds some [diagnostics and code fixes](https://doc.postsharp.net/metalama/conceptual/aspects/diagnostics) to the IDE to catch instances when you might manually add the `[Log]` attribute in an ineligible location—specifically when a class has been marked as one that should not have any members logged.
+Let's start with the `BuildAspect` method. This method adds some [diagnostics and code fixes](https://doc.metalama.net/conceptual/aspects/diagnostics) to the IDE to catch instances when you might manually add the `[Log]` attribute in an ineligible location—specifically when a class has been marked as one that should not have any members logged.
 
 > This implementation uses a simple `[NoLog]` attribute (reproduced above) that indicates that either a class or method should not have logging applied to it.
 
@@ -112,7 +112,7 @@ If the class itself can have logging, then the individual methods are checked to
 
 Within the Fabric, you'll notice that we use `AddAspectIfEligible<>()`. The eligibility is checked in the preceding lines, ensuring that the type isn't static (because Dependency Injection requires a constructor), that we're looking at a method, and that the method is not a ToString() implementation (to avoid potential recursion).
 
-The `BuildEligibility` method ensures that users of your `[Log]` attribute can only apply it in areas where you've designed it to be applied. See the documentation [here](https://doc.postsharp.net/metalama/conceptual/aspects/eligibility).
+The `BuildEligibility` method ensures that users of your `[Log]` attribute can only apply it in areas where you've designed it to be applied. See the documentation [here](https://doc.metalama.net/conceptual/aspects/eligibility).
 
 Let's now look at how the following class could be affected.
 

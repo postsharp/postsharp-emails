@@ -8,7 +8,7 @@ Today, let's look into more advanced patterns in C# and explore how you can auto
 
 If you're building a desktop or mobile app, or even a web app with client-side Blazor, you're likely familiar with the `INotifyPropertyChanged` interface. While it seems simple to implement, it can become cumbersome and error-prone as you add more complex properties and dependencies between objects.
 
-Enter the `[Observable]` aspect from the open-source [Metalama.Patterns.Observability](https://doc.postsharp.net/metalama/patterns/observability?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly) package.
+Enter the `[Observable]` aspect from the open-source [Metalama.Patterns.Observability](https://doc.metalama.net/patterns/observability?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly) package.
 
 ```csharp
 [Observable]
@@ -37,11 +37,11 @@ This aspect handles `INotifyPropertyChanged` implementation for you, supporting 
 
 - **Properties depending on properties of the base type.**
 
-Consider how much boilerplate code you'd need to properly implement `INotifyPropertyChanged` for these scenarios and how much you would save with Metalama! To see the work Metalama does for you, [check out the diff](https://doc.postsharp.net/metalama/patterns/observability/standard-cases?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly).
+Consider how much boilerplate code you'd need to properly implement `INotifyPropertyChanged` for these scenarios and how much you would save with Metalama! To see the work Metalama does for you, [check out the diff](https://doc.metalama.net/patterns/observability/standard-cases?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly).
 
 It's not just about saving code, but also about enhancing code quality. Remember the last bug when you forgot to add a call to `OnPropertyChanged` for a computed property? With `[Observable]`, since dependency discovery is fully automatic, this won't happen any more.
 
-Read more details about `[Observable]` in our [documentation](https://doc.postsharp.net/metalama/patterns/observability?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly).
+Read more details about `[Observable]` in our [documentation](https://doc.metalama.net/patterns/observability?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly).
 
 ## Builder Pattern
 
@@ -93,22 +93,22 @@ public partial class Song
 }
 ```
 
-How repetitive! Do you really want to write this code by hand? Thankfully, [this can be automated using Metalama](https://doc.postsharp.net/metalama/examples/builder?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly), and you can tailor the code generation pattern to fit your needs.
+How repetitive! Do you really want to write this code by hand? Thankfully, [this can be automated using Metalama](https://doc.metalama.net/examples/builder?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly), and you can tailor the code generation pattern to fit your needs.
 
 ## Other Examples
 
 We can't cover all use cases of Metalama in a single email, so before wrapping up this sequence, here's a list of Metalama use cases:
 
-- [Parameter validation](https://doc.postsharp.net/metalama/examples/validation?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly) and [code contracts](https://doc.postsharp.net/metalama/patterns/contracts);
-- [Logging](https://doc.postsharp.net/metalama/examples/log?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly);
-- [Exception handling](https://doc.postsharp.net/metalama/examples/exception-handling?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly) with or without [Polly](https://doc.postsharp.net/metalama/examples/exception-handling/retry/retry-5);
-- [Caching](https://doc.postsharp.net/metalama/patterns/caching?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly) and [memoization](https://doc.postsharp.net/metalama/patterns/memoization?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly);
-- [INotifyPropertyChanged](https://doc.postsharp.net/metalama/patterns/observability), WPF [commands](https://doc.postsharp.net/metalama/patterns/wpf/command?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly), and [dependency properties](https://doc.postsharp.net/metalama/patterns/wpf/dependency-property?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly);
-- [Architecture verification](https://doc.postsharp.net/metalama/conceptual/architecture?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly);
-- [Change tracking](https://doc.postsharp.net/metalama/examples/change-tracking?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly) and the [Memento pattern](https://doc.postsharp.net/metalama/examples/memento?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly).
-- [Cloning](https://doc.postsharp.net/metalama/examples/clone?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly);
-- [Builder](https://doc.postsharp.net/metalama/examples/builde?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly), and [Singleton](https://doc.postsharp.net/metalama/examples/singleton?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly) patterns;
-- [ToString](https://doc.postsharp.net/metalama/examples/tostring) generation.
+- [Parameter validation](https://doc.metalama.net/examples/validation?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly) and [code contracts](https://doc.metalama.net/patterns/contracts);
+- [Logging](https://doc.metalama.net/examples/log?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly);
+- [Exception handling](https://doc.metalama.net/examples/exception-handling?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly) with or without [Polly](https://doc.metalama.net/examples/exception-handling/retry/retry-5);
+- [Caching](https://doc.metalama.net/patterns/caching?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly) and [memoization](https://doc.metalama.net/patterns/memoization?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly);
+- [INotifyPropertyChanged](https://doc.metalama.net/patterns/observability), WPF [commands](https://doc.metalama.net/patterns/wpf/command?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly), and [dependency properties](https://doc.metalama.net/patterns/wpf/dependency-property?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly);
+- [Architecture verification](https://doc.metalama.net/conceptual/architecture?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly);
+- [Change tracking](https://doc.metalama.net/examples/change-tracking?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly) and the [Memento pattern](https://doc.metalama.net/examples/memento?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly).
+- [Cloning](https://doc.metalama.net/examples/clone?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly);
+- [Builder](https://doc.metalama.net/examples/builde?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly), and [Singleton](https://doc.metalama.net/examples/singleton?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly) patterns;
+- [ToString](https://doc.metalama.net/examples/tostring) generation.
 
 For more use cases and open-source aspect implementations, visit the [Metalama Marketplace](https://www.postsharp.net/metalama/marketplace?mtm_campaign=awareness&mtm_kwd=email5&mtm_source=instantly).
 

@@ -80,4 +80,4 @@ Enforcing rules and conventions in this manner allows you to:
 - Improve code reviews as they now only need to focus on the code itself.
 - Simplify the codebase because it adheres to consistent rules.
 
-You can learn more about architecture validation in our online [documentation](https://doc.postsharp.net/metalama/conceptual/architecture/usage).
+You can learn more about architecture validation in our online [documentation](https://doc.metalama.net/conceptual/architecture/usage).

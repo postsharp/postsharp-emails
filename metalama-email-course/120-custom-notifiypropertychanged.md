@@ -14,7 +14,7 @@ The .NET class library already includes an `INotifyPropertyChanged` interface, s
 
 The standard Visual Studio's _implement interface_ code fix barely does anything. There's still a need to adjust the properties so that they actually raise the event, and the event itself needs to be handled.
 
-By using Metalama to implement `INotifyPropertyChanged`, all of the additional code required to make this work will be handled. You will need to create an aspect to do this, but fortunately, there's a great example of such an aspect in the [Metalama Documentation](https://doc.postsharp.net/metalama/examples/notifypropertychanged).
+By using Metalama to implement `INotifyPropertyChanged`, all of the additional code required to make this work will be handled. You will need to create an aspect to do this, but fortunately, there's a great example of such an aspect in the [Metalama Documentation](https://doc.metalama.net/examples/notifypropertychanged).
 
 ```c#
 using Metalama.Framework.Aspects;

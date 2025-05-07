@@ -93,5 +93,5 @@ Now, if some foreign code tries to access an internal API of the `MyComponent` n
 
 ## Summary
 
-We've just seen two examples of how we can validate our code using pre-built Metalama aspects. You can learn more about these in the documentation [here](https://doc.postsharp.net/metalama/conceptual/architecture/usage), [here](https://doc.postsharp.net/metalama/conceptual/architecture/naming-conventions), and [here](https://doc.postsharp.net/metalama/conceptual/architecture/internal-only-implement).
+We've just seen two examples of how we can validate our code using pre-built Metalama aspects. You can learn more about these in the documentation [here](https://doc.metalama.net/conceptual/architecture/usage), [here](https://doc.metalama.net/conceptual/architecture/naming-conventions), and [here](https://doc.metalama.net/conceptual/architecture/internal-only-implement).
 

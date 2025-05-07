@@ -29,7 +29,7 @@ This process is called [architecture erosion](https://ieeexplore.ieee.org/docume
 
 As we have seen, one of the principal causes of architecture erosion is the lack of automated verification of the source code against the architecture, relying instead on the long feedback loop provided (in the best cases) by code reviews.
 
-Metalama allows you to [validate your architecture](https://doc.postsharp.net/metalama/conceptual/architecture) both _in real-time_, straight from the IDE, and during your CI build. Therefore, the feedback loop is shortened from hours to seconds. Violations can be corrected immediately. As for the most important defects, they will generate an error and won't even pass the continuous integration build.
+Metalama allows you to [validate your architecture](https://doc.metalama.net/conceptual/architecture) both _in real-time_, straight from the IDE, and during your CI build. Therefore, the feedback loop is shortened from hours to seconds. Violations can be corrected immediately. As for the most important defects, they will generate an error and won't even pass the continuous integration build.
 
 Like the Provençal goats of the Luberon, your code must roam free but within well-defined limits, respecting the _terroir_ of your architecture.
 
@@ -41,9 +41,9 @@ Let's see two families of rules you can easily validate with Metalama: naming co
 
 _Il faut appeler une chèvre une chèvre._
 
-You’ve perhaps experienced how hard it can be to align everyone on the same [naming conventions](https://doc.postsharp.net/metalama/conceptual/architecture/naming-conventions). With Metalama, you define rules and conventions using plain C#. They will be enforced both in real-time in the IDE and at compile time.
+You’ve perhaps experienced how hard it can be to align everyone on the same [naming conventions](https://doc.metalama.net/conceptual/architecture/naming-conventions). With Metalama, you define rules and conventions using plain C#. They will be enforced both in real-time in the IDE and at compile time.
 
-For instance, assume you want every class implementing `ICheeseFactory` to have the `CheeseFactory` suffix. You can do this with a single attribute: [DerivedTypesMustRespectNamingConvention](https://doc.postsharp.net/metalama/api/metalama-extensions-architecture-aspects-derivedtypesmustrespectnamingconventionattribute).
+For instance, assume you want every class implementing `ICheeseFactory` to have the `CheeseFactory` suffix. You can do this with a single attribute: [DerivedTypesMustRespectNamingConvention](https://doc.metalama.net/api/metalama-extensions-architecture-aspects-derivedtypesmustrespectnamingconventionattribute).
 
 ```csharp
 [DerivedTypesMustRespectNamingConvention( "*CheeseFactory" )]
@@ -61,7 +61,7 @@ LAMA0903. The type ‘CheeseGenerator’ does not respect the naming convention 
 
 The shorter the feedback loop is, the smoother the code reviews will go! Not to mention the frustration both sides avoided!
 
-For details regarding naming convention enforcement, please refer to the [Metalama documentation](https://doc.postsharp.net/metalama/conceptual/architecture/naming-conventions).
+For details regarding naming convention enforcement, please refer to the [Metalama documentation](https://doc.metalama.net/conceptual/architecture/naming-conventions).
 
 ## Validating Dependencies
 
@@ -69,7 +69,7 @@ Let's examine how to verify that components are _used_ as intended.
 
 Let's assume we have a constructor that slightly modifies the object's behavior to make it more testable. We want to ensure that this constructor is used only in tests. Metalama provides the [CanOnlyBeUsedFrom](https://doc.postsharp.net/etalama/api/metalama-extensions-architecture-aspects-canonlybeusedfromattribute) attribute for this purpose.
 
-```c#
+```csharp
 public class CheeseFactory
 {
     private bool isTest;
@@ -89,15 +89,13 @@ public class CheeseFactory
 
 If we attempt to create a new `CheeseFactory` instance in a namespace that isn't suffixed by `Tests`, we will see a warning.
 
-![](../metalama-email-course/images/ValidationWarning.jpg)
-
 What's important here is that we have a way to convey the _design intent_ we had when writing a piece of code. Many defects stem from the fact that the design intent of the initial author faded away. Thanks to meta-programming, you can make this design intent explicit and verified in real time.
 
-For details regarding usage validation, please refer to the [Metalama documentation](https://doc.postsharp.net/metalama/conceptual/architecture/usage).
+For details regarding usage validation, please refer to the [Metalama documentation](https://doc.metalama.net/conceptual/architecture/usage).
 
 ## Fabrics
 
-In the previous examples, I have used custom attributes to express [architectural constraints](https://doc.postsharp.net/metalama/conceptual/architecture/usage). However, this is not always the most convenient way to express architecture.
+In the previous examples, I have used custom attributes to express [architectural constraints](https://doc.metalama.net/conceptual/architecture/usage). However, this is not always the most convenient way to express architecture.
 
 Suppose we have a project composed of a large number of components. Each of these components is implemented in its own namespace and is made up of several classes. There are so many components that we don't want to have them each in their own project.
 
@@ -105,7 +103,7 @@ However, we still want to isolate components from each other. Specifically, we w
 
 Additionally, we want `internal` components to be accessible from any test namespace.
 
-With Metalama, you can validate each namespace by adding a [fabric](https://doc.postsharp.net/metalama/conceptual/using/fabrics) type: a compile-time class that executes within the compiler or the IDE.
+With Metalama, you can validate each namespace by adding a [fabric](https://doc.metalama.net/conceptual/using/fabrics) type: a compile-time class that executes within the compiler or the IDE.
 
 ```cs
 namespace BarnEquipment
@@ -134,12 +132,12 @@ Now, if some foreign code tries to access an internal API of the `BarnEquipment`
 
 The package includes verification methods like:
 
-- [InternalsCanOnlyBeUsedFrom](https://doc.postsharp.net/metalama/api/metalama-extensions-architecture-fabrics-verifierextensions-internalscanonlybeusedfrom)
-- [InternalsCannotBeUsedFrom](https://doc.postsharp.net/metalama/api/metalama-extensions-architecture-fabrics-verifierextensions-internalscannotbeusedfrom)
-- [CanOnlyBeUsedFrom](https://doc.postsharp.net/metalama/api/metalama-extensions-architecture-fabrics-verifierextensions-canonlybeusedfrom)
-- [CannotBeUsedFrom](https://doc.postsharp.net/metalama/api/metalama-extensions-architecture-fabrics-verifierextensions-cannotbeusedfrom)
-- [MustRespectNamingConvention](https://doc.postsharp.net/metalama/api/metalama-extensions-architecture-fabrics-verifierextensions-mustrespectnamingconvention)
-- [MustRespectRegexNamingConvention](https://doc.postsharp.net/metalama/api/metalama-extensions-architecture-fabrics-verifierextensions-mustrespectregexnamingconvention)
+- [InternalsCanOnlyBeUsedFrom](https://doc.metalama.net/api/metalama-extensions-architecture-fabrics-verifierextensions-internalscanonlybeusedfrom)
+- [InternalsCannotBeUsedFrom](https://doc.metalama.net/api/metalama-extensions-architecture-fabrics-verifierextensions-internalscannotbeusedfrom)
+- [CanOnlyBeUsedFrom](https://doc.metalama.net/api/metalama-extensions-architecture-fabrics-verifierextensions-canonlybeusedfrom)
+- [CannotBeUsedFrom](https://doc.metalama.net/api/metalama-extensions-architecture-fabrics-verifierextensions-cannotbeusedfrom)
+- [MustRespectNamingConvention](https://doc.metalama.net/api/metalama-extensions-architecture-fabrics-verifierextensions-mustrespectnamingconvention)
+- [MustRespectRegexNamingConvention](https://doc.metalama.net/api/metalama-extensions-architecture-fabrics-verifierextensions-mustrespectregexnamingconvention)
 
 ## Verifying Your Own Rules
 
@@ -191,7 +189,7 @@ internal class Fabric : ProjectFabric
 }
 ```
 
-To explore the rabbit hole, [start here](https://doc.postsharp.net/metalama/conceptual/architecture/extending).
+To explore the rabbit hole, [start here](https://doc.metalama.net/conceptual/architecture/extending).
 
 ## Conclusion
 
@@ -203,6 +201,6 @@ Unless architecture rules are made executable, they can only be enforced through
 
 In the previous article, I showed how Metalama can automate your repetitive code writing tasks through on-the-fly code generation. Today, I've demonstrated two ways to express architecture rules using Metalama: with custom attributes and programmatically through fabrics.
 
-That's the end of my mini-series about Metalama. If you want to know more about Metalama, feel free to download it from NuGet or the Visual Studio Marketplace. There is a free edition to start with and tons of commented examples and ready-made, open-source implementations on the Metalama Marketplace. The development team is eager to answer your questions on our Slack workspace.
+That's the end of my mini-series about Metalama. If you want to know more about Metalama, feel free to [download it](https://www.postsharp.net/metalama/download) from NuGet or the Visual Studio Marketplace. There is a free edition to start with and tons of commented examples and ready-made, open-source implementations on the [Metalama Marketplace](https://www.postsharp.net/metalama/marketplace). The development team is eager to answer your questions on our [Slack workspace](https://www.postsharp.net/slack).
 
 Happy meta-programming with Metalama!
