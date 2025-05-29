@@ -1,6 +1,6 @@
+---
 subject: "Common Tasks: Input / Output Validation"
 ---
-
 # Common Tasks: Input / Output Validation
 
 The phrase 'Garbage in, garbage out' is well-known among developers. Essentially, if the input to an application is flawed, it shouldn't be surprising if the output is also flawed. To prevent this, developers must ensure that both the input to their application's routines and the output from them meet acceptable criteria.
@@ -78,7 +78,7 @@ namespace CommonTasks
             {
                 if (value != null && (value!.Length < 10 || value.Length > 16))
                 {
-                    throw new ArgumentException($"The  'password' property must be a string with length between {10} and {16}.", "value");
+                    throw new ArgumentException("The  'password' property must be a string with length between {10} and {16}.", "value");
                 }
                 Program._password1 = value;
 
@@ -120,11 +120,11 @@ Which at compile time becomes:
      {
          if (b.Length < 5 || b.Length > 8)
          {
-             throw new ArgumentException($"The  'b' parameter must be a string with length between {5} and {8}.", "b");
+             throw new ArgumentException("The  'b' parameter must be a string with length between {5} and {8}.", "b");
          }
          if (a.Length < 5 || a.Length > 8)
          {
-             throw new ArgumentException($"The  'a' parameter must be a string with length between {5} and {8}.", "a");
+             throw new ArgumentException("The  'a' parameter must be a string with length between {5} and {8}.", "a");
          }
          return a + b;
 
@@ -153,7 +153,7 @@ Which at compile time becomes:
 
        if (returnValue.Length < 10 || returnValue.Length > 16)
        {
-           throw new PostconditionViolationException($"The  return value must be a string with length between {10} and {16}.");
+           throw new PostconditionViolationException("The  return value must be a string with length between {10} and {16}.");
        }
        return returnValue;
 

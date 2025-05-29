@@ -1,5 +1,5 @@
 ---
-subject: 'Get your development team to adhere to architecture'
+subject: "Validating Architecture With Metalama: Compile-Time Safety for Your Codebase"
 layout: instantly
 ---
 
@@ -7,7 +7,7 @@ layout: instantly
 
 Hi {{firstName}},
 
-This is **{{sendingAccountFirstName}}** from Metalama. This is my final email in this series. In previous messages, I introduced Metalama's first pillar: code generation, using aspect-oriented programming. Today, I’m excited to introduce Metalama’s second pillar: architecture verification.
+This is **{{sendingAccountFirstName}}** from Metalama. In my previous emails, I showed how Metalama can help you reduce boilerplate code for DevOps, UI, and design patterns. Today, let's talk about how Metalama can help you enforce architecture rules and naming conventions at compile time.
 
 Unlike code generation and aspect-oriented programming, which are open source, architecture verification is a proprietary feature available with a [Metalama Professional](https://metalama.net/premium?mtm_campaign=awareness&mtm_source=instantly&mtm_kwd=email5) license.
 
@@ -117,7 +117,9 @@ You can learn more about architecture validation in our [online documentation](h
 Thank you for following along! We hope you enjoyed this series. Remember, the vast majority of Metalama’s features (85% of the codebase) are free and open source. Follow our [Getting Started](https://doc.metalama.net/conceptual/getting-started?mtm_campaign=awareness&mtm_source=instantly&mtm_kwd=email5) guide to start your journey against boilerplate code and architecture headaches—or join the conversation on our [GitHub discussion space](https://github.com/orgs/metalama/discussions/categories/q-a). You can also reply to this email and I’ll connect you directly with our engineering team.
 
 All the best,  
+
 **{{sendingAccountFirstName}}**  
+
 Community Manager
 
 *P.S. This was the last email in our series.*

@@ -1,5 +1,5 @@
 ---
-subject: 'Here is How to Save Time on Caching'
+subject: "Here is How to Save Time on Caching"
 layout: instantly
 ---
 {% raw %}
@@ -77,7 +77,9 @@ We would love to hear your thoughts, questions, or feedback. Join the conversati
 Thank you for your time.
 
 All the best,
+
 **{{sendingAccountFirstName}}**
+
 Community Manager
 
 *P.S. We will send you three more emails about Metalama and then stop. You can unsubscribe at any time.*
