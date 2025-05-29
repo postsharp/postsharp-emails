@@ -201,6 +201,6 @@ Unless architecture rules are made executable, they can only be enforced through
 
 In the previous article, I showed how Metalama can automate your repetitive code writing tasks through on-the-fly code generation. Today, I've demonstrated two ways to express architecture rules using Metalama: with custom attributes and programmatically through fabrics.
 
-That's the end of my mini-series about Metalama. If you want to know more about Metalama, feel free to [download it](https://www.postsharp.net/metalama/download) from NuGet or the Visual Studio Marketplace. There is a free edition to start with and tons of commented examples and ready-made, open-source implementations on the [Metalama Marketplace](https://www.postsharp.net/metalama/marketplace). The development team is eager to answer your questions on our [Slack workspace](https://www.postsharp.net/slack).
+That's the end of my mini-series about Metalama. If you want to know more about Metalama, feel free to [download it](https://www.postsharp.net/metalama/download) from NuGet or the Visual Studio Marketplace. There is a free edition to start with and tons of commented examples and ready-made, open-source implementations on the [Metalama Marketplace](https://metalama.net/marketplace). The development team is eager to answer your questions on our [Slack workspace](https://www.postsharp.net/slack).
 
 Happy meta-programming with Metalama!

@@ -28,14 +28,15 @@ sass:
 
 defaults: 
   - scope:
-      path: "" 
-      type: "pages" 
-    values:
-      layout: "email" 
-  - scope:
       path: "metalama-email-course"
     values:
+      layout: "email-course" 
       images_url: "https://emails.postsharp.net/metalama-email-course/images"
+  - scope:
+      path: "metalama-awareness-campagn"
+    values:
+      layout: "instantly" 
+      images_url: "https://emails.postsharp.net/metalama-awareness-campaign/images"
 
 markdown: kramdown
 kramdown:
