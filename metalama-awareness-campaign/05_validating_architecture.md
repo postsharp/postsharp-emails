@@ -1,6 +1,9 @@
 ---
 subject: 'Get your development team to adhere to architecture'
+layout: instantly
 ---
+
+{% raw %}
 
 Hi {{firstName}},
 
@@ -118,3 +121,6 @@ All the best,
 Community Manager
 
 *P.S. This was the last email in our series.*
+
+
+{% endraw %}

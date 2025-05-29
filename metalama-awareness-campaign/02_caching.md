@@ -1,7 +1,8 @@
 ---
 subject: 'Here is How to Save Time on Caching'
+layout: instantly
 ---
-
+{% raw %}
 Hi {{firstName}},
 
 This is **{{sendingAccountFirstName}}** from Metalama. In my previous emails, I introduced Metalama as the open-source meta-programming framework that helps you generate code during compilation, keeping your source code clean and concise.
@@ -80,3 +81,4 @@ All the best,
 Community Manager
 
 *P.S. We will send you three more emails about Metalama and then stop. You can unsubscribe at any time.*
+{% endraw %}

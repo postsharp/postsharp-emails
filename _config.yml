@@ -25,7 +25,6 @@ sass:
   sourcemap: always
   silence_deprecations: ["import", "slash-div"]
 
-
 defaults: 
   - scope:
       path: "metalama-email-course"

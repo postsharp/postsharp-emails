@@ -1,6 +1,9 @@
 ---
-subject: 'Discover Metalama: A New Code Generation Toolkit for C#'
+subject: 'Discover Metalama: A New Code Generation Framework for C#'
+layout: instantly
 ---
+
+{% raw %}
 
 Hi {{firstName}},
 
@@ -73,3 +76,5 @@ Best regards,
 Community Manager
 
 *P.S. We will send you four more emails about Metalama and then stop. You can unsubscribe at any time.*
+
+{% endraw %}

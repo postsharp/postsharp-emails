@@ -1,6 +1,9 @@
 ---
 subject: 'Classic Design Patterns Without Boilerplate: Builder, Proxy, and More with Metalama'
+layout: instantly
 ---
+
+{% raw %}
 
 Hi {{firstName}},
 
@@ -183,3 +186,5 @@ All the best,
 Community Manager
 
 *P.S. We will send you two one email about Metalama and then stop. You can unsubscribe at any time.*
+
+{% endraw %}
